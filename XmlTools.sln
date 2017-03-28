@@ -12,6 +12,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "XmlTools", "src\XmlTools\XmlTools.xproj", "{3769A1B9-74EF-4FAE-9B80-AE374B714079}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{57E9C9EF-A3EB-4503-A71B-198646C464C6}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "XmlTools.Tests", "test\XmlTools.Tests\XmlTools.Tests.xproj", "{179B81CD-1EE8-499D-91B7-48DAA7E4DA02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,11 +26,16 @@ Global
 		{3769A1B9-74EF-4FAE-9B80-AE374B714079}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3769A1B9-74EF-4FAE-9B80-AE374B714079}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3769A1B9-74EF-4FAE-9B80-AE374B714079}.Release|Any CPU.Build.0 = Release|Any CPU
+		{179B81CD-1EE8-499D-91B7-48DAA7E4DA02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{179B81CD-1EE8-499D-91B7-48DAA7E4DA02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{179B81CD-1EE8-499D-91B7-48DAA7E4DA02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{179B81CD-1EE8-499D-91B7-48DAA7E4DA02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3769A1B9-74EF-4FAE-9B80-AE374B714079} = {A73E0B67-F19E-4918-A933-F34F6D92547C}
+		{179B81CD-1EE8-499D-91B7-48DAA7E4DA02} = {57E9C9EF-A3EB-4503-A71B-198646C464C6}
 	EndGlobalSection
 EndGlobal
