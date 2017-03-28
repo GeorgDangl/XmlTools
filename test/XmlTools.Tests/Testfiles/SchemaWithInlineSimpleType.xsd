@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="WeatherForecast">
+		<xs:simpleType>
+			<xs:restriction>
+				<xs:enumeration value="Rainy"/>
+				<xs:enumeration value="Cloudy"/>
+				<xs:enumeration value="Sunny"/>
+				<xs:enumeration value="Misty"/>
+				<xs:enumeration value="Probability of raining meatballs"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+</xs:schema>

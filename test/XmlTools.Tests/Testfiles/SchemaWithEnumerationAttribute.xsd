@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="Author" type="Person" />
+	<xs:complexType name="Person">
+		<xs:element name="Email" type="xs:string" />
+		<xs:element name="Name" type="xs:string" />
+		<xs:attribute name="Gender">
+			<xs:simpleType>
+				<xs:restriction>
+					<xs:enumeration value="Female" />
+					<xs:enumeration value="Male" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+</xs:schema>

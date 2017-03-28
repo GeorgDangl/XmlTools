@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="Issue" type="BugReport" />
+	<xs:complexType name="Report">
+		<xs:element name="Message" type="xs:string" />
+		<xs:attribute name="IsResolved" type="xs:boolean"/>
+	</xs:complexType>
+	<xs:complexType name="BugReport">
+		<xs:complexContent>
+			<xs:extension base="Report">
+				<xs:element name="IntroducedInCommit" type="xs:string" />
+				<xs:attribute name="IsCritical" type="xs:boolean"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

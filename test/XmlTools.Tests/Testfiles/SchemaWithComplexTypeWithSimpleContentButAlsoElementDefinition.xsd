@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This is not allowed by the schema and should result in an exception -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="Temperature" >
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:element name="MaxTemperature" type="xs:integer" />" // This line is invalid
+				<xs:attribute name="IsFahrenheit" type="xs:boolean"/>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

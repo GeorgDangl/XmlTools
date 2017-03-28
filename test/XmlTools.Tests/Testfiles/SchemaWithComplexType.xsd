@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="Issue" type="BugReport" />
+	<xs:complexType name="BugReport">
+		<xs:element name="Message" type="xs:string" />
+		<xs:element name="IntroducedInCommit" type="xs:string" />
+		<xs:sequence>
+			<xs:element name="Priority" type="xs:string" />
+		</xs:sequence>
+		<xs:choice>
+			<xs:element name="PersonToBlame" >
+				<xs:complexType>
+					<xs:element name="Email" type="xs:string" />
+					<xs:element name="Name" type="xs:string" />
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+		<xs:attribute name="IsResolved" type="xs:boolean"/>
+	</xs:complexType>
+</xs:schema>

@@ -13,7 +13,7 @@ namespace XmlTools.Tests
         [Fact]
         public void FindsAllValidTestFiles()
         {
-            var expectedCountOfEnums = 2;
+            var expectedCountOfEnums = 20;
             Assert.Equal(expectedCountOfEnums, AllValidEnums.Count());
         }
 

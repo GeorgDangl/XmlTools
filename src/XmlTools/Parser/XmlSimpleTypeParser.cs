@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace XmlTools
+namespace XmlTools.Parser
 {
     // TODO SPLIT UP INTO ENUMERATION TYPE PARSER AND REGULAR SIMPLE TYPE PARSER
     public class XmlSimpleTypeParser : IXmlTypeParser

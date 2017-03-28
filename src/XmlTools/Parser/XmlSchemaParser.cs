@@ -2,17 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Xml.Linq;
-using System.Xml.Schema;
 
-namespace XmlTools
+namespace XmlTools.Parser
 {
-    public class SchemaParser
+    public class XmlSchemaParser
     {
-        // TODO LOOK OUT FOR EXTENSIONS LIKE THIS: <xs:extension base="tgCashDiscDays"/>
-
-        public SchemaParser(Stream xsdSchemaStream)
+        public XmlSchemaParser(Stream xsdSchemaStream)
         {
             if (xsdSchemaStream == null)
             {

@@ -1,6 +1,6 @@
 using System.Xml.Linq;
 
-namespace XmlTools
+namespace XmlTools.Parser
 {
     public interface IXmlTypeParser
     {
