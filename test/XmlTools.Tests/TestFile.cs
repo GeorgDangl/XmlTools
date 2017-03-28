@@ -1,8 +1,10 @@
-﻿namespace XmlTools.Tests
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace XmlTools.Tests
 {
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public enum TestFile
     {
-        // ReSharper disable once InconsistentNaming
         GAEB_XML_3_1_Schema = 1,
         GreenBuildingXML_Ver6_01 = 2,
         MinimumValidSchemaFile = 3,
