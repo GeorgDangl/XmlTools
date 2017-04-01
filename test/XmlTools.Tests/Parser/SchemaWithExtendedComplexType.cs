@@ -25,7 +25,7 @@ namespace XmlTools.Tests.Parser
         public void CountOfTypes()
         {
             var expectedCountOfTypes = 2;
-            var types = ParsedSchema.GetAllDeclaredTypes().ToList();
+            var types = ParsedSchema.GetAllDeclaredElementTypes().ToList();
             Assert.Equal(expectedCountOfTypes, types.Count);
         }
 

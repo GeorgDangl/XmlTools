@@ -59,7 +59,7 @@ namespace XmlTools.Tests.Parser
         public void AllUsedTypesHaveUniqueName()
         {
             var attributeTypes = ParsedSchema.GetAllDeclaredAttributeTypes();
-            var elementTypes = ParsedSchema.GetAllDeclaredTypes();
+            var elementTypes = ParsedSchema.GetAllDeclaredElementTypes();
             var usedTypes = attributeTypes.Concat(elementTypes).Distinct().ToList();
             foreach (var usedType in usedTypes)
             {
@@ -82,7 +82,7 @@ namespace XmlTools.Tests.Parser
         [Fact]
         public void ElementTypesHaveDistinctNames()
         {
-            var elementTypes = ParsedSchema.GetAllDeclaredTypes().ToList();
+            var elementTypes = ParsedSchema.GetAllDeclaredElementTypes().ToList();
             foreach (var elementType in elementTypes)
             {
                 var occurencesWithSameName = elementTypes.Count(e => e.Name == elementType.Name);
@@ -92,7 +92,7 @@ namespace XmlTools.Tests.Parser
 
         protected List<XmlType> GetAllElementTypesUsedInSchema()
         {
-            return ParsedSchema.GetAllDeclaredTypes().ToList();
+            return ParsedSchema.GetAllDeclaredElementTypes().ToList();
         }
     }
 }

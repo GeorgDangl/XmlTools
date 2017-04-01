@@ -7,7 +7,7 @@ namespace XmlTools
     {
         public List<XmlElement> RootElements { get; set; }
 
-        public IEnumerable<XmlType> GetAllDeclaredTypes()
+        public IEnumerable<XmlType> GetAllDeclaredElementTypes()
         {
             var foundTypes = new HashSet<XmlType>();
             foreach (var rootElement in RootElements)
@@ -43,7 +43,7 @@ namespace XmlTools
         public IEnumerable<XmlType> GetAllDeclaredAttributeTypes()
         {
             var foundAttributeTypes = new HashSet<XmlType>();
-            foreach (var schemaType in GetAllDeclaredTypes())
+            foreach (var schemaType in GetAllDeclaredElementTypes())
             {
                 foreach (var attributeType in GetAllDeclaredAttributeTypesOfXmlType(schemaType, foundAttributeTypes))
                 {
