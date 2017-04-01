@@ -14,11 +14,26 @@ namespace XmlTools.Tests.Parser
         }
 
         [Fact]
+        public void HasNoAttributeTypes()
+        {
+            var attributeTypes = ParsedSchema.GetAllDeclaredAttributeTypes().ToList();
+            Assert.Equal(0, attributeTypes.Count);
+        }
+
+        [Fact]
+        public void CountOfTypes()
+        {
+            var expectedCountOfTypes = 1;
+            var types = ParsedSchema.GetAllDeclaredTypes().ToList();
+            Assert.Equal(expectedCountOfTypes, types.Count);
+        }
+
+        [Fact]
         public void HasOnlySingleType()
         {
             // There are two types in the schema, but one only extends the other so it should
             // only recognize the actually used type
-            var countOfUsedTypes = GetAllTypesUsedInSchema().Count;
+            var countOfUsedTypes = GetAllElementTypesUsedInSchema().Count;
             Assert.Equal(1, countOfUsedTypes);
         }
 

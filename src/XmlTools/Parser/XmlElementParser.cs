@@ -16,20 +16,20 @@ namespace XmlTools.Parser
         public List<IXmlTypeParser> XmlTypeParsers { get; } = new List<IXmlTypeParser>();
         private readonly XDocument _document;
         private readonly XNamespace _xmlSchemaNamespace = "http://www.w3.org/2001/XMLSchema";
+        private readonly XmlUnknownTypeParser _xmlUnknownTypeParser = new XmlUnknownTypeParser();
         private Dictionary<string, XmlUnknownType> _foundUnknownTypes = new Dictionary<string, XmlUnknownType>();
 
         public XmlElement ParseElement(XElement element)
         {
             if (IsExternallyReferencedElement(element))
             {
+                var typeName = GetNameOfExternallyReferencedElement(element);
+                var unknownType = _xmlUnknownTypeParser.GetUnknownTypeDefinitionByName(typeName);
                 return new XmlElement
                 {
-                    Name = GetNameOfExternallyReferencedElement(element),
+                    Name = typeName,
                     IsExternallyDeclared = true,
-                    Type = new XmlUnknownType
-                    {
-                        Name = GetNameOfExternallyReferencedElement(element)
-                    }
+                    Type = unknownType
                 };
             }
             if (IsInternallyReferencedElement(element))
@@ -62,10 +62,7 @@ namespace XmlTools.Parser
             {
                 return _foundUnknownTypes[unknownTypeName];
             }
-            var unknownType = new XmlUnknownType
-            {
-                Name = unknownTypeName
-            };
+            var unknownType = _xmlUnknownTypeParser.GetUnknownTypeDefinitionByName(unknownTypeName);
             _foundUnknownTypes.Add(unknownTypeName, unknownType);
             return unknownType;
         }
@@ -129,11 +126,11 @@ namespace XmlTools.Parser
 
         private void SetUpXmlTypeParsers()
         {
-            var xmlAttributesParser = new XmlAttributesParser(_document, this);
+            var simpleTypeParser = new XmlSimpleTypeParser(_document, _xmlUnknownTypeParser);
+            XmlTypeParsers.Add(simpleTypeParser);
+            var xmlAttributesParser = new XmlAttributesParser(_document, simpleTypeParser, _xmlUnknownTypeParser);
             var complexTypeParser = new XmlComplexTypeParser(_document, this, xmlAttributesParser);
             XmlTypeParsers.Add(complexTypeParser);
-            var simpleTypeParser = new XmlSimpleTypeParser(_document, this);
-            XmlTypeParsers.Add(simpleTypeParser);
             var simpleContentComplexTypeParser = new XmlSimpleContentComplexTypeParser(_document, this, xmlAttributesParser);
             XmlTypeParsers.Add(simpleContentComplexTypeParser);
         }

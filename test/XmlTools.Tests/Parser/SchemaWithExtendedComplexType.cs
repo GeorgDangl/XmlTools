@@ -14,13 +14,28 @@ namespace XmlTools.Tests.Parser
         }
 
         [Fact]
+        public void CountOfAttributeTypes()
+        {
+            var expectedCountOfAttributeTypes = 1;
+            var attributeTypes = ParsedSchema.GetAllDeclaredAttributeTypes().ToList();
+            Assert.Equal(expectedCountOfAttributeTypes, attributeTypes.Count);
+        }
+
+        [Fact]
+        public void CountOfTypes()
+        {
+            var expectedCountOfTypes = 2;
+            var types = ParsedSchema.GetAllDeclaredTypes().ToList();
+            Assert.Equal(expectedCountOfTypes, types.Count);
+        }
+
+        [Fact]
         public void HasOnlySingleType()
         {
             // There are three types in the schema, but one only extends the other so it should
             // only recognize the actually used types
             // Unknown types with the same name should be reference equal wherever used
-            var wow = GetAllTypesUsedInSchema();
-            var countOfUsedTypes = GetAllTypesUsedInSchema().Count;
+            var countOfUsedTypes = GetAllElementTypesUsedInSchema().Count;
             Assert.Equal(2, countOfUsedTypes);
         }
 
@@ -100,7 +115,7 @@ namespace XmlTools.Tests.Parser
         {
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlComplexType;
             var attributeType = rootElementType.Attributes[1].Type;
-            Assert.IsType(typeof(XmlUnknownSimpleType), attributeType);
+            Assert.IsType(typeof(XmlUnknownType), attributeType);
             Assert.IsNotType(typeof(XmlEnumerationType), attributeType);
         }
 
@@ -109,7 +124,7 @@ namespace XmlTools.Tests.Parser
         {
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlComplexType;
             var attributeType = rootElementType.Attributes[0].Type;
-            Assert.IsType(typeof(XmlUnknownSimpleType), attributeType);
+            Assert.IsType(typeof(XmlUnknownType), attributeType);
             Assert.IsNotType(typeof(XmlEnumerationType), attributeType);
         }
 

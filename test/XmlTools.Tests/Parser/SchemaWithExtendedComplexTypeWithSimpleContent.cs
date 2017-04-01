@@ -14,9 +14,25 @@ namespace XmlTools.Tests.Parser
         }
 
         [Fact]
+        public void CountOfAttributeTypes()
+        {
+            var expectedCountOfAttributeTypes = 1;
+            var attributeTypes = ParsedSchema.GetAllDeclaredAttributeTypes().ToList();
+            Assert.Equal(expectedCountOfAttributeTypes, attributeTypes.Count);
+        }
+
+        [Fact]
+        public void CountOfTypes()
+        {
+            var expectedCountOfTypes = 1;
+            var types = ParsedSchema.GetAllDeclaredTypes().ToList();
+            Assert.Equal(expectedCountOfTypes, types.Count);
+        }
+
+        [Fact]
         public void HasOnlySingleType()
         {
-            var countOfUsedTypes = GetAllTypesUsedInSchema().Count;
+            var countOfUsedTypes = GetAllElementTypesUsedInSchema().Count;
             Assert.Equal(1, countOfUsedTypes);
         }
 
@@ -87,7 +103,7 @@ namespace XmlTools.Tests.Parser
         {
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlSimpleContentComplexType;
             var attributeType = rootElementType.Attributes[1].Type;
-            Assert.IsType(typeof(XmlUnknownSimpleType), attributeType);
+            Assert.IsType(typeof(XmlUnknownType), attributeType);
         }
 
         [Fact]
@@ -95,7 +111,7 @@ namespace XmlTools.Tests.Parser
         {
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlSimpleContentComplexType;
             var attributeType = rootElementType.Attributes[0].Type;
-            Assert.IsType(typeof(XmlUnknownSimpleType), attributeType);
+            Assert.IsType(typeof(XmlUnknownType), attributeType);
         }
     }
 }

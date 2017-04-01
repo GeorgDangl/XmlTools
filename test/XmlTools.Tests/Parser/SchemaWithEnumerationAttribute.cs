@@ -14,6 +14,22 @@ namespace XmlTools.Tests.Parser
         }
 
         [Fact]
+        public void CountOfAttributeTypes()
+        {
+            var expectedCountOfAttributeTypes = 1;
+            var attributeTypes = ParsedSchema.GetAllDeclaredAttributeTypes().ToList();
+            Assert.Equal(expectedCountOfAttributeTypes, attributeTypes.Count);
+        }
+
+        [Fact]
+        public void CountOfTypes()
+        {
+            var expectedCountOfTypes = 2;
+            var types = ParsedSchema.GetAllDeclaredTypes().ToList();
+            Assert.Equal(expectedCountOfTypes, types.Count);
+        }
+
+        [Fact]
         public void RootElementName()
         {
             var expectedElementName = "Author";

@@ -1,6 +1,6 @@
 namespace XmlTools
 {
-    public class XmlUnknownType : XmlType
+    public class XmlUnknownType : XmlSimpleType
     {
         
     }

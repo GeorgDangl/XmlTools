@@ -6,14 +6,16 @@ namespace XmlTools.Parser
 {
     public class XmlAttributesParser
     {
-        public XmlAttributesParser(XDocument document, XmlElementParser xmlElementParser)
+        public XmlAttributesParser(XDocument document, XmlSimpleTypeParser xmlSimpleTypeParser, XmlUnknownTypeParser xmlUnknownTypeParser)
         {
             _document = document;
-            _xmlElementParser = xmlElementParser;
+            _xmlSimpleTypeParser = xmlSimpleTypeParser;
+            _xmlUnknownTypeParser = xmlUnknownTypeParser;
         }
 
         private XDocument _document;
-        private XmlElementParser _xmlElementParser;
+        private readonly XmlSimpleTypeParser _xmlSimpleTypeParser;
+        private readonly XmlUnknownTypeParser _xmlUnknownTypeParser; 
         private readonly XNamespace _xmlSchemaNamespace = "http://www.w3.org/2001/XMLSchema";
 
         public List<XmlAttribute> GetAttributesForTypeDefinition(XElement element)
@@ -42,13 +44,11 @@ namespace XmlTools.Parser
             var localAttribute = _document.Root.Elements().FirstOrDefault(e => e.Name == _xmlSchemaNamespace + "attribute" && e.Attributes().Any(a => a.Name == "name" && a.Value == attributeReference));
             if (localAttribute == null)
             {
+                var attributeType = _xmlUnknownTypeParser.GetUnknownTypeDefinitionByName(attributeReference);
                 return new XmlAttribute
                 {
                     Name = attributeReference,
-                    Type = new XmlUnknownSimpleType
-                    {
-                        Name = attributeReference
-                    }
+                    Type = attributeType
                 };
             }
             return GetAttributeForAttributeWithName(localAttribute);
@@ -57,7 +57,7 @@ namespace XmlTools.Parser
         private XmlAttribute GetAttributeForAttributeWithName(XElement element)
         {
             var attributeName = element.Attributes().Single(a => a.Name == "name").Value;
-            var attributeType = new XmlSimpleTypeParser(_document, _xmlElementParser).ParseElement(element) as XmlSimpleType;
+            var attributeType = _xmlSimpleTypeParser.ParseElement(element) as XmlSimpleType;
             return new XmlAttribute
             {
                 Name = attributeName,
@@ -69,7 +69,6 @@ namespace XmlTools.Parser
         {
             var directAttributes = GetDirectDefinedAttributes(element);
             var baseTypeAttributes = GetAttributesOfReferenceTypes(element);
-            //var contentAttributes = GetContentAttributes(element);
             return directAttributes.Concat(baseTypeAttributes).ToList();
         }
 
@@ -90,18 +89,6 @@ namespace XmlTools.Parser
                 .SelectMany(e => e.Elements().Where(c => c.Name == _xmlSchemaNamespace + "attribute"));
             return directAttributes.Concat(extensionSubAttributes).ToList();
         }
-
-        //private List<XElement> GetContentAttributes(XElement element)
-        //{
-        //    var contentElements = GetSimpleOrComplexContentElements(element);
-        //    var result = new List<XElement>();
-        //    foreach (var contentElement in contentElements)
-        //    {
-        //        var contentAttributeElements = Getatt
-        //    }
-
-        //    return result;
-        //}
 
         private List<XElement> GetSimpleOrComplexContentElements(XElement element)
         {

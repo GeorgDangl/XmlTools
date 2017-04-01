@@ -58,15 +58,39 @@ namespace XmlTools.Tests.Parser
         [Fact]
         public void AllUsedTypesHaveUniqueName()
         {
-            var allUsedTypes = GetAllTypesUsedInSchema();
-            foreach (var usedType in allUsedTypes)
+            var attributeTypes = ParsedSchema.GetAllDeclaredAttributeTypes();
+            var elementTypes = ParsedSchema.GetAllDeclaredTypes();
+            var usedTypes = attributeTypes.Concat(elementTypes).Distinct().ToList();
+            foreach (var usedType in usedTypes)
             {
-                var typesWithThisName = allUsedTypes.Count(t => t.Name == usedType.Name);
-                Assert.Equal(1, typesWithThisName);
+                var typesWithThisName = usedTypes.Where(t => t.Name == usedType.Name).ToList();
+                Assert.Equal(1, typesWithThisName.Count);
             }
         }
 
-        protected List<XmlType> GetAllTypesUsedInSchema()
+        [Fact]
+        public void AttributeTypesHaveDistinctNames()
+        {
+            var attributeTypes = ParsedSchema.GetAllDeclaredAttributeTypes().ToList();
+            foreach (var attributeType in attributeTypes)
+            {
+                var occurencesWithSameName = attributeTypes.Count(a => a.Name == attributeType.Name);
+                Assert.Equal(1, occurencesWithSameName);
+            }
+        }
+
+        [Fact]
+        public void ElementTypesHaveDistinctNames()
+        {
+            var elementTypes = ParsedSchema.GetAllDeclaredTypes().ToList();
+            foreach (var elementType in elementTypes)
+            {
+                var occurencesWithSameName = elementTypes.Count(e => e.Name == elementType.Name);
+                Assert.Equal(1, occurencesWithSameName);
+            }
+        }
+
+        protected List<XmlType> GetAllElementTypesUsedInSchema()
         {
             return ParsedSchema.GetAllDeclaredTypes().ToList();
         }

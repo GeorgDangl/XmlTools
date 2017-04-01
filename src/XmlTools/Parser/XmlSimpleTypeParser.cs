@@ -8,16 +8,15 @@ namespace XmlTools.Parser
     // TODO SPLIT UP INTO ENUMERATION TYPE PARSER AND REGULAR SIMPLE TYPE PARSER
     public class XmlSimpleTypeParser : IXmlTypeParser
     {
-        public XmlSimpleTypeParser(XDocument document, XmlElementParser xmlElementParser)
+        public XmlSimpleTypeParser(XDocument document, XmlUnknownTypeParser xmlUnknownTypeParser)
         {
             _document = document;
-            _xmlElementParser = xmlElementParser;
+            _xmlUnknownTypeParser = xmlUnknownTypeParser;
         }
 
         private readonly XDocument _document;
-        private readonly XmlElementParser _xmlElementParser;
         private readonly XNamespace _xmlSchemaNamespace = "http://www.w3.org/2001/XMLSchema";
-
+        private readonly XmlUnknownTypeParser _xmlUnknownTypeParser; 
         private Dictionary<string, XmlSimpleType> _simpleTypesByTypeName = new Dictionary<string, XmlSimpleType>();
 
         public bool CanParseElement(XElement element)
@@ -37,10 +36,7 @@ namespace XmlTools.Parser
             if (IsUnknownType(element))
             {
                 var unknownTypeName = element.Attributes().Single(a => a.Name == "type").Value;
-                return new XmlUnknownSimpleType
-                {
-                    Name = unknownTypeName
-                };
+                return _xmlUnknownTypeParser.GetUnknownTypeDefinitionByName(unknownTypeName);
             }
             var typeDefinitionElement = GetTypeDefinitionElement(element);
             var typeName = GetTypeName(typeDefinitionElement);

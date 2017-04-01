@@ -14,6 +14,22 @@ namespace XmlTools.Tests.Parser
         }
 
         [Fact]
+        public void CountOfAttributeTypes()
+        {
+            var expectedCountOfAttributeTypes = 27;
+            var attributeTypes = ParsedSchema.GetAllDeclaredAttributeTypes().ToList();
+            Assert.Equal(expectedCountOfAttributeTypes, attributeTypes.Count);
+        }
+
+        [Fact]
+        public void CountOfTypes()
+        {
+            var expectedCountOfTypes = 151;
+            var types = ParsedSchema.GetAllDeclaredTypes().ToList();
+            Assert.Equal(expectedCountOfTypes, types.Count);
+        }
+
+        [Fact]
         public void RootElementName()
         {
             var rootElementName = ParsedSchema.RootElements[0].Name;
@@ -134,7 +150,7 @@ namespace XmlTools.Tests.Parser
         public void RootElementTypeAttributeType()
         {
             var rootElementTypeAttributeType = (ParsedSchema.RootElements[0].Type as XmlComplexType).Attributes[0].Type;
-            Assert.IsType(typeof(XmlUnknownSimpleType), rootElementTypeAttributeType);
+            Assert.IsType(typeof(XmlUnknownType), rootElementTypeAttributeType);
         }
 
         [Fact]
@@ -217,21 +233,21 @@ namespace XmlTools.Tests.Parser
         [Fact]
         public void RandomTypeIsPresent()
         {
-            var complexType = GetAllTypesUsedInSchema().FirstOrDefault(t => t.Name == "tgArticle");
+            var complexType = GetAllElementTypesUsedInSchema().FirstOrDefault(t => t.Name == "tgArticle");
             Assert.NotNull(complexType);
         }
 
         [Fact]
         public void RandomTypeHasCorrectType()
         {
-            var complexType = GetAllTypesUsedInSchema().FirstOrDefault(t => t.Name == "tgArticle");
+            var complexType = GetAllElementTypesUsedInSchema().FirstOrDefault(t => t.Name == "tgArticle");
             Assert.IsType(typeof(XmlComplexType), complexType);
         }
 
         [Fact]
         public void RandomTypeHasCorrectChildren()
         {
-            var complexType = GetAllTypesUsedInSchema().FirstOrDefault(t => t.Name == "tgArticle") as XmlComplexType;
+            var complexType = GetAllElementTypesUsedInSchema().FirstOrDefault(t => t.Name == "tgArticle") as XmlComplexType;
             var expectedChildren = new[]
             {
                 new {Name = "Brand", TypeName = "tgNormalizedString60", TypeType = typeof(XmlSimpleType)},
@@ -254,7 +270,7 @@ namespace XmlTools.Tests.Parser
         [Fact]
         public void RandomEnumerationTypeIsPresent()
         {
-            var enumerationType = GetAllTypesUsedInSchema().FirstOrDefault(t => t.Name == "tgProvis");
+            var enumerationType = GetAllElementTypesUsedInSchema().FirstOrDefault(t => t.Name == "tgProvis");
             Assert.NotNull(enumerationType);
             Assert.IsType(typeof(XmlEnumerationType), enumerationType);
         }
@@ -262,7 +278,7 @@ namespace XmlTools.Tests.Parser
         [Fact]
         public void RandomEnumerationTypeHasCorrectRestrictions()
         {
-            var enumerationType = GetAllTypesUsedInSchema().First(t => t.Name == "tgYesNo") as XmlEnumerationType;
+            var enumerationType = GetAllElementTypesUsedInSchema().First(t => t.Name == "tgYesNo") as XmlEnumerationType;
             Assert.NotNull(enumerationType);
             var expectedValues = new[] { "Yes", "No" };
             Assert.Equal(expectedValues.Length, enumerationType.EnumerationValues.Count);
@@ -273,7 +289,7 @@ namespace XmlTools.Tests.Parser
         [Fact]
         public void ExtendedEnumerationTypeHasAllValues()
         {
-            var extendedType = GetAllTypesUsedInSchema().First(t => t.Name == "tgKeyIt") as XmlEnumerationType;
+            var extendedType = GetAllElementTypesUsedInSchema().First(t => t.Name == "tgKeyIt") as XmlEnumerationType;
             Assert.NotNull(extendedType);
             // Type has no enumeration defined itself but only extends tgYesNo -> "Yes" and "No"
             var expectedValues = new[] { "Yes", "No" };
@@ -285,7 +301,7 @@ namespace XmlTools.Tests.Parser
         [Fact]
         public void ExtendedComplexTypeWithAttributesIsPresentAndHasCorrectType()
         {
-            var complexBaseType = GetAllTypesUsedInSchema().First(t => t.Name == "tgCashDiscount");
+            var complexBaseType = GetAllElementTypesUsedInSchema().First(t => t.Name == "tgCashDiscount");
             Assert.NotNull(complexBaseType);
             Assert.IsType(typeof(XmlComplexType), complexBaseType);
             var elementWithExtendedTypeInComplexType = (complexBaseType as XmlComplexType).PossibleChildElements.First(c => c.Name == "CashDiscDays");
@@ -297,7 +313,7 @@ namespace XmlTools.Tests.Parser
         [Fact]
         public void ExtendedComplexTypeWithAttributesHasCorrectChildren()
         {
-            var complexBaseType = GetAllTypesUsedInSchema().First(t => t.Name == "tgCashDiscount") as XmlComplexType;
+            var complexBaseType = GetAllElementTypesUsedInSchema().First(t => t.Name == "tgCashDiscount") as XmlComplexType;
             var childElementExtendedType = complexBaseType.PossibleChildElements.First(c => c.Name == "CashDiscDays").Type as XmlComplexType;
 
             Assert.Equal(2, childElementExtendedType.Attributes.Count);
@@ -322,21 +338,21 @@ namespace XmlTools.Tests.Parser
         [Fact]
         public void SimpleContentComplexTypePresent()
         {
-            var element = GetAllTypesUsedInSchema().FirstOrDefault(t => t.Name == "tgStLNo");
+            var element = GetAllElementTypesUsedInSchema().FirstOrDefault(t => t.Name == "tgStLNo");
             Assert.NotNull(element);
         }
 
         [Fact]
         public void SimpleContentComplexTypeType()
         {
-            var element = GetAllTypesUsedInSchema().First(t => t.Name == "tgStLNo");
+            var element = GetAllElementTypesUsedInSchema().First(t => t.Name == "tgStLNo");
             Assert.IsType(typeof(XmlSimpleContentComplexType), element);
         }
 
         [Fact]
         public void SimpleContentComplexTypeAttributes()
         {
-            var element = GetAllTypesUsedInSchema().First(t => t.Name == "tgStLNo") as XmlSimpleContentComplexType;
+            var element = GetAllElementTypesUsedInSchema().First(t => t.Name == "tgStLNo") as XmlSimpleContentComplexType;
             Assert.Equal(1, element.Attributes.Count);
             var attribute = element.Attributes[0];
             Assert.Equal("Type", attribute.Name);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace XmlTools
 {
@@ -34,6 +35,34 @@ namespace XmlTools
                         {
                             yield return childElementType;
                         }
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<XmlType> GetAllDeclaredAttributeTypes()
+        {
+            var foundAttributeTypes = new HashSet<XmlType>();
+            foreach (var schemaType in GetAllDeclaredTypes())
+            {
+                foreach (var attributeType in GetAllDeclaredAttributeTypesOfXmlType(schemaType, foundAttributeTypes))
+                {
+                    yield return attributeType;
+                }
+            }
+        }
+
+        private IEnumerable<XmlType> GetAllDeclaredAttributeTypesOfXmlType(XmlType xmlType, HashSet<XmlType> foundAttributeTypes)
+        {
+            var typeWithAttributes = xmlType as XmlTypeWithAttributes;
+            if (typeWithAttributes != null)
+            {
+                foreach (var attributeType in typeWithAttributes.Attributes.Select(a => a.Type))
+                {
+                    if (!foundAttributeTypes.Contains(attributeType))
+                    {
+                        foundAttributeTypes.Add(attributeType);
+                        yield return attributeType;
                     }
                 }
             }
