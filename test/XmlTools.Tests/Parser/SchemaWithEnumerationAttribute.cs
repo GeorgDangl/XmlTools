@@ -5,7 +5,7 @@ namespace XmlTools.Tests.Parser
 {
     public class SchemaWithEnumerationAttribute : TestFileBase
     {
-        public SchemaWithEnumerationAttribute() : base(TestFilesFactory.GetStreamForTestFile(TestFile.SchemaWithEnumerationAttribute)) { }
+        public SchemaWithEnumerationAttribute() : base(TestFile.SchemaWithEnumerationAttribute) { }
 
         [Fact]
         public void HasOnlySingleRootElement()

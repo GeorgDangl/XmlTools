@@ -5,7 +5,7 @@ namespace XmlTools.Tests.Parser
 {
     public class SchemaWithTwoPossibleRootElements : TestFileBase
     {
-        public SchemaWithTwoPossibleRootElements() : base(TestFilesFactory.GetStreamForTestFile(TestFile.SchemaWithTwoPossibleRootElements)) { }
+        public SchemaWithTwoPossibleRootElements() : base(TestFile.SchemaWithTwoPossibleRootElements) { }
 
         [Fact]
         public void HasTwoRootElements()

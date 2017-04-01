@@ -5,7 +5,7 @@ namespace XmlTools.Tests.Parser
 {
     public class MinimumValidSchemaFile : TestFileBase
     {
-        public MinimumValidSchemaFile() : base(TestFilesFactory.GetStreamForTestFile(TestFile.MinimumValidSchemaFile)) { }
+        public MinimumValidSchemaFile() : base(TestFile.MinimumValidSchemaFile) { }
 
         [Fact]
         public void HasOnlySingleRootElement()

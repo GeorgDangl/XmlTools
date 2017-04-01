@@ -5,7 +5,7 @@ namespace XmlTools.Tests.Parser
 {
     public class SchemaWithComplexTypeWithSimpleContentWithEnumeration : TestFileBase
     {
-        public SchemaWithComplexTypeWithSimpleContentWithEnumeration() : base(TestFilesFactory.GetStreamForTestFile(TestFile.SchemaWithComplexTypeWithSimpleContentWithEnumeration))
+        public SchemaWithComplexTypeWithSimpleContentWithEnumeration() : base(TestFile.SchemaWithComplexTypeWithSimpleContentWithEnumeration)
         {
         }
 

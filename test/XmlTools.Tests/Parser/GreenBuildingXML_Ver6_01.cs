@@ -5,7 +5,7 @@ namespace XmlTools.Tests.Parser
 {
     public class GreenBuildingXML_Ver6_01 : TestFileBase
     {
-        public GreenBuildingXML_Ver6_01() : base(TestFilesFactory.GetStreamForTestFile(TestFile.GreenBuildingXML_Ver6_01)) { }
+        public GreenBuildingXML_Ver6_01() : base(TestFile.GreenBuildingXML_Ver6_01) { }
 
         [Fact]
         public void HasCorrectCountOfRootElements()

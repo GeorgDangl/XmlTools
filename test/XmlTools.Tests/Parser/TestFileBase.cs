@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,42 +8,51 @@ using Xunit;
 
 namespace XmlTools.Tests.Parser
 {
-    public abstract class TestFileBase : IDisposable
+    public abstract class TestFileBase
     {
-        protected readonly Stream _xsdStream;
+        protected readonly TestFile _testFile;
         private XmlSchema _parsedSchema;
+
+        private static ConcurrentDictionary<TestFile, XmlSchema> _knownSchemas = new ConcurrentDictionary<TestFile, XmlSchema>();
 
         protected XmlSchema ParsedSchema
         {
             get
             {
-                return _parsedSchema ?? (_parsedSchema = ParseSchema());
+                if (_knownSchemas.ContainsKey(_testFile))
+                {
+                    return _knownSchemas[_testFile];
+                }
+                var parsedSchema = ParseSchema();
+                _knownSchemas.TryAdd(_testFile, parsedSchema);
+                return parsedSchema;
             }
         }
 
-        public TestFileBase(Stream xsdStream)
+        public TestFileBase(TestFile testFile)
         {
-            _xsdStream = xsdStream;
-        }
-
-        public void Dispose()
-        {
-            _xsdStream.Dispose();
+            _testFile = testFile;
         }
 
         private XmlSchema ParseSchema()
         {
-            var schemaParser = new XmlSchemaParser(_xsdStream);
-            var parsedFile = schemaParser.GetSchema();
-            return parsedFile;
+            using (var xsdStream = TestFilesFactory.GetStreamForTestFile(_testFile))
+            {
+                var schemaParser = new XmlSchemaParser(xsdStream);
+                var parsedFile = schemaParser.GetSchema();
+                return parsedFile;
+            }
         }
 
         [Fact]
         public void CanParseFile()
         {
-            var schemaParser = new XmlSchemaParser(_xsdStream);
-            var parsedFile = schemaParser.GetSchema();
-            Assert.NotNull(parsedFile);
+            using (var xsdStream = TestFilesFactory.GetStreamForTestFile(_testFile))
+            {
+                var schemaParser = new XmlSchemaParser(xsdStream);
+                var parsedFile = schemaParser.GetSchema();
+                Assert.NotNull(parsedFile);
+            }
         }
 
         [Fact]

@@ -5,7 +5,7 @@ namespace XmlTools.Tests.Parser
 {
     public class SchemaWithUnknownSimpleType : TestFileBase
     {
-        public SchemaWithUnknownSimpleType() : base(TestFilesFactory.GetStreamForTestFile(TestFile.SchemaWithUnknownSimpleType)) { }
+        public SchemaWithUnknownSimpleType() : base(TestFile.SchemaWithUnknownSimpleType) { }
 
         [Fact]
         public void HasOnlySingleRootElement()

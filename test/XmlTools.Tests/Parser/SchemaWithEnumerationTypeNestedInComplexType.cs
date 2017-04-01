@@ -5,7 +5,7 @@ namespace XmlTools.Tests.Parser
 {
     public class SchemaWithEnumerationTypeNestedInComplexType : TestFileBase
     {
-        public SchemaWithEnumerationTypeNestedInComplexType() : base(TestFilesFactory.GetStreamForTestFile(TestFile.SchemaWithEnumerationTypeNestedInComplexType)) { }
+        public SchemaWithEnumerationTypeNestedInComplexType() : base(TestFile.SchemaWithEnumerationTypeNestedInComplexType) { }
 
         [Fact]
         public void HasOnlySingleRootElement()

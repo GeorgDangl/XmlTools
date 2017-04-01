@@ -5,7 +5,7 @@ namespace XmlTools.Tests.Parser
 {
     public class GAEB_XML_3_1_Schema : TestFileBase
     {
-        public GAEB_XML_3_1_Schema() : base(TestFilesFactory.GetStreamForTestFile(TestFile.GAEB_XML_3_1_Schema)) { }
+        public GAEB_XML_3_1_Schema() : base(TestFile.GAEB_XML_3_1_Schema) { }
 
         [Fact]
         public void HasOnlySingleRootElement()

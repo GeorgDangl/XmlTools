@@ -5,7 +5,7 @@ namespace XmlTools.Tests.Parser
 {
     public class SchemaWithExtendedComplexType : TestFileBase
     {
-        public SchemaWithExtendedComplexType() : base(TestFilesFactory.GetStreamForTestFile(TestFile.SchemaWithExtendedComplexType)) { }
+        public SchemaWithExtendedComplexType() : base(TestFile.SchemaWithExtendedComplexType) { }
 
         [Fact]
         public void HasOnlySingleRootElement()
