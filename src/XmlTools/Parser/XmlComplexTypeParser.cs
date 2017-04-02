@@ -106,13 +106,8 @@ namespace XmlTools.Parser
         {
             var complexTypeDefinitions = _documentComplexTypes ?? (_documentComplexTypes = _document.Descendants().Where(e => e.Name == _xmlSchemaNamespace + "complexType").ToList());
             var simpleTypeDefinitions = _documentSimpleTypes ?? (_documentSimpleTypes =_document.Descendants().Where(e => e.Name == _xmlSchemaNamespace + "simpleType").ToList());
-
             var complexTypesWithMatchingName = complexTypeDefinitions.Where(e => e.Attributes().Any(a => a.Name == "name" && a.Value == typeName));
             var simpleTypesWithMatchingName = simpleTypeDefinitions.Where(e => e.Attributes().Any(a => a.Name == "name" && a.Value == typeName));
-
-            // TODO
-            // IF built in type, e.g. from the xsd schema, then use a special "everything valid" type
-
             var typeElement = complexTypesWithMatchingName.Concat(simpleTypesWithMatchingName).Single();
             return typeElement;
         }
@@ -146,6 +141,26 @@ namespace XmlTools.Parser
                 var parsedElement = _xmlElementParser.ParseElement(childElement);
 
                 result.Add(parsedElement);
+            }
+            result = RemoveDuplicateElementsFromList(result);
+            return result;
+        }
+
+        private List<XmlElement> RemoveDuplicateElementsFromList(List<XmlElement> elements)
+        {
+            var result = new List<XmlElement>();
+            foreach (var element in elements)
+            {
+                var foundElement = result.FirstOrDefault(e => e.Name == element.Name);
+                if (foundElement == null)
+                {
+                    result.Add(element);
+                    continue;
+                }
+                if (foundElement.Type != element.Type)
+                {
+                    throw new Exception("There is a complexType that has child elements defined with the same name but different types");
+                }
             }
             return result;
         }

@@ -90,6 +90,27 @@ namespace XmlTools.Tests.Parser
             }
         }
 
+        [Fact]
+        public void NoComplexTypeHasDuplicateElementDefinitions()
+        {
+            var complexTypes = ParsedSchema.GetAllDeclaredElementTypes()
+                .OfType<XmlComplexType>()
+                .ToList();
+            foreach (var complexType in complexTypes)
+            {
+                AssertComplexTypeHasNoDuplicateChildElements(complexType);
+            }
+        }
+
+        private void AssertComplexTypeHasNoDuplicateChildElements(XmlComplexType complexType)
+        {
+            foreach (var childElement in complexType.PossibleChildElements)
+            {
+                var childrenWithSameName = complexType.PossibleChildElements.Count(c => c.Name == childElement.Name);
+                Assert.Equal(1, childrenWithSameName);
+            }
+        }
+
         protected List<XmlType> GetAllElementTypesUsedInSchema()
         {
             return ParsedSchema.GetAllDeclaredElementTypes().ToList();
