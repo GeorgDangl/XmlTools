@@ -1,11 +1,11 @@
 using System.Linq;
 using Xunit;
 
-namespace XmlTools.Tests.Parser
+namespace XmlTools.Tests.Parser.FileTests
 {
     public class GreenBuildingXML_Ver6_01 : TestFileBase
     {
-        public GreenBuildingXML_Ver6_01() : base(TestFile.GreenBuildingXML_Ver6_01) { }
+        public GreenBuildingXML_Ver6_01() : base(ParserTestFile.GreenBuildingXML_Ver6_01) { }
 
         [Fact]
         public void HasCorrectCountOfRootElements()

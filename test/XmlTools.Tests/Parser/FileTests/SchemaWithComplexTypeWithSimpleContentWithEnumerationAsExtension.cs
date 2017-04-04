@@ -1,11 +1,11 @@
 using System.Linq;
 using Xunit;
 
-namespace XmlTools.Tests.Parser
+namespace XmlTools.Tests.Parser.FileTests
 {
     public class SchemaWithComplexTypeWithSimpleContentWithEnumerationAsExtension : TestFileBase
     {
-        public SchemaWithComplexTypeWithSimpleContentWithEnumerationAsExtension() : base(TestFile.SchemaWithComplexTypeWithSimpleContentWithEnumerationAsExtension)
+        public SchemaWithComplexTypeWithSimpleContentWithEnumerationAsExtension() : base(ParserTestFile.SchemaWithComplexTypeWithSimpleContentWithEnumerationAsExtension)
         {
         }
 

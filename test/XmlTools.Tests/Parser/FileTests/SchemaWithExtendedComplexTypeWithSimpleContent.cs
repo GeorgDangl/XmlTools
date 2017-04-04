@@ -1,13 +1,11 @@
 using System.Linq;
 using Xunit;
 
-namespace XmlTools.Tests.Parser
+namespace XmlTools.Tests.Parser.FileTests
 {
-    public class SchemaWithComplexTypeWithSimpleContentWithEnumeration : TestFileBase
+    public class SchemaWithExtendedComplexTypeWithSimpleContent : TestFileBase
     {
-        public SchemaWithComplexTypeWithSimpleContentWithEnumeration() : base(TestFile.SchemaWithComplexTypeWithSimpleContentWithEnumeration)
-        {
-        }
+        public SchemaWithExtendedComplexTypeWithSimpleContent() : base(ParserTestFile.SchemaWithExtendedComplexTypeWithSimpleContent) { }
 
         [Fact]
         public void HasOnlySingleRootElement()
@@ -18,7 +16,7 @@ namespace XmlTools.Tests.Parser
         [Fact]
         public void CountOfAttributeTypes()
         {
-            var expectedCountOfAttributeTypes = 2;
+            var expectedCountOfAttributeTypes = 1;
             var attributeTypes = ParsedSchema.GetAllDeclaredAttributeTypes().ToList();
             Assert.Equal(expectedCountOfAttributeTypes, attributeTypes.Count);
         }
@@ -32,6 +30,13 @@ namespace XmlTools.Tests.Parser
         }
 
         [Fact]
+        public void HasOnlySingleType()
+        {
+            var countOfUsedTypes = GetAllElementTypesUsedInSchema().Count;
+            Assert.Equal(1, countOfUsedTypes);
+        }
+
+        [Fact]
         public void RootElementName()
         {
             var expectedElementName = "Commit";
@@ -42,9 +47,9 @@ namespace XmlTools.Tests.Parser
         [Fact]
         public void RootElementTypeName()
         {
-            var expectedTypeNameStart = "InlineSimpleContentComplexType_";
+            var expectedTypeName = "CommitHash";
             var rootElementType = ParsedSchema.RootElements.First().Type;
-            Assert.StartsWith(expectedTypeNameStart, rootElementType.Name);
+            Assert.Equal(expectedTypeName, rootElementType.Name);
         }
 
         [Fact]
@@ -55,22 +60,14 @@ namespace XmlTools.Tests.Parser
         }
 
         [Fact]
-        public void RootElementTypeAttributesCount()
+        public void RootElementAttributesCount()
         {
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlSimpleContentComplexType;
             Assert.Equal(2, rootElementType.Attributes.Count);
         }
 
         [Fact]
-        public void RootElementTypeAttributeName1()
-        {
-            var rootElementType = ParsedSchema.RootElements.First().Type as XmlSimpleContentComplexType;
-            var attribute = rootElementType.Attributes[0];
-            Assert.Equal("AuthorEmail", attribute.Name);
-        }
-
-        [Fact]
-        public void RootElementTypeAttributeName2()
+        public void RootElementAttributeName1()
         {
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlSimpleContentComplexType;
             var attribute = rootElementType.Attributes[1];
@@ -78,46 +75,43 @@ namespace XmlTools.Tests.Parser
         }
 
         [Fact]
-        public void RootElementTypeAttributeTypeName1()
+        public void RootElementAttributeName2()
         {
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlSimpleContentComplexType;
-            var attributeType = rootElementType.Attributes[0].Type;
-            Assert.StartsWith("xs:string", attributeType.Name);
+            var attribute = rootElementType.Attributes[0];
+            Assert.Equal("AuthorEmail", attribute.Name);
         }
 
         [Fact]
-        public void RootElementTypeAttributeTypeName2()
+        public void RootElementAttributeTypeName1()
         {
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlSimpleContentComplexType;
             var attributeType = rootElementType.Attributes[1].Type;
-            Assert.StartsWith("InlineSimpleType_", attributeType.Name);
+            Assert.Equal("xs:string", attributeType.Name);
         }
 
         [Fact]
-        public void RootElementTypeAttributeTypeType1()
+        public void RootElementAttributeTypeName2()
         {
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlSimpleContentComplexType;
             var attributeType = rootElementType.Attributes[0].Type;
+            Assert.Equal("xs:string", attributeType.Name);
+        }
+
+        [Fact]
+        public void RootElementAttributeTypeType1()
+        {
+            var rootElementType = ParsedSchema.RootElements.First().Type as XmlSimpleContentComplexType;
+            var attributeType = rootElementType.Attributes[1].Type;
             Assert.IsType(typeof(XmlUnknownType), attributeType);
         }
 
         [Fact]
-        public void RootElementTypeAttributeTypeType2()
+        public void RootElementAttributeTypeType2()
         {
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlSimpleContentComplexType;
-            var attributeType = rootElementType.Attributes[1].Type;
-            Assert.IsType(typeof(XmlEnumerationType), attributeType);
-        }
-
-        [Fact]
-        public void RootElementTypeAttributeTypeEnumerationValues()
-        {
-            var rootElementType = ParsedSchema.RootElements.First().Type as XmlSimpleContentComplexType;
-            var attributeType = rootElementType.Attributes[1].Type as XmlEnumerationType;
-            var expectedValues = new[] { "MD5", "SHA1", "SHA256" };
-            Assert.Equal(expectedValues.Length, attributeType.EnumerationValues.Count);
-            var allExpectedValuesPresent = expectedValues.All(v => attributeType.EnumerationValues.Any(e => e == v));
-            Assert.True(allExpectedValuesPresent);
+            var attributeType = rootElementType.Attributes[0].Type;
+            Assert.IsType(typeof(XmlUnknownType), attributeType);
         }
     }
 }

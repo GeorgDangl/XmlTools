@@ -1,11 +1,11 @@
 using System.Linq;
 using Xunit;
 
-namespace XmlTools.Tests.Parser
+namespace XmlTools.Tests.Parser.FileTests
 {
     public class GAEB_XML_3_1_Schema : TestFileBase
     {
-        public GAEB_XML_3_1_Schema() : base(TestFile.GAEB_XML_3_1_Schema) { }
+        public GAEB_XML_3_1_Schema() : base(ParserTestFile.GAEB_XML_3_1_Schema) { }
 
         [Fact]
         public void HasOnlySingleRootElement()

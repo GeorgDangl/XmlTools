@@ -1,19 +1,17 @@
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using XmlTools.Parser;
 using Xunit;
 
-namespace XmlTools.Tests.Parser
+namespace XmlTools.Tests.Parser.FileTests
 {
     public abstract class TestFileBase
     {
-        protected readonly TestFile _testFile;
+        protected readonly ParserTestFile _testFile;
         private XmlSchema _parsedSchema;
 
-        private static ConcurrentDictionary<TestFile, XmlSchema> _knownSchemas = new ConcurrentDictionary<TestFile, XmlSchema>();
+        private static ConcurrentDictionary<ParserTestFile, XmlSchema> _knownSchemas = new ConcurrentDictionary<ParserTestFile, XmlSchema>();
 
         protected XmlSchema ParsedSchema
         {
@@ -29,7 +27,7 @@ namespace XmlTools.Tests.Parser
             }
         }
 
-        public TestFileBase(TestFile testFile)
+        public TestFileBase(ParserTestFile testFile)
         {
             _testFile = testFile;
         }

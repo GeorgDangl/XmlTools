@@ -1,11 +1,11 @@
 using System.Linq;
 using Xunit;
 
-namespace XmlTools.Tests.Parser
+namespace XmlTools.Tests.Parser.FileTests
 {
-    public class SchemaWithUnknownSimpleType : TestFileBase
+    public class SchemaWithRestrictionButNotEnumerationType : TestFileBase
     {
-        public SchemaWithUnknownSimpleType() : base(TestFile.SchemaWithUnknownSimpleType) { }
+        public SchemaWithRestrictionButNotEnumerationType() : base(ParserTestFile.SchemaWithRestrictionButNotEnumerationType) { }
 
         [Fact]
         public void HasOnlySingleRootElement()
@@ -31,7 +31,7 @@ namespace XmlTools.Tests.Parser
         [Fact]
         public void RootElementName()
         {
-            var expectedElementName = "Message";
+            var expectedElementName = "OperatingTemperature";
             var rootElement = ParsedSchema.RootElements.First();
             Assert.Equal(expectedElementName, rootElement.Name);
         }
@@ -39,16 +39,23 @@ namespace XmlTools.Tests.Parser
         [Fact]
         public void RootElementTypeName()
         {
-            var expectedTypeName = "xs:string";
-            var rootElementType = ParsedSchema.RootElements.First().Type;
-            Assert.Equal(expectedTypeName, rootElementType.Name);
+            var expectedTypeName = "OperatingTemperatureRange";
+            var rootElement = ParsedSchema.RootElements.First();
+            Assert.Equal(expectedTypeName, rootElement.Type.Name);
         }
 
         [Fact]
         public void RootElementTypeType()
         {
             var rootElementType = ParsedSchema.RootElements.First().Type;
-            Assert.IsType(typeof(XmlUnknownType), rootElementType);
+            Assert.IsType(typeof(XmlSimpleType), rootElementType);
+        }
+
+        [Fact]
+        public void RootElementTypeIsNotEnumerationType()
+        {
+            var rootElementType = ParsedSchema.RootElements.First().Type;
+            Assert.IsNotType(typeof(XmlEnumerationType), rootElementType);
         }
     }
 }

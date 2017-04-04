@@ -2,7 +2,7 @@ using System.IO;
 using XmlTools.Parser;
 using Xunit;
 
-namespace XmlTools.Tests.Parser
+namespace XmlTools.Tests.Parser.FileTests
 {
     public class SchemaWithComplexTypeWithSimpleContentButAlsoElementDefinition
     {
@@ -10,7 +10,7 @@ namespace XmlTools.Tests.Parser
         public void ThrowsExceptionDueToInvalidSchema()
         {
             // A simpleContent element may not have elements defined within itself
-            var xsdStream = TestFilesFactory.GetStreamForTestFile(TestFile.SchemaWithComplexTypeWithSimpleContentButAlsoElementDefinition);
+            var xsdStream = TestFilesFactory.GetStreamForTestFile(ParserTestFile.SchemaWithComplexTypeWithSimpleContentButAlsoElementDefinition);
             var schemaParser = new XmlSchemaParser(xsdStream);
             Assert.Throws(typeof(InvalidDataException), () =>
             {

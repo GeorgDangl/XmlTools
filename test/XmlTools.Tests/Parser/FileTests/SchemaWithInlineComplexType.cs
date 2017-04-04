@@ -1,11 +1,11 @@
 using System.Linq;
 using Xunit;
 
-namespace XmlTools.Tests.Parser
+namespace XmlTools.Tests.Parser.FileTests
 {
-    public class SchemaWithEnumerationType : TestFileBase
+    public class SchemaWithInlineComplexType : TestFileBase
     {
-        public SchemaWithEnumerationType() : base(TestFile.SchemaWithEnumerationType) { }
+        public SchemaWithInlineComplexType() : base(ParserTestFile.SchemaWithInlineComplexType) { }
 
         [Fact]
         public void HasOnlySingleRootElement()
@@ -39,26 +39,16 @@ namespace XmlTools.Tests.Parser
         [Fact]
         public void RootElementTypeName()
         {
-            var expectedTypeName = "WeatherPrediction";
+            var expectedTypeNameStart = "InlineComplexType_";
             var rootElement = ParsedSchema.RootElements.First();
-            Assert.Equal(expectedTypeName, rootElement.Type.Name);
+            Assert.True(rootElement.Type.Name.StartsWith(expectedTypeNameStart));
         }
 
         [Fact]
-        public void RootElementTypeType()
+        public void NoPropertiesOnRootElementType()
         {
-            var rootElementType = ParsedSchema.RootElements.First().Type;
-            Assert.IsType(typeof(XmlEnumerationType), rootElementType);
-        }
-
-        [Fact]
-        public void RootElementTypeEnumerationTypeHasCorrectRestrictions()
-        {
-            var expectedValues = new[] { "Rainy", "Cloudy", "Sunny", "Misty", "Probability of raining meatballs" };
-            var rootElementType = ParsedSchema.RootElements.First().Type as XmlEnumerationType;
-            Assert.Equal(expectedValues.Length, rootElementType.EnumerationValues.Count);
-            var allElementsPresent = expectedValues.All(v => rootElementType.EnumerationValues.Contains(v));
-            Assert.True(allElementsPresent);
+            var rootElement = ParsedSchema.RootElements.First();
+            Assert.False((rootElement.Type as XmlComplexType).PossibleChildElements.Any());
         }
     }
 }

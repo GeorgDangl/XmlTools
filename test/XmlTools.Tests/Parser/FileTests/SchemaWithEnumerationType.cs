@@ -1,11 +1,11 @@
 using System.Linq;
 using Xunit;
 
-namespace XmlTools.Tests.Parser
+namespace XmlTools.Tests.Parser.FileTests
 {
-    public class SchemaWithRestrictionButNotEnumerationType : TestFileBase
+    public class SchemaWithEnumerationType : TestFileBase
     {
-        public SchemaWithRestrictionButNotEnumerationType() : base(TestFile.SchemaWithRestrictionButNotEnumerationType) { }
+        public SchemaWithEnumerationType() : base(ParserTestFile.SchemaWithEnumerationType) { }
 
         [Fact]
         public void HasOnlySingleRootElement()
@@ -31,7 +31,7 @@ namespace XmlTools.Tests.Parser
         [Fact]
         public void RootElementName()
         {
-            var expectedElementName = "OperatingTemperature";
+            var expectedElementName = "WeatherForecast";
             var rootElement = ParsedSchema.RootElements.First();
             Assert.Equal(expectedElementName, rootElement.Name);
         }
@@ -39,7 +39,7 @@ namespace XmlTools.Tests.Parser
         [Fact]
         public void RootElementTypeName()
         {
-            var expectedTypeName = "OperatingTemperatureRange";
+            var expectedTypeName = "WeatherPrediction";
             var rootElement = ParsedSchema.RootElements.First();
             Assert.Equal(expectedTypeName, rootElement.Type.Name);
         }
@@ -48,14 +48,17 @@ namespace XmlTools.Tests.Parser
         public void RootElementTypeType()
         {
             var rootElementType = ParsedSchema.RootElements.First().Type;
-            Assert.IsType(typeof(XmlSimpleType), rootElementType);
+            Assert.IsType(typeof(XmlEnumerationType), rootElementType);
         }
 
         [Fact]
-        public void RootElementTypeIsNotEnumerationType()
+        public void RootElementTypeEnumerationTypeHasCorrectRestrictions()
         {
-            var rootElementType = ParsedSchema.RootElements.First().Type;
-            Assert.IsNotType(typeof(XmlEnumerationType), rootElementType);
+            var expectedValues = new[] { "Rainy", "Cloudy", "Sunny", "Misty", "Probability of raining meatballs" };
+            var rootElementType = ParsedSchema.RootElements.First().Type as XmlEnumerationType;
+            Assert.Equal(expectedValues.Length, rootElementType.EnumerationValues.Count);
+            var allElementsPresent = expectedValues.All(v => rootElementType.EnumerationValues.Contains(v));
+            Assert.True(allElementsPresent);
         }
     }
 }

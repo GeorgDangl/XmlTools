@@ -1,11 +1,11 @@
 using System.Linq;
 using Xunit;
 
-namespace XmlTools.Tests.Parser
+namespace XmlTools.Tests.Parser.FileTests
 {
     public class SchemaWithEnumerationTypeNestedInComplexType : TestFileBase
     {
-        public SchemaWithEnumerationTypeNestedInComplexType() : base(TestFile.SchemaWithEnumerationTypeNestedInComplexType) { }
+        public SchemaWithEnumerationTypeNestedInComplexType() : base(ParserTestFile.SchemaWithEnumerationTypeNestedInComplexType) { }
 
         [Fact]
         public void HasOnlySingleRootElement()

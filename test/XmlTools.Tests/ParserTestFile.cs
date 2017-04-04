@@ -3,7 +3,7 @@
 namespace XmlTools.Tests
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public enum TestFile
+    public enum ParserTestFile
     {
         GAEB_XML_3_1_Schema = 1,
         GreenBuildingXML_Ver6_01 = 2,

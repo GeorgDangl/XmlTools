@@ -1,11 +1,11 @@
 using System.Linq;
 using Xunit;
 
-namespace XmlTools.Tests.Parser
+namespace XmlTools.Tests.Parser.FileTests
 {
     public class SchemaWithTwoPossibleRootElements : TestFileBase
     {
-        public SchemaWithTwoPossibleRootElements() : base(TestFile.SchemaWithTwoPossibleRootElements) { }
+        public SchemaWithTwoPossibleRootElements() : base(ParserTestFile.SchemaWithTwoPossibleRootElements) { }
 
         [Fact]
         public void HasTwoRootElements()

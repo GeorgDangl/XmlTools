@@ -6,9 +6,19 @@ namespace XmlTools.Tests
 {
     public static class TestFilesFactory
     {
-        public static Stream GetStreamForTestFile(TestFile file)
+        public static Stream GetStreamForTestFile(ParserTestFile file)
         {
-            var resourceNameStart = $"XmlTools.Tests.Testfiles.{file}";
+            return GetStreamForTestFile("Parser", file.ToString());
+        }
+
+        public static Stream GetStreamForTestFile(SchemaCorrectorTestFile file)
+        {
+            return GetStreamForTestFile("SchemaCorrector", file.ToString());
+        }
+
+        private static Stream GetStreamForTestFile(string testFileCategory, string testFile)
+        {
+            var resourceNameStart = $"XmlTools.Tests.Testfiles.{testFileCategory}.{testFile}";
             var assembly = typeof(TestFilesFactory).GetTypeInfo().Assembly;
             var exactFileNameMatch = GetStreamForExactFileName(assembly, $"{resourceNameStart}.xsd");
             if (exactFileNameMatch != null)

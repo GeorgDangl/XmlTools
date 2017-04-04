@@ -1,11 +1,11 @@
 using System.Linq;
 using Xunit;
 
-namespace XmlTools.Tests.Parser
+namespace XmlTools.Tests.Parser.FileTests
 {
-    public class SchemaWithInlineSimpleType : TestFileBase
+    public class MinimumValidSchemaFile : TestFileBase
     {
-        public SchemaWithInlineSimpleType() : base(TestFile.SchemaWithInlineSimpleType) { }
+        public MinimumValidSchemaFile() : base(ParserTestFile.MinimumValidSchemaFile) { }
 
         [Fact]
         public void HasOnlySingleRootElement()
@@ -31,7 +31,7 @@ namespace XmlTools.Tests.Parser
         [Fact]
         public void RootElementName()
         {
-            var expectedElementName = "WeatherForecast";
+            var expectedElementName = "Order";
             var rootElement = ParsedSchema.RootElements.First();
             Assert.Equal(expectedElementName, rootElement.Name);
         }
@@ -39,26 +39,30 @@ namespace XmlTools.Tests.Parser
         [Fact]
         public void RootElementTypeName()
         {
-            var expectedTypeNameStart = "InlineSimpleType_";
+            var expectedTypeName = "FoodOrder";
             var rootElement = ParsedSchema.RootElements.First();
-            Assert.True(rootElement.Type.Name.StartsWith(expectedTypeNameStart));
+            Assert.Equal(expectedTypeName, rootElement.Type.Name);
         }
 
         [Fact]
-        public void RootElementTypeIsEnumerationType()
+        public void RootElementTypeType()
         {
             var rootElementType = ParsedSchema.RootElements.First().Type;
-            Assert.IsType(typeof(XmlEnumerationType), rootElementType);
+            Assert.IsType(typeof(XmlComplexType), rootElementType);
         }
 
         [Fact]
-        public void RootElementTypeEnumerationTypeHasCorrectRestrictions()
+        public void NoPropertiesOnRootElementType()
         {
-            var expectedValues = new[] { "Rainy", "Cloudy", "Sunny", "Misty", "Probability of raining meatballs" };
-            var rootElementType = ParsedSchema.RootElements.First().Type as XmlEnumerationType;
-            Assert.Equal(expectedValues.Length, rootElementType.EnumerationValues.Count);
-            var allElementsPresent = expectedValues.All(v => rootElementType.EnumerationValues.Contains(v));
-            Assert.True(allElementsPresent);
+            var rootElementType = ParsedSchema.RootElements.First().Type as XmlComplexType;
+            Assert.False(rootElementType.PossibleChildElements.Any());
+        }
+
+        [Fact]
+        public void NoAttributesOnRootElementType()
+        {
+            var rootElementType = ParsedSchema.RootElements.First().Type as XmlComplexType;
+            Assert.False(rootElementType.Attributes.Any());
         }
     }
 }
