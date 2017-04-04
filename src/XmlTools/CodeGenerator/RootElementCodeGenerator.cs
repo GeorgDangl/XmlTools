@@ -1,9 +1,12 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 
 namespace XmlTools.CodeGenerator
 {
     public class RootElementCodeGenerator
     {
+        private const string ROOT_ELEMENT_VARIABLE_NAME = "rootElement";
+
         public RootElementCodeGenerator(XmlSchema schema, StringBuilder stringBuilder)
         {
             _schema = schema;
@@ -16,27 +19,29 @@ namespace XmlTools.CodeGenerator
         public void GenerateCheckingCode()
         {
             _stringBuilder.AppendLine("public XDocument CorrectDocument()");
-            _stringBuilder.AppendLine("{");
+            using (new CodeGeneratorBlockWrapper(_stringBuilder))
+            {
+                _stringBuilder.AppendLine($"var {ROOT_ELEMENT_VARIABLE_NAME} = {CodeGeneratorConstants.PRIVATE_XDOCUMENT_FIELD_NAME}.Root;");
+                _stringBuilder.AppendLine($"switch ({ROOT_ELEMENT_VARIABLE_NAME}.Name.LocalName.ToUpperInvariant())");
+                using (new CodeGeneratorBlockWrapper(_stringBuilder))
+                {
+                    var rootElements = _schema.RootElements;
+                    GenerateRootElementValidation(rootElements);
+                }
+                _stringBuilder.AppendLine($"return {CodeGeneratorConstants.PRIVATE_XDOCUMENT_FIELD_NAME};");
+            }
+        }
 
-            _stringBuilder.AppendLine("var rootElement = _document.Root;");
-
-            _stringBuilder.AppendLine("switch (rootElement.Name.LocalName.ToUpperInvariant())");
-            _stringBuilder.AppendLine("{");
-
-            var rootElements = _schema.RootElements;
+        private void GenerateRootElementValidation(List<XmlElement> rootElements)
+        {
             foreach (var rootElement in rootElements)
             {
                 _stringBuilder.AppendLine($"case \"{rootElement.Name.ToUpperInvariant()}\":");
-                XmlElementNameCorrectorCodeGenerator.GenerateElementNameCorrector(rootElement, _stringBuilder, "rootElement");
+                XmlElementNameCorrectorCodeGenerator.GenerateElementNameCorrector(rootElement, _stringBuilder, ROOT_ELEMENT_VARIABLE_NAME);
                 var elementCheckMethodName = XmlCodeGeneratorMethodNameProvider.GetNameForElementTypeCheckMethod(rootElement.Type);
-                _stringBuilder.AppendLine($"{elementCheckMethodName}(rootElement);");
-
+                _stringBuilder.AppendLine($"{elementCheckMethodName}({ROOT_ELEMENT_VARIABLE_NAME});");
                 _stringBuilder.AppendLine("break;");
             }
-
-            _stringBuilder.AppendLine("}");
-            _stringBuilder.AppendLine("return _document;");
-            _stringBuilder.AppendLine("}");
         }
     }
 }

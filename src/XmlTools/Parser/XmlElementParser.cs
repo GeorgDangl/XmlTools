@@ -109,21 +109,6 @@ namespace XmlTools.Parser
             return referencedElementName;
         }
 
-        //                if (childElement.Attributes().Any(a => a.Name == "ref") && childElement.Attributes().All(a => a.Name != "name"))
-        //        {
-        //            // There is no support yet for externally defined elements
-        //            // "name" and "ref" are actually not allowed on the same element definition, but schemas in the wild might have this combination
-        //            // See https://www.w3.org/TR/2004/REC-xmlschema-1-20041028/#d0e4233 for further info
-        //            continue;
-        //        }
-        //        var elementName = childElement.Attributes().Single(a => a.Name == "name").Value;
-        //var elementType = ParseElement(childElement);
-        //var xmlElement = new XmlElement
-        //{
-        //    Name = elementName,
-        //    Type = elementType
-        //};
-
         private void SetUpXmlTypeParsers()
         {
             var simpleTypeParser = new XmlSimpleTypeParser(_document, _xmlUnknownTypeParser);

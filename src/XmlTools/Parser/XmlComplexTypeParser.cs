@@ -60,7 +60,6 @@ namespace XmlTools.Parser
             return false;
         }
 
-
         public XmlType ParseElement(XElement element)
         {
             if (ElementIsInlineDefined(element))
@@ -100,7 +99,6 @@ namespace XmlTools.Parser
             var attributes = _xmlAttributesParser.GetAttributesForTypeDefinition(element);
             return attributes;
         }
-
 
         private XElement GetTypeDefinition(string typeName)
         {

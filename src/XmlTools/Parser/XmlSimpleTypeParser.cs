@@ -5,7 +5,6 @@ using System.Xml.Linq;
 
 namespace XmlTools.Parser
 {
-    // TODO SPLIT UP INTO ENUMERATION TYPE PARSER AND REGULAR SIMPLE TYPE PARSER
     public class XmlSimpleTypeParser : IXmlTypeParser
     {
         public XmlSimpleTypeParser(XDocument document, XmlUnknownTypeParser xmlUnknownTypeParser)

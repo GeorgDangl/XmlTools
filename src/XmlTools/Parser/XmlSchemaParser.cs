@@ -17,7 +17,6 @@ namespace XmlTools.Parser
             _xsdSchemaStream = xsdSchemaStream;
         }
 
-
         private readonly Stream _xsdSchemaStream;
         private readonly XNamespace _xmlSchemaNamespace = "http://www.w3.org/2001/XMLSchema";
         private XDocument _document;
@@ -35,9 +34,7 @@ namespace XmlTools.Parser
             {
                 throw new ArgumentException("This is not a valid Xml schema, the root element is expected to be called \"schema\"");
             }
-
             _xmlElementParser = new XmlElementParser(_document);
-
             var rootXElements = GetRootElements();
             if (!rootXElements.Any())
             {

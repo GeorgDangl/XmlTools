@@ -24,18 +24,17 @@ namespace XmlTools.CodeGenerator
             {
                 throw new System.InvalidOperationException($"This class can only generate check methods for {nameof(XmlEnumerationType)} types");
             }
-
-            _stringBuilder.AppendLine("switch (element.Value.ToUpperInvariant())");
-            _stringBuilder.AppendLine("{");
-            GenerateValidtorForEnumerationValues(xmlEnumerationType);
-            _stringBuilder.AppendLine("default:");
-            _stringBuilder.AppendLine("element.Remove();");
-            _stringBuilder.AppendLine("break;");
-            _stringBuilder.AppendLine("}");
+            _stringBuilder.AppendLine($"switch ({CodeGeneratorConstants.ELEMENT_CHECK_METHOD_ELEMENT_VARIABLE_NAME}.Value.ToUpperInvariant())");
+            using (new CodeGeneratorBlockWrapper(_stringBuilder))
+            {
+                GenerateValidatorForEnumerationValues(xmlEnumerationType);
+                _stringBuilder.AppendLine("default:");
+                _stringBuilder.AppendLine($"{CodeGeneratorConstants.ELEMENT_CHECK_METHOD_ELEMENT_VARIABLE_NAME}.Remove();");
+                _stringBuilder.AppendLine("break;");
+            }
         }
 
-
-        private void GenerateValidtorForEnumerationValues(XmlEnumerationType xmlEnumerationType)
+        private void GenerateValidatorForEnumerationValues(XmlEnumerationType xmlEnumerationType)
         {
             foreach (var possibleValue in xmlEnumerationType.EnumerationValues.OrderBy(v => v))
             {
@@ -47,10 +46,11 @@ namespace XmlTools.CodeGenerator
 
         private void GenerateValueCaseCorrector(string correctValue)
         {
-            _stringBuilder.AppendLine($"if (element.Value != \"{correctValue}\")");
-            _stringBuilder.AppendLine("{");
-            _stringBuilder.AppendLine($"element.Value = \"{correctValue}\";");
-            _stringBuilder.AppendLine("}");
+            _stringBuilder.AppendLine($"if ({CodeGeneratorConstants.ELEMENT_CHECK_METHOD_ELEMENT_VARIABLE_NAME}.Value != \"{correctValue}\")");
+            using (new CodeGeneratorBlockWrapper(_stringBuilder))
+            {
+                _stringBuilder.AppendLine($"{CodeGeneratorConstants.ELEMENT_CHECK_METHOD_ELEMENT_VARIABLE_NAME}.Value = \"{correctValue}\";");
+            }
         }
     }
 }

@@ -28,13 +28,12 @@ namespace XmlTools.CodeGenerator
         public void GenerateTypeCheckingMethod(XmlType xmlType)
         {
             var checkMethodName = XmlCodeGeneratorMethodNameProvider.GetNameForElementTypeCheckMethod(xmlType);
-            _stringBuilder.AppendLine($"private void {checkMethodName}(XElement element)");
-            _stringBuilder.AppendLine("{");
-            GenerateCheckMethodBody(xmlType);
-            _stringBuilder.AppendLine("}");
+            _stringBuilder.AppendLine($"private void {checkMethodName}(XElement {CodeGeneratorConstants.ELEMENT_CHECK_METHOD_ELEMENT_VARIABLE_NAME})");
+            using (new CodeGeneratorBlockWrapper(_stringBuilder))
+            {
+                GenerateCheckMethodBody(xmlType);
+            }
         }
-
-
 
         private void GenerateCheckMethodBody(XmlType xmlType)
         {

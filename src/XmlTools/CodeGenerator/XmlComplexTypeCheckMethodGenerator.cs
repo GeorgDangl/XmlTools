@@ -5,6 +5,8 @@ namespace XmlTools.CodeGenerator
 {
     public class XmlComplexTypeCheckMethodGenerator : IXmlTypeCheckMethodGenerator
     {
+        private const string CHILD_ELEMENT_VARIABLE_NAME = "child";
+
         public XmlComplexTypeCheckMethodGenerator(StringBuilder stringBuilder)
         {
             _stringBuilder = stringBuilder;
@@ -20,7 +22,7 @@ namespace XmlTools.CodeGenerator
         public void GenerateCheckMethodBody(XmlType xmlType)
         {
             var xmlComplexType = xmlType as XmlComplexType;
-            GenerateAttributesCheckingCode(xmlComplexType);
+            ComplexTypeAttributeCheckGenerator.GenerateAttributesCheckingCode(xmlComplexType, _stringBuilder);
             GenerateElementsCheckingCode(xmlComplexType);
         }
 
@@ -30,45 +32,22 @@ namespace XmlTools.CodeGenerator
             {
                 return;
             }
-            _stringBuilder.AppendLine("foreach (var child in element.Elements().ToList())");
-            _stringBuilder.AppendLine("{");
-            _stringBuilder.AppendLine("switch(child.Name.LocalName.ToUpperInvariant())");
-            _stringBuilder.AppendLine("{");
-            foreach (var element in xmlType.PossibleChildElements)
+            _stringBuilder.AppendLine($"foreach (var {CHILD_ELEMENT_VARIABLE_NAME} in {CodeGeneratorConstants.ELEMENT_CHECK_METHOD_ELEMENT_VARIABLE_NAME}.Elements().ToList())");
+            using (new CodeGeneratorBlockWrapper(_stringBuilder))
             {
-                // TODO CHECK CASING OF ELEMENT NAME
-                _stringBuilder.AppendLine($"case \"{element.Name.ToUpperInvariant()}\":");
-                XmlElementNameCorrectorCodeGenerator.GenerateElementNameCorrector(element, _stringBuilder, "child");
-                var elementCheckMethodName = XmlCodeGeneratorMethodNameProvider.GetNameForElementTypeCheckMethod(element.Type);
-                _stringBuilder.AppendLine($"{elementCheckMethodName}(child);");
-                _stringBuilder.AppendLine("break;");
+                _stringBuilder.AppendLine($"switch({CHILD_ELEMENT_VARIABLE_NAME}.Name.LocalName.ToUpperInvariant())");
+                using (new CodeGeneratorBlockWrapper(_stringBuilder))
+                {
+                    foreach (var element in xmlType.PossibleChildElements)
+                    {
+                        _stringBuilder.AppendLine($"case \"{element.Name.ToUpperInvariant()}\":");
+                        XmlElementNameCorrectorCodeGenerator.GenerateElementNameCorrector(element, _stringBuilder, CHILD_ELEMENT_VARIABLE_NAME);
+                        var elementCheckMethodName = XmlCodeGeneratorMethodNameProvider.GetNameForElementTypeCheckMethod(element.Type);
+                        _stringBuilder.AppendLine($"{elementCheckMethodName}({CHILD_ELEMENT_VARIABLE_NAME});");
+                        _stringBuilder.AppendLine("break;");
+                    }
+                }
             }
-            _stringBuilder.AppendLine("}");
-            _stringBuilder.AppendLine("}");
-        }
-
-        private void GenerateAttributesCheckingCode(XmlComplexType xmlType)
-        {
-            if (!xmlType.Attributes.Any())
-            {
-                return;
-            }
-            _stringBuilder.AppendLine("foreach (var attribute in element.Attributes().ToList())");
-            _stringBuilder.AppendLine("{");
-            _stringBuilder.AppendLine("switch(attribute.Name.LocalName.ToUpperInvariant())");
-            _stringBuilder.AppendLine("{");
-            foreach (var attribute in xmlType.Attributes)
-            {
-                // TODO CHECK CASING OF ATTRIBUTE NAME
-                _stringBuilder.AppendLine($"case \"{attribute.Name.ToUpperInvariant()}\":");
-                var elementCheckMethodName = XmlCodeGeneratorMethodNameProvider.GetNameForAttributeCheckMethod(attribute.Type);
-                _stringBuilder.AppendLine($"{elementCheckMethodName}(attribute);");
-                XmlElementNameCorrectorCodeGenerator.GenerateAttributeNameCorrector(attribute, _stringBuilder, "attribute");
-                _stringBuilder.AppendLine("break;");
-
-            }
-            _stringBuilder.AppendLine("}");
-            _stringBuilder.AppendLine("}");
         }
     }
 }

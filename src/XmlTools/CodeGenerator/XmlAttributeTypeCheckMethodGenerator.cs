@@ -4,6 +4,8 @@ namespace XmlTools.CodeGenerator
 {
     public class XmlAttributeTypeCheckMethodGenerator
     {
+        private const string ATTRIBUTE_VARIABLE_NAME = "attribute";
+
         public XmlAttributeTypeCheckMethodGenerator(StringBuilder stringBuilder)
         {
             _stringBuilder = stringBuilder;
@@ -14,34 +16,40 @@ namespace XmlTools.CodeGenerator
         public void GenerateTypeCheckingMethod(XmlType xmlType)
         {
             var checkMethodName = XmlCodeGeneratorMethodNameProvider.GetNameForAttributeCheckMethod(xmlType);
-            _stringBuilder.AppendLine($"private void {checkMethodName}(XAttribute attribute)");
-            _stringBuilder.AppendLine("{");
-            // TODO
-            var enumerationType = xmlType as XmlEnumerationType;
-            if (enumerationType != null)
+            _stringBuilder.AppendLine($"private void {checkMethodName}(XAttribute {ATTRIBUTE_VARIABLE_NAME})");
+            using (new CodeGeneratorBlockWrapper(_stringBuilder))
             {
-                GenerateEnumerationAttributeCheckMethod(enumerationType);
+                var enumerationType = xmlType as XmlEnumerationType;
+                if (enumerationType != null)
+                {
+                    GenerateEnumerationAttributeCheckMethod(enumerationType);
+                }
+                else
+                {
+                    _stringBuilder.AppendLine("// Only attributes with enumeration restriction are currently supported for validation");
+                }
             }
-            _stringBuilder.AppendLine("}");
         }
 
         private void GenerateEnumerationAttributeCheckMethod(XmlEnumerationType xmlEnumerationType)
         {
-            _stringBuilder.AppendLine("switch (attribute.Value.ToUpperInvariant())");
-            _stringBuilder.AppendLine("{");
-            foreach (var allowedValue in xmlEnumerationType.EnumerationValues)
+            _stringBuilder.AppendLine($"switch ({ATTRIBUTE_VARIABLE_NAME}.Value.ToUpperInvariant())");
+            using (new CodeGeneratorBlockWrapper(_stringBuilder))
             {
-                _stringBuilder.AppendLine($"case \"{allowedValue.ToUpperInvariant()}\":");
-                _stringBuilder.AppendLine($"if (attribute.Value != \"{allowedValue}\")");
-                _stringBuilder.AppendLine("{");
-                _stringBuilder.AppendLine($"attribute.Value = \"{allowedValue}\";");
-                _stringBuilder.AppendLine("}");
+                foreach (var allowedValue in xmlEnumerationType.EnumerationValues)
+                {
+                    _stringBuilder.AppendLine($"case \"{allowedValue.ToUpperInvariant()}\":");
+                    _stringBuilder.AppendLine($"if ({ATTRIBUTE_VARIABLE_NAME}.Value != \"{allowedValue}\")");
+                    using (new CodeGeneratorBlockWrapper(_stringBuilder))
+                    {
+                        _stringBuilder.AppendLine($"{ATTRIBUTE_VARIABLE_NAME}.Value = \"{allowedValue}\";");
+                    }
+                    _stringBuilder.AppendLine("break;");
+                }
+                _stringBuilder.AppendLine("default:");
+                _stringBuilder.AppendLine($"{ATTRIBUTE_VARIABLE_NAME}.Remove();");
                 _stringBuilder.AppendLine("break;");
             }
-            _stringBuilder.AppendLine("default:");
-            _stringBuilder.AppendLine("attribute.Remove();");
-                _stringBuilder.AppendLine("break;");
-            _stringBuilder.AppendLine("}");
         }
     }
 }
