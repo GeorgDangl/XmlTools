@@ -20,7 +20,8 @@ namespace XmlTools.Tests
         {
             var resourceNameStart = $"XmlTools.Tests.Testfiles.{testFileCategory}.{testFile}";
             var assembly = typeof(TestFilesFactory).GetTypeInfo().Assembly;
-            var exactFileNameMatch = GetStreamForExactFileName(assembly, $"{resourceNameStart}.xsd");
+            var exactFileNameMatch = GetStreamForExactFileName(assembly, $"{resourceNameStart}.xsd")
+                                     ?? GetStreamForExactFileName(assembly, $"{resourceNameStart}.xml");
             if (exactFileNameMatch != null)
             {
                 return exactFileNameMatch;

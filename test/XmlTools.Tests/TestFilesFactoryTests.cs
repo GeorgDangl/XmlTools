@@ -21,7 +21,7 @@ namespace XmlTools.Tests
         [Fact]
         public void FindsAllValidSchemaCorrectorTestFiles()
         {
-            var expectedCountOfEnums = 9;
+            var expectedCountOfEnums = 21;
             Assert.Equal(expectedCountOfEnums, AllValidSchemaCorrectorEnums.Count());
         }
 

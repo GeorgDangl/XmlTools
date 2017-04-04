@@ -4,7 +4,8 @@
   "dependencies": {
     "XmlTools": "*",
     "xunit": "2.2.0",
-    "dotnet-test-xunit": "2.2.0-preview2-build1029"
+    "dotnet-test-xunit": "2.2.0-preview2-build1029",
+    "Microsoft.CodeAnalysis.CSharp": "2.0.0" 
   },
   "buildOptions": {
     "embed": {
@@ -19,8 +20,15 @@
           "version": "1.1.0",
           "type": "platform"
         }
+      },
+      "buildOptions": {
+        "define": [ "NETSTANDARD" ]
       }
     },
-    "net46": {} 
+    "net46": {
+      "buildOptions": {
+        "define": [ "NET46" ]
+      }
+    }
   }
 }
