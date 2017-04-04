@@ -31,7 +31,7 @@ namespace XmlTools.Parser
                 return _result;
             }
             _document = XDocument.Load(_xsdSchemaStream);
-            if (_document.Root.Name != _xmlSchemaNamespace + "schema")
+            if (_document.Root?.Name != _xmlSchemaNamespace + "schema")
             {
                 throw new ArgumentException("This is not a valid Xml schema, the root element is expected to be called \"schema\"");
             }
@@ -60,9 +60,10 @@ namespace XmlTools.Parser
 
         private List<XElement> GetRootElements()
         {
-            var rootXElements = _document.Root.Elements()
+            var rootXElements = _document.Root?.Elements()
                 .Where(e => e.Name == _xmlSchemaNamespace + "element")
-                .ToList();
+                .ToList()
+                ?? new List<XElement>();
             return rootXElements;
         }
     }

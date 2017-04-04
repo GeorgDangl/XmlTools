@@ -13,7 +13,7 @@ namespace XmlTools.Parser
             _xmlUnknownTypeParser = xmlUnknownTypeParser;
         }
 
-        private XDocument _document;
+        private readonly XDocument _document;
         private readonly XmlSimpleTypeParser _xmlSimpleTypeParser;
         private readonly XmlUnknownTypeParser _xmlUnknownTypeParser; 
         private readonly XNamespace _xmlSchemaNamespace = "http://www.w3.org/2001/XMLSchema";
@@ -41,7 +41,7 @@ namespace XmlTools.Parser
         private XmlAttribute GetAttributeForReferencedAttribute(XElement element)
         {
             var attributeReference = element.Attributes().Single(a => a.Name == "ref").Value;
-            var localAttribute = _document.Root.Elements().FirstOrDefault(e => e.Name == _xmlSchemaNamespace + "attribute" && e.Attributes().Any(a => a.Name == "name" && a.Value == attributeReference));
+            var localAttribute = _document.Root?.Elements().FirstOrDefault(e => e.Name == _xmlSchemaNamespace + "attribute" && e.Attributes().Any(a => a.Name == "name" && a.Value == attributeReference));
             if (localAttribute == null)
             {
                 var attributeType = _xmlUnknownTypeParser.GetUnknownTypeDefinitionByName(attributeReference);

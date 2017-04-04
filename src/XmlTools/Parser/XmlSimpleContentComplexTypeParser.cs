@@ -8,15 +8,13 @@ namespace XmlTools.Parser
 {
     public class XmlSimpleContentComplexTypeParser : IXmlTypeParser
     {
-        public XmlSimpleContentComplexTypeParser(XDocument document, XmlElementParser xmlElementParser, XmlAttributesParser xmlAttributesParser)
+        public XmlSimpleContentComplexTypeParser(XDocument document, XmlAttributesParser xmlAttributesParser)
         {
             _document = document;
-            _xmlElementParser = xmlElementParser;
             _xmlAttributesParser = xmlAttributesParser;
         }
 
         private readonly XDocument _document;
-        private readonly XmlElementParser _xmlElementParser;
         private readonly XmlAttributesParser _xmlAttributesParser;
         private readonly Dictionary<string, XmlType> _parsedTypes = new Dictionary<string, XmlType>();
         private readonly XNamespace _xmlSchemaNamespace = "http://www.w3.org/2001/XMLSchema";

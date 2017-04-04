@@ -30,9 +30,9 @@ namespace XmlTools.CodeGenerator
             {
                 return;
             }
-            _stringBuilder.AppendLine($"foreach (var child in element.Elements().ToList())");
+            _stringBuilder.AppendLine("foreach (var child in element.Elements().ToList())");
             _stringBuilder.AppendLine("{");
-            _stringBuilder.AppendLine($"switch(child.Name.LocalName.ToUpperInvariant())");
+            _stringBuilder.AppendLine("switch(child.Name.LocalName.ToUpperInvariant())");
             _stringBuilder.AppendLine("{");
             foreach (var element in xmlType.PossibleChildElements)
             {
@@ -41,7 +41,7 @@ namespace XmlTools.CodeGenerator
                 XmlElementNameCorrectorCodeGenerator.GenerateElementNameCorrector(element, _stringBuilder, "child");
                 var elementCheckMethodName = XmlCodeGeneratorMethodNameProvider.GetNameForElementTypeCheckMethod(element.Type);
                 _stringBuilder.AppendLine($"{elementCheckMethodName}(child);");
-                _stringBuilder.AppendLine($"break;");
+                _stringBuilder.AppendLine("break;");
             }
             _stringBuilder.AppendLine("}");
             _stringBuilder.AppendLine("}");
@@ -53,9 +53,9 @@ namespace XmlTools.CodeGenerator
             {
                 return;
             }
-            _stringBuilder.AppendLine($"foreach (var attribute in element.Attributes().ToList())");
+            _stringBuilder.AppendLine("foreach (var attribute in element.Attributes().ToList())");
             _stringBuilder.AppendLine("{");
-            _stringBuilder.AppendLine($"switch(attribute.Name.LocalName.ToUpperInvariant())");
+            _stringBuilder.AppendLine("switch(attribute.Name.LocalName.ToUpperInvariant())");
             _stringBuilder.AppendLine("{");
             foreach (var attribute in xmlType.Attributes)
             {
@@ -64,7 +64,7 @@ namespace XmlTools.CodeGenerator
                 var elementCheckMethodName = XmlCodeGeneratorMethodNameProvider.GetNameForAttributeCheckMethod(attribute.Type);
                 _stringBuilder.AppendLine($"{elementCheckMethodName}(attribute);");
                 XmlElementNameCorrectorCodeGenerator.GenerateAttributeNameCorrector(attribute, _stringBuilder, "attribute");
-                _stringBuilder.AppendLine($"break;");
+                _stringBuilder.AppendLine("break;");
 
             }
             _stringBuilder.AppendLine("}");

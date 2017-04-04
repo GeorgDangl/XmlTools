@@ -7,8 +7,6 @@ using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
-using XmlToolsTest;
-using Xunit;
 
 // TODO MAKE THEORIES TO TEST THAT SCHEMA CAN BE GENERATED AND PARSER CAN BE CALLED FOR ALL TEST FILES
 
@@ -110,7 +108,7 @@ namespace XmlTools.Tests.CodeGenerator
                 MetadataReference.CreateFromFile(Path.Combine(typeof(object).GetTypeInfo().Assembly.Location, "..", "System.Runtime.dll")),
                 MetadataReference.CreateFromFile(Path.Combine(typeof(object).GetTypeInfo().Assembly.Location, "..", "System.Collections.dll")),
                 MetadataReference.CreateFromFile(typeof(Enumerable).GetTypeInfo().Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(System.Xml.Linq.XElement).GetTypeInfo().Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(XElement).GetTypeInfo().Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(System.CodeDom.Compiler.GeneratedCodeAttribute).GetTypeInfo().Assembly.Location)
             };
             return references;

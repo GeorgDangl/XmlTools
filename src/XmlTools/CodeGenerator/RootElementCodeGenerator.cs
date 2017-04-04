@@ -18,9 +18,9 @@ namespace XmlTools.CodeGenerator
             _stringBuilder.AppendLine("public XDocument CorrectDocument()");
             _stringBuilder.AppendLine("{");
 
-            _stringBuilder.AppendLine($"var rootElement = _document.Root;");
+            _stringBuilder.AppendLine("var rootElement = _document.Root;");
 
-            _stringBuilder.AppendLine($"switch (rootElement.Name.LocalName.ToUpperInvariant())");
+            _stringBuilder.AppendLine("switch (rootElement.Name.LocalName.ToUpperInvariant())");
             _stringBuilder.AppendLine("{");
 
             var rootElements = _schema.RootElements;

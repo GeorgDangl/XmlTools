@@ -29,9 +29,9 @@ namespace XmlTools.CodeGenerator
             {
                 return;
             }
-            _stringBuilder.AppendLine($"foreach (var attribute in element.Attributes().ToList())");
+            _stringBuilder.AppendLine("foreach (var attribute in element.Attributes().ToList())");
             _stringBuilder.AppendLine("{");
-            _stringBuilder.AppendLine($"switch(attribute.Name.LocalName.ToUpperInvariant())");
+            _stringBuilder.AppendLine("switch(attribute.Name.LocalName.ToUpperInvariant())");
             _stringBuilder.AppendLine("{");
             foreach (var attribute in xmlType.Attributes)
             {
@@ -40,7 +40,7 @@ namespace XmlTools.CodeGenerator
                 var elementCheckMethodName = XmlCodeGeneratorMethodNameProvider.GetNameForAttributeCheckMethod(attribute.Type);
                 _stringBuilder.AppendLine($"{elementCheckMethodName}(attribute);");
                 XmlElementNameCorrectorCodeGenerator.GenerateAttributeNameCorrector(attribute, _stringBuilder, "attribute");
-                _stringBuilder.AppendLine($"break;");
+                _stringBuilder.AppendLine("break;");
 
             }
             _stringBuilder.AppendLine("}");

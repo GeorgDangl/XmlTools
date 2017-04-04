@@ -17,7 +17,7 @@ namespace XmlTools.Parser
         private readonly XDocument _document;
         private readonly XNamespace _xmlSchemaNamespace = "http://www.w3.org/2001/XMLSchema";
         private readonly XmlUnknownTypeParser _xmlUnknownTypeParser; 
-        private Dictionary<string, XmlSimpleType> _simpleTypesByTypeName = new Dictionary<string, XmlSimpleType>();
+        private readonly Dictionary<string, XmlSimpleType> _simpleTypesByTypeName = new Dictionary<string, XmlSimpleType>();
 
         public bool CanParseElement(XElement element)
         {

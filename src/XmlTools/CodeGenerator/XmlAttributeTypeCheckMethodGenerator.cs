@@ -36,11 +36,11 @@ namespace XmlTools.CodeGenerator
                 _stringBuilder.AppendLine("{");
                 _stringBuilder.AppendLine($"attribute.Value = \"{allowedValue}\";");
                 _stringBuilder.AppendLine("}");
-                _stringBuilder.AppendLine($"break;");
+                _stringBuilder.AppendLine("break;");
             }
-            _stringBuilder.AppendLine($"default:");
-            _stringBuilder.AppendLine($"attribute.Remove();");
-                _stringBuilder.AppendLine($"break;");
+            _stringBuilder.AppendLine("default:");
+            _stringBuilder.AppendLine("attribute.Remove();");
+                _stringBuilder.AppendLine("break;");
             _stringBuilder.AppendLine("}");
         }
     }

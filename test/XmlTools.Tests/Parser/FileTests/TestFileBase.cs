@@ -9,9 +9,7 @@ namespace XmlTools.Tests.Parser.FileTests
     public abstract class TestFileBase
     {
         protected readonly ParserTestFile _testFile;
-        private XmlSchema _parsedSchema;
-
-        private static ConcurrentDictionary<ParserTestFile, XmlSchema> _knownSchemas = new ConcurrentDictionary<ParserTestFile, XmlSchema>();
+        private static readonly ConcurrentDictionary<ParserTestFile, XmlSchema> _knownSchemas = new ConcurrentDictionary<ParserTestFile, XmlSchema>();
 
         protected XmlSchema ParsedSchema
         {
@@ -27,7 +25,7 @@ namespace XmlTools.Tests.Parser.FileTests
             }
         }
 
-        public TestFileBase(ParserTestFile testFile)
+        protected TestFileBase(ParserTestFile testFile)
         {
             _testFile = testFile;
         }

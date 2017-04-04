@@ -186,7 +186,7 @@ namespace XmlTools.Parser
         {
             var sequenceElements = element.Elements()
                 .Where(e => e.Name == _xmlSchemaNamespace + "sequence")
-                .SelectMany(s => GetChildElementDefinitions(s))
+                .SelectMany(GetChildElementDefinitions)
                 .ToList();
             return sequenceElements;
         }
@@ -195,7 +195,7 @@ namespace XmlTools.Parser
         {
             var choiceElements = element.Elements()
                 .Where(e => e.Name == _xmlSchemaNamespace + "choice")
-                .SelectMany(s => GetChildElementDefinitions(s))
+                .SelectMany(GetChildElementDefinitions)
                 .ToList();
             return choiceElements;
         }
@@ -205,7 +205,7 @@ namespace XmlTools.Parser
             var choiceElements = element.Elements()
                 .Where(e => e.Name == _xmlSchemaNamespace + "complexContent")
                 .SelectMany(e => new[] {e}.Concat(e.Elements().Where(c => c.Name == _xmlSchemaNamespace + "extension")))
-                .SelectMany(s => GetChildElementDefinitions(s))
+                .SelectMany(GetChildElementDefinitions)
                 .ToList();
             return choiceElements;
         }

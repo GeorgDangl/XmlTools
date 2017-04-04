@@ -14,6 +14,7 @@ namespace XmlTools.Tests.Parser.FileTests
             var schemaParser = new XmlSchemaParser(xsdStream);
             Assert.Throws(typeof(InvalidDataException), () =>
             {
+                // ReSharper disable once UnusedVariable
                 var parsedFile = schemaParser.GetSchema();
             });
         }

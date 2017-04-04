@@ -17,7 +17,7 @@ namespace XmlTools.Parser
         private readonly XDocument _document;
         private readonly XNamespace _xmlSchemaNamespace = "http://www.w3.org/2001/XMLSchema";
         private readonly XmlUnknownTypeParser _xmlUnknownTypeParser = new XmlUnknownTypeParser();
-        private Dictionary<string, XmlUnknownType> _foundUnknownTypes = new Dictionary<string, XmlUnknownType>();
+        private readonly Dictionary<string, XmlUnknownType> _foundUnknownTypes = new Dictionary<string, XmlUnknownType>();
 
         public XmlElement ParseElement(XElement element)
         {
@@ -35,7 +35,7 @@ namespace XmlTools.Parser
             if (IsInternallyReferencedElement(element))
             {
                 var referencedElementName = element.Attributes().Single(a => a.Name == "ref").Value;
-                var internalReference = _document.Root.Elements().Single(e => e.Name == _xmlSchemaNamespace + "element" && e.Attributes().Any(a => a.Name == "name" && a.Value == referencedElementName));
+                var internalReference = _document.Root?.Elements().Single(e => e.Name == _xmlSchemaNamespace + "element" && e.Attributes().Any(a => a.Name == "name" && a.Value == referencedElementName));
                 return ParseElement(internalReference);
             }
             var elementName = GetNameForElement(element);
@@ -131,7 +131,7 @@ namespace XmlTools.Parser
             var xmlAttributesParser = new XmlAttributesParser(_document, simpleTypeParser, _xmlUnknownTypeParser);
             var complexTypeParser = new XmlComplexTypeParser(_document, this, xmlAttributesParser);
             XmlTypeParsers.Add(complexTypeParser);
-            var simpleContentComplexTypeParser = new XmlSimpleContentComplexTypeParser(_document, this, xmlAttributesParser);
+            var simpleContentComplexTypeParser = new XmlSimpleContentComplexTypeParser(_document, xmlAttributesParser);
             XmlTypeParsers.Add(simpleContentComplexTypeParser);
         }
     }

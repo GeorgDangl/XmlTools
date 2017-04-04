@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace XmlTools.Tests.CodeGenerator
+﻿namespace XmlTools.Tests.CodeGenerator.FileTests
 {
     public class GAEB_XML_ChildElementCasing : CodeGeneratorTestsBase
     {

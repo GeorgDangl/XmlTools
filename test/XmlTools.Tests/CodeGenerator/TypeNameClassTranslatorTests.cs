@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using XmlTools.CodeGenerator;
 using Xunit;
 
@@ -76,6 +77,7 @@ namespace XmlTools.Tests.CodeGenerator
             AssertCorrectTransformation(typeName, expectedName);
         }
 
+        [SuppressMessage("ReSharper", "UnusedParameter.Local")]
         private void AssertCorrectTransformation(string typeName, string expectedName)
         {
             var xmlType = GetTypeWithName(typeName);

@@ -1,4 +1,4 @@
-namespace XmlTools.Tests.CodeGenerator
+namespace XmlTools.Tests.CodeGenerator.FileTests
 {
     public class SchemaWithComplexTypeWithSimpleContentWithEnumeration_InvalidEnum : CodeGeneratorTestsBase
     {

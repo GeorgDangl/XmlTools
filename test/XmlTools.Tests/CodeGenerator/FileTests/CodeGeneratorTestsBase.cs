@@ -1,7 +1,7 @@
 ﻿using System.Xml.Linq;
 using Xunit;
 
-namespace XmlTools.Tests.CodeGenerator
+namespace XmlTools.Tests.CodeGenerator.FileTests
 {
     public abstract class CodeGeneratorTestsBase
     {

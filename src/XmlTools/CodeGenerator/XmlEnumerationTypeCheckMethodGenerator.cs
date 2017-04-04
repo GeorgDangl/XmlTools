@@ -25,7 +25,7 @@ namespace XmlTools.CodeGenerator
                 throw new System.InvalidOperationException($"This class can only generate check methods for {nameof(XmlEnumerationType)} types");
             }
 
-            _stringBuilder.AppendLine($"switch (element.Value.ToUpperInvariant())");
+            _stringBuilder.AppendLine("switch (element.Value.ToUpperInvariant())");
             _stringBuilder.AppendLine("{");
             GenerateValidtorForEnumerationValues(xmlEnumerationType);
             _stringBuilder.AppendLine("default:");
@@ -41,7 +41,7 @@ namespace XmlTools.CodeGenerator
             {
                 _stringBuilder.AppendLine($"case \"{possibleValue.ToUpperInvariant()}\":");
                 GenerateValueCaseCorrector(possibleValue);
-                _stringBuilder.AppendLine($"break;");
+                _stringBuilder.AppendLine("break;");
             }
         }
 
