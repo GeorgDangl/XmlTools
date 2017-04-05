@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Monsters>
+  <!-- Remove due to invalid enum value -->
+  <Monster Resistance="Fire">Ghost</Monster>
+  <!-- Correct casing -->
+  <Monster Resistance="Poison">orc</Monster>
+  <!-- Remove attribute due to invalid enum value -->
+  <Monster Resistance="Air">Ogre</Monster>
+  <!-- Correct casing in attribute -->
+  <Monster Resistance="ICE">Lich</Monster>
+</Monsters>
+

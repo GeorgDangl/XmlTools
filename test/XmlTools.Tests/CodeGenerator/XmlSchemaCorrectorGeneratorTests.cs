@@ -5,7 +5,7 @@ namespace XmlTools.Tests.CodeGenerator
 {
     public class XmlSchemaCorrectorGeneratorTests
     {
-        [Fact]
+        [Fact(Skip = "Invoke manually")]
         public void WriteCodeGenToDisk()
         {
             const string outputFilePath = @"C:\Users\Georg\Downloads\CodeGenOutput\Generated.cs";

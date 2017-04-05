@@ -24,33 +24,7 @@ namespace XmlTools.CodeGenerator
             {
                 throw new System.InvalidOperationException($"This class can only generate check methods for {nameof(XmlEnumerationType)} types");
             }
-            _stringBuilder.AppendLine($"switch ({CodeGeneratorConstants.ELEMENT_CHECK_METHOD_ELEMENT_VARIABLE_NAME}.Value.ToUpperInvariant())");
-            using (new CodeGeneratorBlockWrapper(_stringBuilder))
-            {
-                GenerateValidatorForEnumerationValues(xmlEnumerationType);
-                _stringBuilder.AppendLine("default:");
-                _stringBuilder.AppendLine($"{CodeGeneratorConstants.ELEMENT_CHECK_METHOD_ELEMENT_VARIABLE_NAME}.Remove();");
-                _stringBuilder.AppendLine("break;");
-            }
-        }
-
-        private void GenerateValidatorForEnumerationValues(XmlEnumerationType xmlEnumerationType)
-        {
-            foreach (var possibleValue in xmlEnumerationType.EnumerationValues.OrderBy(v => v))
-            {
-                _stringBuilder.AppendLine($"case \"{possibleValue.ToUpperInvariant()}\":");
-                GenerateValueCaseCorrector(possibleValue);
-                _stringBuilder.AppendLine("break;");
-            }
-        }
-
-        private void GenerateValueCaseCorrector(string correctValue)
-        {
-            _stringBuilder.AppendLine($"if ({CodeGeneratorConstants.ELEMENT_CHECK_METHOD_ELEMENT_VARIABLE_NAME}.Value != \"{correctValue}\")");
-            using (new CodeGeneratorBlockWrapper(_stringBuilder))
-            {
-                _stringBuilder.AppendLine($"{CodeGeneratorConstants.ELEMENT_CHECK_METHOD_ELEMENT_VARIABLE_NAME}.Value = \"{correctValue}\";");
-            }
+            EnumerationTypeValueCheckGenerator.GenerateEnumerationValueCheckingCode(xmlEnumerationType.EnumerationValues, _stringBuilder, CodeGeneratorConstants.ELEMENT_CHECK_METHOD_ELEMENT_VARIABLE_NAME);
         }
     }
 }

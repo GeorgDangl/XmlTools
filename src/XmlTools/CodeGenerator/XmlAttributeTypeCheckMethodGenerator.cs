@@ -33,23 +33,7 @@ namespace XmlTools.CodeGenerator
 
         private void GenerateEnumerationAttributeCheckMethod(XmlEnumerationType xmlEnumerationType)
         {
-            _stringBuilder.AppendLine($"switch ({ATTRIBUTE_VARIABLE_NAME}.Value.ToUpperInvariant())");
-            using (new CodeGeneratorBlockWrapper(_stringBuilder))
-            {
-                foreach (var allowedValue in xmlEnumerationType.EnumerationValues)
-                {
-                    _stringBuilder.AppendLine($"case \"{allowedValue.ToUpperInvariant()}\":");
-                    _stringBuilder.AppendLine($"if ({ATTRIBUTE_VARIABLE_NAME}.Value != \"{allowedValue}\")");
-                    using (new CodeGeneratorBlockWrapper(_stringBuilder))
-                    {
-                        _stringBuilder.AppendLine($"{ATTRIBUTE_VARIABLE_NAME}.Value = \"{allowedValue}\";");
-                    }
-                    _stringBuilder.AppendLine("break;");
-                }
-                _stringBuilder.AppendLine("default:");
-                _stringBuilder.AppendLine($"{ATTRIBUTE_VARIABLE_NAME}.Remove();");
-                _stringBuilder.AppendLine("break;");
-            }
+            EnumerationTypeValueCheckGenerator.GenerateEnumerationValueCheckingCode(xmlEnumerationType.EnumerationValues, _stringBuilder, ATTRIBUTE_VARIABLE_NAME);
         }
     }
 }

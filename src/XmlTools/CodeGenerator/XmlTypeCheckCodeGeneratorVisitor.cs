@@ -23,6 +23,7 @@ namespace XmlTools.CodeGenerator
             _xmlTypeCheckMethodGenerators.Add(new XmlComplexTypeCheckMethodGenerator(_stringBuilder));
             _xmlTypeCheckMethodGenerators.Add(new XmlEnumerationTypeCheckMethodGenerator(_stringBuilder));
             _xmlTypeCheckMethodGenerators.Add(new XmlSimpleContentComplexTypeCheckMethodGenerator(_stringBuilder));
+            _xmlTypeCheckMethodGenerators.Add(new XmlSimpleContentEnumerationComplexTypeCheckMethodGenerator(_stringBuilder));
         }
 
         public void GenerateTypeCheckingMethod(XmlType xmlType)

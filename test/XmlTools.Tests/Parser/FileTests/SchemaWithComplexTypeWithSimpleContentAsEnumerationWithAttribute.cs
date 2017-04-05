@@ -141,12 +141,5 @@ namespace XmlTools.Tests.Parser.FileTests
             var allExpectedValuesPresent = expectedValues.All(v => actualValues.Any(e => e == v));
             Assert.True(allExpectedValuesPresent);
         }
-
-        [Fact]
-        public void ImplementMe()
-        {
-            // TODO ADD TESTS FOR CODEGENERATOR FOR THIS
-            throw new System.NotImplementedException();
-        }
     }
 }

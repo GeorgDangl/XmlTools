@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Monsters>
+  <Monster Resistance="Fire">Dragon</Monster>
+  <Monster Resistance="Poison">Orc</Monster>
+  <Monster Resistance="Ice">Ogre</Monster>
+  <Monster Resistance="Ice">Lich</Monster>
+</Monsters>
+

@@ -25,6 +25,12 @@ namespace XmlTools.Tests
         SchemaWithComplexTypeWithSimpleContentWithEnumerationAttribute_InvalidEnum = 18,
         SchemaWithComplexTypeWithSimpleContentWithEnumerationAttribute_InvalidEnum_Expected = 19,
         SchemaWithComplexTypeWithSimpleContentWithEnumerationAttribute_EnumElementCasing = 20,
-        SchemaWithComplexTypeWithSimpleContentWithEnumerationAttribute_EnumElementCasing_Expected = 21
+        SchemaWithComplexTypeWithSimpleContentWithEnumerationAttribute_EnumElementCasing_Expected = 21,
+        SchemaWithComplexTypeWithSimpleContentAsEnumerationWithAttribute_EnumCasing = 22,
+        SchemaWithComplexTypeWithSimpleContentAsEnumerationWithAttribute_EnumCasing_Expected = 23,
+        SchemaWithComplexTypeWithSimpleContentAsEnumerationWithAttribute_InvalidEnum = 24,
+        SchemaWithComplexTypeWithSimpleContentAsEnumerationWithAttribute_InvalidEnum_Expected = 25,
+        SchemaWithComplexTypeWithSimpleContentAsEnumerationWithAttribute_MultipleIssues = 26,
+        SchemaWithComplexTypeWithSimpleContentAsEnumerationWithAttribute_MultipleIssues_Expected = 27
     }
 }
