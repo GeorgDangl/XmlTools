@@ -5,7 +5,15 @@
     "XmlTools": "*",
     "xunit": "2.2.0",
     "dotnet-test-xunit": "2.2.0-preview2-build1029",
-    "Microsoft.CodeAnalysis.CSharp": "2.0.0" 
+    "Microsoft.CodeAnalysis.CSharp": "2.0.0",
+    "OpenCover": {
+      "version": "4.6.519",
+      "type": "build"
+    },
+    "OpenCoverToCoberturaConverter": {
+      "version": "0.2.6",
+      "type": "build"
+    }
   },
   "buildOptions": {
     "embed": {
