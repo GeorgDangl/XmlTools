@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="Monsters">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Monster" type="MonsterType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:complexType name="MonsterType">
+    <xsd:simpleContent>
+      <xsd:extension base="MonsterClass">
+        <xsd:attribute name="Resistance" type="DamageType" />
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="MonsterClass">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Dragon" />
+      <xsd:enumeration value="Orc" />
+      <xsd:enumeration value="Ogre" />
+      <xsd:enumeration value="Lich" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="DamageType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Fire" />
+      <xsd:enumeration value="Ice" />
+      <xsd:enumeration value="Poison" />
+      <xsd:enumeration value="Energy" />
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>

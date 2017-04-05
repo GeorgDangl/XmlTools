@@ -111,12 +111,13 @@ namespace XmlTools.Parser
 
         private void SetUpXmlTypeParsers()
         {
-            var simpleTypeParser = new XmlSimpleTypeParser(_document, _xmlUnknownTypeParser);
+            var enumerationRestrictionParser = new EnumerationRestrictionParser(_document);
+            var simpleTypeParser = new XmlSimpleTypeParser(_document, _xmlUnknownTypeParser, enumerationRestrictionParser);
             XmlTypeParsers.Add(simpleTypeParser);
             var xmlAttributesParser = new XmlAttributesParser(_document, simpleTypeParser, _xmlUnknownTypeParser);
             var complexTypeParser = new XmlComplexTypeParser(_document, this, xmlAttributesParser);
             XmlTypeParsers.Add(complexTypeParser);
-            var simpleContentComplexTypeParser = new XmlSimpleContentComplexTypeParser(_document, xmlAttributesParser);
+            var simpleContentComplexTypeParser = new XmlSimpleContentComplexTypeParser(_document, xmlAttributesParser, enumerationRestrictionParser);
             XmlTypeParsers.Add(simpleContentComplexTypeParser);
         }
     }

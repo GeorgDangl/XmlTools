@@ -8,14 +8,16 @@ namespace XmlTools.Parser
 {
     public class XmlSimpleContentComplexTypeParser : IXmlTypeParser
     {
-        public XmlSimpleContentComplexTypeParser(XDocument document, XmlAttributesParser xmlAttributesParser)
+        public XmlSimpleContentComplexTypeParser(XDocument document, XmlAttributesParser xmlAttributesParser, EnumerationRestrictionParser enumerationRestrictionParser)
         {
             _document = document;
             _xmlAttributesParser = xmlAttributesParser;
+            _enumerationRestrictionParser = enumerationRestrictionParser;
         }
 
         private readonly XDocument _document;
         private readonly XmlAttributesParser _xmlAttributesParser;
+        private readonly EnumerationRestrictionParser _enumerationRestrictionParser;
         private readonly Dictionary<string, XmlType> _parsedTypes = new Dictionary<string, XmlType>();
         private readonly XNamespace _xmlSchemaNamespace = "http://www.w3.org/2001/XMLSchema";
 
@@ -75,7 +77,22 @@ namespace XmlTools.Parser
             var typeDefinitionElement = GetComplexTypeDefinitionElement(element);
             CheckAndThrowExceptionIfTypeContainsElementReferences(typeDefinitionElement);
             var typeName = typeDefinitionElement.Attributes().FirstOrDefault(a => a.Name == "name")?.Value;
-            var result = new XmlSimpleContentComplexType();
+
+            XmlSimpleContentComplexType result;
+
+            var isEnumElement = _enumerationRestrictionParser.IsEnumerationType(typeDefinitionElement);
+            if (isEnumElement)
+            {
+                result = new XmlSimpleContentEnumerationComplexType
+                {
+                    EnumerationValues = _enumerationRestrictionParser.GetEnumerationValues(typeDefinitionElement)
+                };
+            }
+            else
+            {
+                result = new XmlSimpleContentComplexType();
+            }
+
             if (string.IsNullOrWhiteSpace(typeName))
             {
                 typeName = "InlineSimpleContentComplexType_" + Guid.NewGuid();
