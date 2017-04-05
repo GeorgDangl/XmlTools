@@ -12,7 +12,7 @@ $latestCoberturaConverter = Join-Path -Path (Get-ChildItem -Path $nugetCobertura
 foreach ($testProject in $testProjects){
     foreach ($testFramework in $testFrameworks){
         # Arguments for running dotnet
-        $dotnetArguments = "test", "`"`"$PSScriptRoot\test\$testProject`"`"", "-xml results_$testRuns.testresults"
+        $dotnetArguments = "test", "-f $testFramework", "`"`"$PSScriptRoot\test\$testProject`"`"", "-xml results_$testRuns.testresults"
 
         "Running tests with OpenCover"
         & $latestOpenCover `
