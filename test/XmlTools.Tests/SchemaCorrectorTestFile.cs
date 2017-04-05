@@ -22,9 +22,9 @@ namespace XmlTools.Tests
         SchemaWithEnumerationAttribute_InvalidAttribute_Expected = 15,
         GAEB_XML_MultipleIssues = 16,
         GAEB_XML_MultipleIssues_Expected = 17,
-        SchemaWithComplexTypeWithSimpleContentWithEnumeration_InvalidEnum = 18,
-        SchemaWithComplexTypeWithSimpleContentWithEnumeration_InvalidEnum_Expected = 19,
-        SchemaWithComplexTypeWithSimpleContentWithEnumeration_EnumElementCasing = 20,
-        SchemaWithComplexTypeWithSimpleContentWithEnumeration_EnumElementCasing_Expected = 21
+        SchemaWithComplexTypeWithSimpleContentWithEnumerationAttribute_InvalidEnum = 18,
+        SchemaWithComplexTypeWithSimpleContentWithEnumerationAttribute_InvalidEnum_Expected = 19,
+        SchemaWithComplexTypeWithSimpleContentWithEnumerationAttribute_EnumElementCasing = 20,
+        SchemaWithComplexTypeWithSimpleContentWithEnumerationAttribute_EnumElementCasing_Expected = 21
     }
 }

@@ -3,9 +3,9 @@ using Xunit;
 
 namespace XmlTools.Tests.Parser.FileTests
 {
-    public class SchemaWithComplexTypeWithSimpleContentWithEnumeration : TestFileBase
+    public class SchemaWithComplexTypeWithSimpleContentWithEnumerationAttributeAsExtension : TestFileBase
     {
-        public SchemaWithComplexTypeWithSimpleContentWithEnumeration() : base(ParserTestFile.SchemaWithComplexTypeWithSimpleContentWithEnumeration)
+        public SchemaWithComplexTypeWithSimpleContentWithEnumerationAttributeAsExtension() : base(ParserTestFile.SchemaWithComplexTypeWithSimpleContentWithEnumerationAttributeAsExtension)
         {
         }
 
@@ -90,7 +90,7 @@ namespace XmlTools.Tests.Parser.FileTests
         {
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlSimpleContentComplexType;
             var attributeType = rootElementType.Attributes[1].Type;
-            Assert.StartsWith("InlineSimpleType_", attributeType.Name);
+            Assert.StartsWith("HashAlgorithm", attributeType.Name);
         }
 
         [Fact]
