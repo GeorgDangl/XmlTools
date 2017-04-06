@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Xunit;
 
 namespace XmlTools.Tests
@@ -51,7 +52,7 @@ namespace XmlTools.Tests
         public void ThrowsExceptionForInvalidParserEnum()
         {
             var invalidEnumIntegerValue = 0;
-            var invalidEnum = (ParserTestFile)invalidEnumIntegerValue;
+            var invalidEnum = (ParserTestFile) invalidEnumIntegerValue;
             var enumIsValid = Enum.IsDefined(typeof(ParserTestFile), invalidEnumIntegerValue);
             Assert.False(enumIsValid);
             Assert.Throws(typeof(FileNotFoundException), () =>
@@ -64,7 +65,7 @@ namespace XmlTools.Tests
         public void ThrowsExceptionForInvalidSchemaCorrectorEnum()
         {
             var invalidEnumIntegerValue = 0;
-            var invalidEnum = (SchemaCorrectorTestFile)invalidEnumIntegerValue;
+            var invalidEnum = (SchemaCorrectorTestFile) invalidEnumIntegerValue;
             var enumIsValid = Enum.IsDefined(typeof(SchemaCorrectorTestFile), invalidEnumIntegerValue);
             Assert.False(enumIsValid);
             Assert.Throws(typeof(FileNotFoundException), () =>
@@ -76,23 +77,47 @@ namespace XmlTools.Tests
         [Fact]
         public void ReturnsCorrectStreamForValidEnum_1()
         {
+            // Can not use hard coded length comparisons here since git
+            // might normalize line endings and therefore the file is
+            // not binary compatible
             var fileEnum = ParserTestFile.GAEB_XML_3_1_Schema;
-            using (var fileStream = TestFilesFactory.GetStreamForTestFile(fileEnum))
+            var resourceName = "XmlTools.Tests.Testfiles.Parser.GAEB_XML_3_1_Schema.xsd";
+            using (var testFilesFactoryStream = TestFilesFactory.GetStreamForTestFile(fileEnum))
             {
-                Assert.NotNull(fileStream);
-                Assert.Equal(135572, fileStream.Length);
+                Assert.NotNull(testFilesFactoryStream);
+                using (var resourceStream = GetResourceStream(resourceName))
+                {
+                    var actualLength = testFilesFactoryStream.Length;
+                    var expectedLength = resourceStream.Length;
+                    Assert.Equal(expectedLength, actualLength);
+                }
             }
         }
 
         [Fact]
         public void ReturnsCorrectStreamForValidEnum_2()
         {
+            // Can not use hard coded length comparisons here since git
+            // might normalize line endings and therefore the file is
+            // not binary compatible
             var fileEnum = ParserTestFile.GreenBuildingXML_Ver6_01;
-            using (var fileStream = TestFilesFactory.GetStreamForTestFile(fileEnum))
+            var resourceName = "XmlTools.Tests.Testfiles.Parser.GreenBuildingXML_Ver6_01.xsd";
+            using (var testFilesFactoryStream = TestFilesFactory.GetStreamForTestFile(fileEnum))
             {
-                Assert.NotNull(fileStream);
-                Assert.Equal(320910, fileStream.Length);
+                Assert.NotNull(testFilesFactoryStream);
+                using (var resourceStream = GetResourceStream(resourceName))
+                {
+                    var actualLength = testFilesFactoryStream.Length;
+                    var expectedLength = resourceStream.Length;
+                    Assert.Equal(expectedLength, actualLength);
+                }
             }
+        }
+
+        private Stream GetResourceStream(string resourceName)
+        {
+            var assembly = typeof(TestFilesFactoryTests).GetTypeInfo().Assembly;
+            return assembly.GetManifestResourceStream(resourceName);
         }
     }
 }
