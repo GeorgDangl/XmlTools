@@ -1,5 +1,7 @@
 ﻿{
-  "version": "1.0.0-*",
+  "version": "1.0.0",
+  "authors": [ "Georg Dangl" ],
+  "copyright": "Copyright 2017 Georg Dangl",
   "buildOptions": {
     "emitEntryPoint": true
   },
@@ -9,7 +11,8 @@
       "type": "platform",
       "version": "1.0.1"
     },
-    "XmlTools": "*"
+    "XmlTools": "*",
+    "CommandLineParser": "2.1.1-beta"
   },
 
   "frameworks": {
