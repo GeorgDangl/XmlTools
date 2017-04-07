@@ -10,7 +10,7 @@ namespace XmlTools.Tests.Parser.FileTests
         public void ThrowsExceptionDueToInvalidSchema()
         {
             // A simpleContent element may not have elements defined within itself
-            var xsdStream = TestFilesFactory.GetStreamForTestFile(ParserTestFile.SchemaWithComplexTypeWithSimpleContentButAlsoElementDefinition);
+            var xsdStream = TestFilesFactory.GetStreamForTestFile(InvalidParserTestFile.SchemaWithComplexTypeWithSimpleContentButAlsoElementDefinition);
             var schemaParser = new XmlSchemaParser(xsdStream);
             Assert.Throws(typeof(InvalidDataException), () =>
             {

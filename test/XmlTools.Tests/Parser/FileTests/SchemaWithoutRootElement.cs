@@ -9,7 +9,7 @@ namespace XmlTools.Tests.Parser.FileTests
         [Fact]
         public void InvalidDataExceptionWhenNoRootElementDefinedInSchema()
         {
-            using (var stream = TestFilesFactory.GetStreamForTestFile(ParserTestFile.SchemaWithoutRootElement))
+            using (var stream = TestFilesFactory.GetStreamForTestFile(InvalidParserTestFile.SchemaWithoutRootElement))
             {
                 Assert.Throws(typeof(InvalidDataException), () =>
                 {

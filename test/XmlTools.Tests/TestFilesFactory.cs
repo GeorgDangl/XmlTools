@@ -11,6 +11,11 @@ namespace XmlTools.Tests
             return GetStreamForTestFile("Parser", file.ToString());
         }
 
+        public static Stream GetStreamForTestFile(InvalidParserTestFile file)
+        {
+            return GetStreamForTestFile("Parser", file.ToString());
+        }
+
         public static Stream GetStreamForTestFile(SchemaCorrectorTestFile file)
         {
             return GetStreamForTestFile("SchemaCorrector", file.ToString());

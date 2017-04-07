@@ -10,21 +10,28 @@ namespace XmlTools.Tests
         MinimumValidSchemaFile = 3,
         SchemaWithComplexType = 4,
         SchemaWithComplexTypeWithSimpleContent = 5,
-        SchemaWithComplexTypeWithSimpleContentButAlsoElementDefinition = 6,
-        SchemaWithComplexTypeWithSimpleContentWithEnumerationAttribute = 7,
-        SchemaWithComplexTypeWithSimpleContentWithEnumerationAttributeAsExtension = 8,
-        SchemaWithEnumerationAttribute = 9,
-        SchemaWithEnumerationType = 10,
-        SchemaWithEnumerationTypeNestedInComplexType = 11,
-        SchemaWithExtendedComplexType = 12,
-        SchemaWithExtendedComplexTypeWithSimpleContent = 13,
-        SchemaWithExtendedEnumerationType = 14,
-        SchemaWithInlineComplexType = 15,
-        SchemaWithInlineSimpleType = 16,
-        SchemaWithoutRootElement = 17,
-        SchemaWithRestrictionButNotEnumerationType = 18,
-        SchemaWithTwoPossibleRootElements = 19,
-        SchemaWithUnknownSimpleType = 20,
-        SchemaWithComplexTypeWithSimpleContentAsEnumerationWithAttribute = 21
+        SchemaWithComplexTypeWithSimpleContentWithEnumerationAttribute = 6,
+        SchemaWithComplexTypeWithSimpleContentWithEnumerationAttributeAsExtension = 7,
+        SchemaWithEnumerationAttribute = 8,
+        SchemaWithEnumerationType = 9,
+        SchemaWithEnumerationTypeNestedInComplexType = 10,
+        SchemaWithExtendedComplexType = 11,
+        SchemaWithExtendedComplexTypeWithSimpleContent = 12,
+        SchemaWithExtendedEnumerationType = 13,
+        SchemaWithInlineComplexType = 14,
+        SchemaWithInlineSimpleType = 15,
+        SchemaWithRestrictionButNotEnumerationType = 16,
+        SchemaWithTwoPossibleRootElements = 17,
+        SchemaWithUnknownSimpleType = 18,
+        SchemaWithComplexTypeWithSimpleContentAsEnumerationWithAttribute = 19
+    }
+
+    /// <summary>
+    /// These are not valid Xml schema files and should throw an exception during parsing
+    /// </summary>
+    public enum InvalidParserTestFile
+    {
+        SchemaWithComplexTypeWithSimpleContentButAlsoElementDefinition = 1,
+        SchemaWithoutRootElement = 2
     }
 }

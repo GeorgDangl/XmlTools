@@ -8,8 +8,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 
-// TODO MAKE THEORIES TO TEST THAT SCHEMA CAN BE GENERATED AND PARSER CAN BE CALLED FOR ALL TEST FILES
-
 namespace XmlTools.Tests.CodeGenerator
 {
     public static class SchemaCorrectorHelper
@@ -35,9 +33,6 @@ namespace XmlTools.Tests.CodeGenerator
 
         public static XDocument CorrectXmlInstanceForSchema(ParserTestFile schema, XDocument xmlInstance)
         {
-            //var wow = new SchemaCorrector(xmlInstance);
-            //return wow.CorrectDocument();
-
             var compilation = GetCompilationForSchema(schema);
             var assembly = CompileLoadAndGetAssembly(compilation);
             var codeCorrectorType = assembly.GetType($"{GENERATED_CODE_NAMESPACE}.{CODE_GENERATOR_CLASSNAME}");

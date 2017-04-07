@@ -10,13 +10,21 @@ namespace XmlTools.Tests
     public class TestFilesFactoryTests
     {
         public static IEnumerable<object[]> AllValidParserEnums => (Enum.GetValues(typeof(ParserTestFile))).Cast<ParserTestFile>().Select(e => new object[] {e});
+        public static IEnumerable<object[]> AllInvalidParserEnums => (Enum.GetValues(typeof(InvalidParserTestFile))).Cast<InvalidParserTestFile>().Select(e => new object[] {e});
         public static IEnumerable<object[]> AllValidSchemaCorrectorEnums => (Enum.GetValues(typeof(SchemaCorrectorTestFile))).Cast<SchemaCorrectorTestFile>().Select(e => new object[] {e});
 
         [Fact]
         public void FindsAllValidParserTestFiles()
         {
-            var expectedCountOfEnums = 21;
+            var expectedCountOfEnums = 19;
             Assert.Equal(expectedCountOfEnums, AllValidParserEnums.Count());
+        }
+
+        [Fact]
+        public void FindsAllInvalidParserTestFiles()
+        {
+            var expectedCountOfEnums = 2;
+            Assert.Equal(expectedCountOfEnums, AllInvalidParserEnums.Count());
         }
 
         [Fact]
