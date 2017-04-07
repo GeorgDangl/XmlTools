@@ -1,5 +1,6 @@
 ﻿{
   "version": "0.1.0",
+  "authors": [ "Georg Dangl" ],
   "frameworks": {
     "netstandard1.3": {
       "imports": "dnxcore50",
@@ -16,6 +17,14 @@
     }
   },
   "packOptions": {
+    "projectUrl": "https://github.com/GeorgDangl/XmlTools",
+    "repository": {
+      "url": "https://github.com/GeorgDangl/XmlTools"
+    },
+    "licenseUrl": "https://github.com/GeorgDangl/XmlTools/blob/master/LICENCE.md",
+    "iconUrl": "https://blog.dangl.me/media/1114/gd_icon_256.png",
+    "owners": [ "Georg Dangl" ],
+    "tags": [ "Xml Schema", "XSD", "Xml Validation" ],
     "files": {
       "mappings": {
         "Tool/netcoreapp1.0/": {
