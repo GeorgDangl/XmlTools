@@ -26,6 +26,7 @@ namespace XmlTools.CodeGenerator
                 return _result;
             }
             GenerateUsings();
+            GeneratePragmaWarningDisablers();
             GenerateClassInNamespace();
             return _result = CodeFormatter.IndentCode(_stringBuilder.ToString());
         }
@@ -43,6 +44,11 @@ namespace XmlTools.CodeGenerator
                 _stringBuilder.AppendLine($"using {usingStatement};");
             }
             _stringBuilder.AppendLine();
+        }
+
+        private void GeneratePragmaWarningDisablers()
+        {
+            _stringBuilder.AppendLine("#pragma warning disable 1591");
         }
 
         private void GenerateClassInNamespace()
