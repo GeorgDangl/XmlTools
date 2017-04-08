@@ -58,7 +58,22 @@ namespace XmlTools.Parser
                 .Where(e => e.Name == _xmlSchemaNamespace + "enumeration")
                 .Select(e => e.Attributes().Single(a => a.Name == "value").Value) ?? new List<string>();
             var baseTypeEnumerationValues = GetEnumerationValuesOfBaseTypes(element);
-            return enumerationValues.Concat(baseTypeEnumerationValues).ToList();
+            var allEnumerationValues = enumerationValues.Concat(baseTypeEnumerationValues);
+            var valuesWithoutDuplicates = RemoveDuplicateValues(allEnumerationValues);
+            return valuesWithoutDuplicates;
+        }
+
+        private List<string> RemoveDuplicateValues(IEnumerable<string> values)
+        {
+            var newValues = new List<string>();
+            foreach (var value in values)
+            {
+                if (!newValues.Contains(value))
+                {
+                    newValues.Add(value);
+                }
+            }
+            return newValues;
         }
 
         private bool HasRestrictionBaseTypeAsEnumerationType(XElement element)

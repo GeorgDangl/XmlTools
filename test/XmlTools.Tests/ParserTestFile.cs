@@ -23,7 +23,8 @@ namespace XmlTools.Tests
         SchemaWithRestrictionButNotEnumerationType = 16,
         SchemaWithTwoPossibleRootElements = 17,
         SchemaWithUnknownSimpleType = 18,
-        SchemaWithComplexTypeWithSimpleContentAsEnumerationWithAttribute = 19
+        SchemaWithComplexTypeWithSimpleContentAsEnumerationWithAttribute = 19,
+        SchemaWithExtendedEnumerationTypeWithDuplicates = 20
     }
 
     /// <summary>
