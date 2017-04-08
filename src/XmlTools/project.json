@@ -1,5 +1,5 @@
 ﻿{
-  "version": "0.1.0",
+  "version": "0.1.1",
   "authors": [ "Georg Dangl" ],
   "copyright": "Copyright 2017 Georg Dangl",
   "title": "XmlTools",
@@ -19,6 +19,7 @@
     }
   },
   "packOptions": {
+    "releaseNotes": "0.1.1: Filter out duplicates in enumeration values and disable warnings for missing Xml comments in generated classes",
     "projectUrl": "https://github.com/GeorgDangl/XmlTools",
     "repository": {
       "url": "https://github.com/GeorgDangl/XmlTools"
