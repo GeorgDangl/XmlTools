@@ -27,7 +27,7 @@ if ($oldResults) {
 foreach ($testProject in $testProjects){
 	cd "$PSScriptRoot\test\$testProject"
     # Arguments for running dotnet
-    $dotnetArguments = "xunit", "-nobuild", "-xml $PSScriptRoot\results_$testRuns.testresults"
+    $dotnetArguments = "xunit", "-nobuild", "-xml \""$PSScriptRoot\results_$testRuns.testresults\"""
 
     "Running tests with OpenCover"
     & $latestOpenCover `
