@@ -31,7 +31,7 @@ With the package available in the local NuGet cache, you need to create two file
 param([string]$inputPath, [string]$outputPath, [string]$namespace)
 # Find the latest version of the XmlTools.Console app
 $xmlToolPackages = Join-Path -Path $env:USERPROFILE -ChildPath "\.nuget\packages\XmlTools"
-$latestXmlToolConsoleApp = Join-Path -Path ((Get-ChildItem -Path $xmlToolPackages | Sort-Object Fullname -Descending)[0].FullName) -ChildPath "Tool\net46\XmlTools.Console.exe"
+$latestXmlToolConsoleApp = Join-Path -Path ((Get-ChildItem -Path $xmlToolPackages | Sort-Object Fullname -Descending)[0].FullName) -ChildPath "lib\net46\XmlTools.Console.exe"
 # Call the tool to make the conversion
 & $latestXmlToolConsoleApp -i $inputPath -o $outputPath -n $namespace
 ```
