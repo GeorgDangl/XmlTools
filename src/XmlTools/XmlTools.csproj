@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Copyright>Copyright 2017 Georg Dangl</Copyright>
+    <AssemblyTitle>XmlTools</AssemblyTitle>
+    <VersionPrefix>0.1.1</VersionPrefix>
+    <Authors>Georg Dangl</Authors>
+    <TargetFrameworks>netstandard1.3;net46</TargetFrameworks>
+    <AssemblyName>XmlTools</AssemblyName>
+    <PackageId>XmlTools</PackageId>
+    <PackageTags>Xml;Schema;XSD;Validation</PackageTags>
+    <PackageReleaseNotes>0.1.1: Filter out duplicates in enumeration values and disable warnings for missing Xml comments in generated classes</PackageReleaseNotes>
+    <PackageIconUrl>https://blog.dangl.me/media/1114/gd_icon_256.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/GeorgDangl/XmlTools</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/GeorgDangl/XmlTools/blob/master/LICENCE.md</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/GeorgDangl/XmlTools</RepositoryUrl>
+    <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.3' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
+    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.3' ">1.6.0</NetStandardImplicitPackageVersion>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="..\XmlTools.Console\bin\Release\net46\win7-x64">
+      <PackagePath>Tool/net46/</PackagePath>
+      <Pack>true</Pack>
+    </None>
+    <None Update="..\XmlTools.Console\bin\Release\netcoreapp1.0">
+      <PackagePath>Tool/netcoreapp1.0/</PackagePath>
+      <Pack>true</Pack>
+    </None>
+    <None Update="..\XmlTools.Console\bin\Release\net46\win7-x64\*.pdb">
+      <Link>Tool/net46/%(FileName)%(Extension)</Link>
+      <Pack>false</Pack>
+    </None>
+    <None Update="..\XmlTools.Console\bin\Release\netcoreapp1.0\*.pdb">
+      <Link>Tool/netcoreapp1.0/%(FileName)%(Extension)</Link>
+      <Pack>false</Pack>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
+    <PackageReference Include="System.Xml.XDocument" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+</Project>
