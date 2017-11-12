@@ -3,6 +3,8 @@
 [![Build Status](https://jenkins.dangl.me/buildStatus/icon?job=XmlTools.Tests)](https://jenkins.dangl.me/job/XmlTools.Tests)
 [![NuGet](https://img.shields.io/nuget/v/XmlTools.svg)](https://www.nuget.org/packages/XmlTools)
 
+[Online Documentation](https://docs.dangl-it.com/Projects/XmlTools)
+
 This packages purpose is to correct invalid Xml files where enumeration restrictions
 are violated. It's intended to make working with code generated from Xml schemas easier.
 
