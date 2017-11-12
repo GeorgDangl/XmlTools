@@ -3,15 +3,18 @@
   <PropertyGroup>
     <Copyright>Copyright 2017 Georg Dangl</Copyright>
     <Authors>Georg Dangl</Authors>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <TargetFrameworks>netcoreapp1.0;net46</TargetFrameworks>
     <AssemblyName>XmlTools.Console</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>XmlTools.Console</PackageId>
-    <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
-    <RuntimeFrameworkVersion Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">1.0.4</RuntimeFrameworkVersion>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <PackageIconUrl>https://blog.dangl.me/media/1114/gd_icon_256.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/GeorgDangl/XmlTools</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/GeorgDangl/XmlTools/blob/master/LICENCE.md</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/GeorgDangl/XmlTools</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
