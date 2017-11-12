@@ -63,7 +63,7 @@ namespace XmlTools.Tests
             var invalidEnum = (ParserTestFile) invalidEnumIntegerValue;
             var enumIsValid = Enum.IsDefined(typeof(ParserTestFile), invalidEnumIntegerValue);
             Assert.False(enumIsValid);
-            Assert.Throws(typeof(FileNotFoundException), () =>
+            Assert.Throws<FileNotFoundException>(() =>
             {
                 TestFilesFactory.GetStreamForTestFile(invalidEnum);
             });
@@ -76,7 +76,7 @@ namespace XmlTools.Tests
             var invalidEnum = (SchemaCorrectorTestFile) invalidEnumIntegerValue;
             var enumIsValid = Enum.IsDefined(typeof(SchemaCorrectorTestFile), invalidEnumIntegerValue);
             Assert.False(enumIsValid);
-            Assert.Throws(typeof(FileNotFoundException), () =>
+            Assert.Throws<FileNotFoundException>(() =>
             {
                 TestFilesFactory.GetStreamForTestFile(invalidEnum);
             });

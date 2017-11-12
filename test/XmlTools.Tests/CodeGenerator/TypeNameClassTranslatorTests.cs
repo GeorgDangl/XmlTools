@@ -18,7 +18,7 @@ namespace XmlTools.Tests.CodeGenerator
         [Fact]
         public void ArgumentNullExceptionOnNullInput()
         {
-            Assert.Throws(typeof(ArgumentNullException), () =>
+            Assert.Throws<ArgumentNullException>(() =>
             {
                 TypeNameClassTranslator.GetFriendlyTypeName(null);
             });
@@ -28,7 +28,7 @@ namespace XmlTools.Tests.CodeGenerator
         public void ArgumentNullExceptionOnEmptyName()
         {
             var xmlType = GetTypeWithName(string.Empty);
-            Assert.Throws(typeof(ArgumentNullException), () =>
+            Assert.Throws<ArgumentNullException>(() =>
             {
                 TypeNameClassTranslator.GetFriendlyTypeName(xmlType);
             });
@@ -38,7 +38,7 @@ namespace XmlTools.Tests.CodeGenerator
         public void ArgumentNullExceptionOnNullName()
         {
             var xmlType = GetTypeWithName(null);
-            Assert.Throws(typeof(ArgumentNullException), () =>
+            Assert.Throws<ArgumentNullException>(() =>
             {
                 TypeNameClassTranslator.GetFriendlyTypeName(xmlType);
             });

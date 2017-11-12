@@ -12,7 +12,7 @@ namespace XmlTools.Tests.Parser.FileTests
             // A simpleContent element may not have elements defined within itself
             var xsdStream = TestFilesFactory.GetStreamForTestFile(InvalidParserTestFile.SchemaWithComplexTypeWithSimpleContentButAlsoElementDefinition);
             var schemaParser = new XmlSchemaParser(xsdStream);
-            Assert.Throws(typeof(InvalidDataException), () =>
+            Assert.Throws<InvalidDataException>(() =>
             {
                 // ReSharper disable once UnusedVariable
                 var parsedFile = schemaParser.GetSchema();

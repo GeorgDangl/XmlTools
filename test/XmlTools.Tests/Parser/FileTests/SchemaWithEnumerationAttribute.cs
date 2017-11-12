@@ -10,7 +10,7 @@ namespace XmlTools.Tests.Parser.FileTests
         [Fact]
         public void HasOnlySingleRootElement()
         {
-            Assert.Equal(1, ParsedSchema.RootElements.Count);
+            Assert.Single(ParsedSchema.RootElements);
         }
 
         [Fact]
@@ -49,14 +49,14 @@ namespace XmlTools.Tests.Parser.FileTests
         public void RootElementTypeType()
         {
             var rootElementType = ParsedSchema.RootElements.First().Type;
-            Assert.IsType(typeof(XmlComplexType), rootElementType);
+            Assert.IsType<XmlComplexType>(rootElementType);
         }
 
         [Fact]
         public void RootElementTypeAttributesCount()
         {
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlComplexType;
-            Assert.Equal(1, rootElementType.Attributes.Count);
+            Assert.Single(rootElementType.Attributes);
         }
 
         [Fact]
@@ -80,7 +80,7 @@ namespace XmlTools.Tests.Parser.FileTests
         {
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlComplexType;
             var attributeType = rootElementType.Attributes.First().Type;
-            Assert.IsType(typeof(XmlEnumerationType), attributeType);
+            Assert.IsType<XmlEnumerationType>(attributeType);
         }
 
         [Fact]
@@ -127,8 +127,8 @@ namespace XmlTools.Tests.Parser.FileTests
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlComplexType;
             var emailChildElementType = rootElementType.PossibleChildElements.First(c => c.Name == "Email").Type;
             var nameChildElementType = rootElementType.PossibleChildElements.First(c => c.Name == "Name").Type;
-            Assert.IsType(typeof(XmlUnknownType), emailChildElementType);
-            Assert.IsType(typeof(XmlUnknownType), nameChildElementType);
+            Assert.IsType<XmlUnknownType>(emailChildElementType);
+            Assert.IsType<XmlUnknownType>(nameChildElementType);
         }
     }
 }

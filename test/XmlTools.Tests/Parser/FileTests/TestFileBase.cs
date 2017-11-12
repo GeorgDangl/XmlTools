@@ -60,7 +60,7 @@ namespace XmlTools.Tests.Parser.FileTests
             foreach (var usedType in usedTypes)
             {
                 var typesWithThisName = usedTypes.Where(t => t.Name == usedType.Name).ToList();
-                Assert.Equal(1, typesWithThisName.Count);
+                Assert.Single(typesWithThisName);
             }
         }
 

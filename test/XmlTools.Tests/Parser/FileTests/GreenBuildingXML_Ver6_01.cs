@@ -50,7 +50,7 @@ namespace XmlTools.Tests.Parser.FileTests
         public void RootElementTypeType()
         {
             var rootElementType = ParsedSchema.RootElements.First(e => e.Name == "gbXML").Type;
-            Assert.IsType(typeof(XmlComplexType), rootElementType);
+            Assert.IsType<XmlComplexType>(rootElementType);
         }
 
         [Fact]
@@ -86,7 +86,7 @@ namespace XmlTools.Tests.Parser.FileTests
         {
             var rootElementType = ParsedSchema.RootElements.First(e => e.Name == "gbXML").Type as XmlComplexType;
             var enumAttribute = rootElementType.Attributes.First(a => a.Name == "engine");
-            Assert.IsType(typeof(XmlEnumerationType), enumAttribute.Type);
+            Assert.IsType<XmlEnumerationType>(enumAttribute.Type);
             var allowedValues = (enumAttribute.Type as XmlEnumerationType).EnumerationValues;
             var expectedValues = new[] { "DOE2.1e", "DOE2.2", "EnergyPlus" };
             Assert.Equal(expectedValues.Length, allowedValues.Count);

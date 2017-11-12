@@ -10,7 +10,7 @@ namespace XmlTools.Tests.Parser.FileTests
         [Fact]
         public void HasOnlySingleRootElement()
         {
-            Assert.Equal(1, ParsedSchema.RootElements.Count);
+            Assert.Single(ParsedSchema.RootElements);
         }
 
         [Fact]
@@ -40,7 +40,7 @@ namespace XmlTools.Tests.Parser.FileTests
         public void RootElementTypeType()
         {
             var rootElementType = ParsedSchema.RootElements[0].Type;
-            Assert.IsType(typeof(XmlComplexType), rootElementType);
+            Assert.IsType<XmlComplexType>(rootElementType);
         }
 
         [Fact]
@@ -62,7 +62,7 @@ namespace XmlTools.Tests.Parser.FileTests
         public void RootElementTypeAttributesCount()
         {
             var rootElementType = ParsedSchema.RootElements[0].Type as XmlComplexType;
-            Assert.Equal(1, rootElementType.Attributes.Count);
+            Assert.Single(rootElementType.Attributes);
         }
 
         [Fact]
@@ -115,42 +115,42 @@ namespace XmlTools.Tests.Parser.FileTests
         public void RootElementTypePropertyType1()
         {
             var rootElementTypePropertyType = (ParsedSchema.RootElements[0].Type as XmlComplexType).PossibleChildElements[0].Type;
-            Assert.IsType(typeof(XmlComplexType), rootElementTypePropertyType);
+            Assert.IsType<XmlComplexType>(rootElementTypePropertyType);
         }
 
         [Fact]
         public void RootElementTypePropertyType2()
         {
             var rootElementTypePropertyType = (ParsedSchema.RootElements[0].Type as XmlComplexType).PossibleChildElements[1].Type;
-            Assert.IsType(typeof(XmlComplexType), rootElementTypePropertyType);
+            Assert.IsType<XmlComplexType>(rootElementTypePropertyType);
         }
 
         [Fact]
         public void RootElementTypePropertyType3()
         {
             var rootElementTypePropertyType = (ParsedSchema.RootElements[0].Type as XmlComplexType).PossibleChildElements[2].Type;
-            Assert.IsType(typeof(XmlComplexType), rootElementTypePropertyType);
+            Assert.IsType<XmlComplexType>(rootElementTypePropertyType);
         }
 
         [Fact]
         public void RootElementTypePropertyType4()
         {
             var rootElementTypePropertyType = (ParsedSchema.RootElements[0].Type as XmlComplexType).PossibleChildElements[3].Type;
-            Assert.IsType(typeof(XmlComplexType), rootElementTypePropertyType);
+            Assert.IsType<XmlComplexType>(rootElementTypePropertyType);
         }
 
         [Fact]
         public void RootElementTypePropertyType5()
         {
             var rootElementTypePropertyType = (ParsedSchema.RootElements[0].Type as XmlComplexType).PossibleChildElements[4].Type;
-            Assert.IsType(typeof(XmlUnknownType), rootElementTypePropertyType);
+            Assert.IsType<XmlUnknownType>(rootElementTypePropertyType);
         }
 
         [Fact]
         public void RootElementTypeAttributeType()
         {
             var rootElementTypeAttributeType = (ParsedSchema.RootElements[0].Type as XmlComplexType).Attributes[0].Type;
-            Assert.IsType(typeof(XmlUnknownType), rootElementTypeAttributeType);
+            Assert.IsType<XmlUnknownType>(rootElementTypeAttributeType);
         }
 
         [Fact]
@@ -241,7 +241,7 @@ namespace XmlTools.Tests.Parser.FileTests
         public void RandomTypeHasCorrectType()
         {
             var complexType = GetAllElementTypesUsedInSchema().FirstOrDefault(t => t.Name == "tgArticle");
-            Assert.IsType(typeof(XmlComplexType), complexType);
+            Assert.IsType<XmlComplexType>(complexType);
         }
 
         [Fact]
@@ -272,7 +272,7 @@ namespace XmlTools.Tests.Parser.FileTests
         {
             var enumerationType = GetAllElementTypesUsedInSchema().FirstOrDefault(t => t.Name == "tgProvis");
             Assert.NotNull(enumerationType);
-            Assert.IsType(typeof(XmlEnumerationType), enumerationType);
+            Assert.IsType<XmlEnumerationType>(enumerationType);
         }
 
         [Fact]
@@ -303,11 +303,11 @@ namespace XmlTools.Tests.Parser.FileTests
         {
             var complexBaseType = GetAllElementTypesUsedInSchema().First(t => t.Name == "tgCashDiscount");
             Assert.NotNull(complexBaseType);
-            Assert.IsType(typeof(XmlComplexType), complexBaseType);
+            Assert.IsType<XmlComplexType>(complexBaseType);
             var elementWithExtendedTypeInComplexType = (complexBaseType as XmlComplexType).PossibleChildElements.First(c => c.Name == "CashDiscDays");
             Assert.False(elementWithExtendedTypeInComplexType.IsExternallyDeclared);
-            Assert.IsType(typeof(XmlComplexType), elementWithExtendedTypeInComplexType.Type);
-            Assert.True(elementWithExtendedTypeInComplexType.Type.Name.StartsWith("InlineComplexType_"));
+            Assert.IsType<XmlComplexType>(elementWithExtendedTypeInComplexType.Type);
+            Assert.StartsWith("InlineComplexType_", elementWithExtendedTypeInComplexType.Type.Name);
         }
 
         [Fact]
@@ -317,12 +317,12 @@ namespace XmlTools.Tests.Parser.FileTests
             var childElementExtendedType = complexBaseType.PossibleChildElements.First(c => c.Name == "CashDiscDays").Type as XmlComplexType;
 
             Assert.Equal(2, childElementExtendedType.Attributes.Count);
-            Assert.Equal(0, childElementExtendedType.PossibleChildElements.Count);
+            Assert.Empty(childElementExtendedType.PossibleChildElements);
 
             // Enumeration attribute
             var enumerationAttribute = childElementExtendedType.Attributes.FirstOrDefault(a => a.Name == "TypeOfDays");
             Assert.NotNull(enumerationAttribute);
-            Assert.IsType(typeof(XmlEnumerationType), enumerationAttribute.Type);
+            Assert.IsType<XmlEnumerationType>(enumerationAttribute.Type);
             var attributeTypeAsEnumerationType = enumerationAttribute.Type as XmlEnumerationType;
             Assert.Equal(3, attributeTypeAsEnumerationType.EnumerationValues.Count);
             Assert.Contains("work days", attributeTypeAsEnumerationType.EnumerationValues);
@@ -332,7 +332,7 @@ namespace XmlTools.Tests.Parser.FileTests
             // Regular attribute
             var simpleAttribute = childElementExtendedType.Attributes.FirstOrDefault(a => a.Name == "Days");
             Assert.NotNull(simpleAttribute);
-            Assert.IsType(typeof(XmlSimpleType), simpleAttribute.Type);
+            Assert.IsType<XmlSimpleType>(simpleAttribute.Type);
         }
 
         [Fact]
@@ -346,14 +346,14 @@ namespace XmlTools.Tests.Parser.FileTests
         public void SimpleContentComplexTypeType()
         {
             var element = GetAllElementTypesUsedInSchema().First(t => t.Name == "tgStLNo");
-            Assert.IsType(typeof(XmlSimpleContentComplexType), element);
+            Assert.IsType<XmlSimpleContentComplexType>(element);
         }
 
         [Fact]
         public void SimpleContentComplexTypeAttributes()
         {
             var element = GetAllElementTypesUsedInSchema().First(t => t.Name == "tgStLNo") as XmlSimpleContentComplexType;
-            Assert.Equal(1, element.Attributes.Count);
+            Assert.Single(element.Attributes);
             var attribute = element.Attributes[0];
             Assert.Equal("Type", attribute.Name);
             var attributeType = element.Attributes[0].Type as XmlEnumerationType;

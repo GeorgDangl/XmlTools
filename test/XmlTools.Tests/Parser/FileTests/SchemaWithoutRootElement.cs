@@ -11,7 +11,7 @@ namespace XmlTools.Tests.Parser.FileTests
         {
             using (var stream = TestFilesFactory.GetStreamForTestFile(InvalidParserTestFile.SchemaWithoutRootElement))
             {
-                Assert.Throws(typeof(InvalidDataException), () =>
+                Assert.Throws<InvalidDataException>(() =>
                 {
                     var schemaParser = new XmlSchemaParser(stream);
                     // ReSharper disable once UnusedVariable

@@ -10,7 +10,7 @@ namespace XmlTools.Tests.Parser.FileTests
         [Fact]
         public void HasOnlySingleRootElement()
         {
-            Assert.Equal(1, ParsedSchema.RootElements.Count);
+            Assert.Single(ParsedSchema.RootElements);
         }
 
         [Fact]
@@ -49,14 +49,14 @@ namespace XmlTools.Tests.Parser.FileTests
         public void RootElementTypeType()
         {
             var rootElementType = ParsedSchema.RootElements.First().Type;
-            Assert.IsType(typeof(XmlComplexType), rootElementType);
+            Assert.IsType<XmlComplexType>(rootElementType);
         }
 
         [Fact]
         public void RootElementTypeAttributesCount()
         {
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlComplexType;
-            Assert.Equal(1, rootElementType.Attributes.Count);
+            Assert.Single(rootElementType.Attributes);
         }
 
         [Fact]
@@ -80,7 +80,7 @@ namespace XmlTools.Tests.Parser.FileTests
         {
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlComplexType;
             var attributeType = rootElementType.Attributes.First().Type;
-            Assert.IsType(typeof(XmlUnknownType), attributeType);
+            Assert.IsType<XmlUnknownType>(attributeType);
         }
 
         [Fact]
@@ -121,10 +121,10 @@ namespace XmlTools.Tests.Parser.FileTests
             var introducedInCommitType = rootElementType.PossibleChildElements.First(c => c.Name == "IntroducedInCommit").Type;
             var priorityType = rootElementType.PossibleChildElements.First(c => c.Name == "Priority").Type;
             var personToBlameType = rootElementType.PossibleChildElements.First(c => c.Name == "PersonToBlame").Type;
-            Assert.IsType(typeof(XmlUnknownType), messageType);
-            Assert.IsType(typeof(XmlUnknownType), introducedInCommitType);
-            Assert.IsType(typeof(XmlUnknownType), priorityType);
-            Assert.IsType(typeof(XmlComplexType), personToBlameType);
+            Assert.IsType<XmlUnknownType>(messageType);
+            Assert.IsType<XmlUnknownType>(introducedInCommitType);
+            Assert.IsType<XmlUnknownType>(priorityType);
+            Assert.IsType<XmlComplexType>(personToBlameType);
         }
 
         [Fact]
@@ -132,7 +132,7 @@ namespace XmlTools.Tests.Parser.FileTests
         {
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlComplexType;
             var personToBlameType = rootElementType.PossibleChildElements.First(c => c.Name == "PersonToBlame").Type as XmlComplexType;
-            Assert.Equal(0, personToBlameType.Attributes.Count);
+            Assert.Empty(personToBlameType.Attributes);
         }
 
         [Fact]
@@ -148,8 +148,8 @@ namespace XmlTools.Tests.Parser.FileTests
         {
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlComplexType;
             var personToBlameType = rootElementType.PossibleChildElements.First(c => c.Name == "PersonToBlame").Type as XmlComplexType;
-            Assert.True(personToBlameType.PossibleChildElements.Any(e => e.Name == "Email"));
-            Assert.True(personToBlameType.PossibleChildElements.Any(e => e.Name == "Name"));
+            Assert.Contains(personToBlameType.PossibleChildElements, e => e.Name == "Email");
+            Assert.Contains(personToBlameType.PossibleChildElements, e => e.Name == "Name");
         }
 
         [Fact]
@@ -166,9 +166,9 @@ namespace XmlTools.Tests.Parser.FileTests
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlComplexType;
             var personToBlameType = rootElementType.PossibleChildElements.First(c => c.Name == "PersonToBlame").Type as XmlComplexType;
             var emailType = personToBlameType.PossibleChildElements.First(c => c.Name == "Email").Type;
-            Assert.IsType(typeof(XmlUnknownType), emailType);
+            Assert.IsType<XmlUnknownType>(emailType);
             var nameType = personToBlameType.PossibleChildElements.First(c => c.Name == "Name").Type;
-            Assert.IsType(typeof(XmlUnknownType), nameType);
+            Assert.IsType<XmlUnknownType>(nameType);
         }
     }
 }
