@@ -12,7 +12,7 @@ namespace XmlTools.Tests.CodeGenerator
 {
     public static class SchemaCorrectorHelper
     {
-        public const string GENERATED_CODE_NAMESPACE = "XmlToolsTest";
+        public const string GENERATED_CODE_NAMESPACE = "InMemoryXmlToolsTest";
         public const string CODE_GENERATOR_CLASSNAME = "SchemaCorrector";
         public const string CODE_GENERATOR_METHOD_NAME = "CorrectDocument";
 
