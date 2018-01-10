@@ -25,7 +25,6 @@ if ($oldResults) {
 }
 
 foreach ($testProject in $testProjects){
-	cd "$PSScriptRoot\test\$testProject"
     # Arguments for running dotnet
     $dotnetArguments = "xunit", "-nobuild", "-xml \""$PSScriptRoot\results_$testRuns.testresults\"""
 
@@ -34,15 +33,16 @@ foreach ($testProject in $testProjects){
         -register:user `
         -target:dotnet.exe `
         "-targetargs:$dotnetArguments" `
+        -targetdir:$PSScriptRoot\test\$testProject `
         -returntargetcode `
         -output:"$PSScriptRoot\OpenCover.coverageresults" `
         -mergeoutput `
+        -oldstyle `
         -excludebyattribute:System.CodeDom.Compiler.GeneratedCodeAttribute `
         "-filter:+[XmlTools*]* -[*.Tests]* -[*.Tests.*]*"
 
     $testRuns++
 }
-cd "$PSScriptRoot"
 
 "Prepending framework to test method name for better CI visualization"
 $resultsGlobPattern = "results_*.testresults"
