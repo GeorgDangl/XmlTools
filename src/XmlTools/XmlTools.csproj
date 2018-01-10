@@ -21,22 +21,15 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Update="..\XmlTools.Console\bin\Release\net46\win7-x64">
-      <PackagePath>Tool/net46/</PackagePath>
+  <!-- This ItemGroup includes the console tools in the NuGet output package -->
+  <ItemGroup Condition="'$(Configuration)'=='Release'">
+    <None Include="..\XmlTools.Console\bin\Release\net46\win7-x64\**\*.*" Exclude="**\*.pdb">
+      <PackagePath>Tools/net46/</PackagePath>
       <Pack>true</Pack>
     </None>
-    <None Update="..\XmlTools.Console\bin\Release\netcoreapp1.0">
-      <PackagePath>Tool/netcoreapp1.0/</PackagePath>
+    <None Include="..\XmlTools.Console\bin\Release\netcoreapp1.0\**\*.*" Exclude="**\*.pdb;**\*.dev.json">
+      <PackagePath>Tools/netcoreapp1.0/</PackagePath>
       <Pack>true</Pack>
-    </None>
-    <None Update="..\XmlTools.Console\bin\Release\net46\win7-x64\*.pdb">
-      <Link>Tool/net46/%(FileName)%(Extension)</Link>
-      <Pack>false</Pack>
-    </None>
-    <None Update="..\XmlTools.Console\bin\Release\netcoreapp1.0\*.pdb">
-      <Link>Tool/netcoreapp1.0/%(FileName)%(Extension)</Link>
-      <Pack>false</Pack>
     </None>
   </ItemGroup>
 
