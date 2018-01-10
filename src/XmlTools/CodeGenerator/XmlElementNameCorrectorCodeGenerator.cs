@@ -18,8 +18,8 @@ namespace XmlTools.CodeGenerator
             stringBuilder.AppendLine($"if ({attributeVariable}.Name.LocalName != \"{attribute.Name}\")");
             using (new CodeGeneratorBlockWrapper(stringBuilder))
             {
-                stringBuilder.AppendLine($"{attributeVariable}.Remove();");
                 stringBuilder.AppendLine($"{attributeVariable}.Parent.SetAttributeValue({attributeVariable}.Name.Namespace + \"{attribute.Name}\", {attributeVariable}.Value);");
+                stringBuilder.AppendLine($"{attributeVariable}.Remove();");
             }
         }
     }
