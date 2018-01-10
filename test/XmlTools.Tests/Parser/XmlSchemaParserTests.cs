@@ -9,7 +9,7 @@ namespace XmlTools.Tests.Parser
         [Fact]
         public void ArgumentNullExceptionOnNullInput()
         {
-            Assert.Throws(typeof(ArgumentNullException), () => new XmlSchemaParser(null));
+            Assert.Throws<ArgumentNullException>(() => new XmlSchemaParser(null));
         }
     }
 }

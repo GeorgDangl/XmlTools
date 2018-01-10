@@ -10,7 +10,7 @@ namespace XmlTools.Tests.Parser.FileTests
         [Fact]
         public void HasOnlySingleRootElement()
         {
-            Assert.Equal(1, ParsedSchema.RootElements.Count);
+            Assert.Single(ParsedSchema.RootElements);
         }
 
         [Fact]
@@ -59,7 +59,7 @@ namespace XmlTools.Tests.Parser.FileTests
         public void RootElementTypeIsComplexType()
         {
             var rootElementType = ParsedSchema.RootElements.First().Type;
-            Assert.IsType(typeof(XmlComplexType), rootElementType);
+            Assert.IsType<XmlComplexType>(rootElementType);
         }
 
         [Fact]
@@ -115,8 +115,8 @@ namespace XmlTools.Tests.Parser.FileTests
         {
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlComplexType;
             var attributeType = rootElementType.Attributes[1].Type;
-            Assert.IsType(typeof(XmlUnknownType), attributeType);
-            Assert.IsNotType(typeof(XmlEnumerationType), attributeType);
+            Assert.IsType<XmlUnknownType>(attributeType);
+            Assert.IsNotType<XmlEnumerationType>(attributeType);
         }
 
         [Fact]
@@ -124,8 +124,8 @@ namespace XmlTools.Tests.Parser.FileTests
         {
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlComplexType;
             var attributeType = rootElementType.Attributes[0].Type;
-            Assert.IsType(typeof(XmlUnknownType), attributeType);
-            Assert.IsNotType(typeof(XmlEnumerationType), attributeType);
+            Assert.IsType<XmlUnknownType>(attributeType);
+            Assert.IsNotType<XmlEnumerationType>(attributeType);
         }
 
         [Fact]
@@ -134,7 +134,7 @@ namespace XmlTools.Tests.Parser.FileTests
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlComplexType;
             var selfDeclaredChild = rootElementType.PossibleChildElements.FirstOrDefault(c => c.Name == "IntroducedInCommit");
             Assert.NotNull(selfDeclaredChild);
-            Assert.IsType(typeof(XmlUnknownType), selfDeclaredChild.Type);
+            Assert.IsType<XmlUnknownType>(selfDeclaredChild.Type);
             Assert.Equal("xs:string", selfDeclaredChild.Type.Name);
         }
 
@@ -144,7 +144,7 @@ namespace XmlTools.Tests.Parser.FileTests
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlComplexType;
             var referenceDeclaredChild = rootElementType.PossibleChildElements.FirstOrDefault(c => c.Name == "Message");
             Assert.NotNull(referenceDeclaredChild);
-            Assert.IsType(typeof(XmlUnknownType), referenceDeclaredChild.Type);
+            Assert.IsType<XmlUnknownType>(referenceDeclaredChild.Type);
             Assert.Equal("xs:string", referenceDeclaredChild.Type.Name);
         }
     }

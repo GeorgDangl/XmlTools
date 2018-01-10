@@ -10,14 +10,14 @@ namespace XmlTools.Tests.Parser.FileTests
         [Fact]
         public void HasOnlySingleRootElement()
         {
-            Assert.Equal(1, ParsedSchema.RootElements.Count);
+            Assert.Single(ParsedSchema.RootElements);
         }
 
         [Fact]
         public void HasNoAttributeTypes()
         {
             var attributeTypes = ParsedSchema.GetAllDeclaredAttributeTypes().ToList();
-            Assert.Equal(0, attributeTypes.Count);
+            Assert.Empty(attributeTypes);
         }
 
         [Fact]
@@ -41,14 +41,14 @@ namespace XmlTools.Tests.Parser.FileTests
         {
             var expectedTypeNameStart = "InlineSimpleType_";
             var rootElement = ParsedSchema.RootElements.First();
-            Assert.True(rootElement.Type.Name.StartsWith(expectedTypeNameStart));
+            Assert.StartsWith(expectedTypeNameStart, rootElement.Type.Name);
         }
 
         [Fact]
         public void RootElementTypeIsEnumerationType()
         {
             var rootElementType = ParsedSchema.RootElements.First().Type;
-            Assert.IsType(typeof(XmlEnumerationType), rootElementType);
+            Assert.IsType<XmlEnumerationType>(rootElementType);
         }
 
         [Fact]

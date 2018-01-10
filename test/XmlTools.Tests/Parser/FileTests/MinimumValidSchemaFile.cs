@@ -10,14 +10,14 @@ namespace XmlTools.Tests.Parser.FileTests
         [Fact]
         public void HasOnlySingleRootElement()
         {
-            Assert.Equal(1, ParsedSchema.RootElements.Count);
+            Assert.Single(ParsedSchema.RootElements);
         }
 
         [Fact]
         public void HasNoAttributeTypes()
         {
             var attributeTypes = ParsedSchema.GetAllDeclaredAttributeTypes().ToList();
-            Assert.Equal(0, attributeTypes.Count);
+            Assert.Empty(attributeTypes);
         }
 
         [Fact]
@@ -48,7 +48,7 @@ namespace XmlTools.Tests.Parser.FileTests
         public void RootElementTypeType()
         {
             var rootElementType = ParsedSchema.RootElements.First().Type;
-            Assert.IsType(typeof(XmlComplexType), rootElementType);
+            Assert.IsType<XmlComplexType>(rootElementType);
         }
 
         [Fact]

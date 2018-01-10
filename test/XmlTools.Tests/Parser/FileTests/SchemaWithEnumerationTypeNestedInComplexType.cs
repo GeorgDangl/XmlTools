@@ -10,14 +10,14 @@ namespace XmlTools.Tests.Parser.FileTests
         [Fact]
         public void HasOnlySingleRootElement()
         {
-            Assert.Equal(1, ParsedSchema.RootElements.Count);
+            Assert.Single(ParsedSchema.RootElements);
         }
 
         [Fact]
         public void HasNoAttributeTypes()
         {
             var attributeTypes = ParsedSchema.GetAllDeclaredAttributeTypes().ToList();
-            Assert.Equal(0, attributeTypes.Count);
+            Assert.Empty(attributeTypes);
         }
 
         [Fact]
@@ -41,14 +41,14 @@ namespace XmlTools.Tests.Parser.FileTests
         {
             var expectedTypeNameStart = "WeatherReport";
             var rootElement = ParsedSchema.RootElements.First();
-            Assert.True(rootElement.Type.Name.StartsWith(expectedTypeNameStart));
+            Assert.StartsWith(expectedTypeNameStart, rootElement.Type.Name);
         }
 
         [Fact]
         public void RootElementTypeType()
         {
             var rootElementType = ParsedSchema.RootElements.First().Type;
-            Assert.IsType(typeof(XmlComplexType), rootElementType);
+            Assert.IsType<XmlComplexType>(rootElementType);
         }
 
         [Fact]
@@ -76,7 +76,7 @@ namespace XmlTools.Tests.Parser.FileTests
         public void NestedTypeTemperatureType()
         {
             var nestedType = (ParsedSchema.RootElements.First().Type as XmlComplexType).PossibleChildElements[0].Type;
-            Assert.IsType(typeof(XmlUnknownType), nestedType);
+            Assert.IsType<XmlUnknownType>(nestedType);
         }
 
         [Fact]
@@ -97,7 +97,7 @@ namespace XmlTools.Tests.Parser.FileTests
         public void NestedTypeWeatherForecastIsEnumerationType()
         {
             var nestedType = (ParsedSchema.RootElements.First().Type as XmlComplexType).PossibleChildElements[1].Type;
-            Assert.IsType(typeof(XmlEnumerationType), nestedType);
+            Assert.IsType<XmlEnumerationType>(nestedType);
         }
 
         [Fact]

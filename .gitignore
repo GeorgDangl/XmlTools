@@ -243,3 +243,8 @@ ModelManifest.xml
 
 *.testresults
 *.coverageresults
+
+generated_docs/**/*
+docs.zip
+
+docs/docfx.console.**/*

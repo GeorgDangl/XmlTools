@@ -13,7 +13,7 @@ namespace XmlTools.Tests.Parser.FileTests
         [Fact]
         public void HasOnlySingleRootElement()
         {
-            Assert.Equal(1, ParsedSchema.RootElements.Count);
+            Assert.Single(ParsedSchema.RootElements);
         }
 
         [Fact]
@@ -52,21 +52,21 @@ namespace XmlTools.Tests.Parser.FileTests
         public void RootElementTypeType()
         {
             var rootElementType = ParsedSchema.RootElements.First().Type;
-            Assert.IsType(typeof(XmlComplexType), rootElementType);
+            Assert.IsType<XmlComplexType>(rootElementType);
         }
 
         [Fact]
         public void RootElementTypeAttributesCount()
         {
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlComplexType;
-            Assert.Equal(0, rootElementType.Attributes.Count);
+            Assert.Empty(rootElementType.Attributes);
         }
 
         [Fact]
         public void RootElementChildElementsCount()
         {
             var rootElementType = ParsedSchema.RootElements.First().Type as XmlComplexType;
-            Assert.Equal(1, rootElementType.PossibleChildElements.Count);
+            Assert.Single(rootElementType.PossibleChildElements);
         }
 
         [Fact]
@@ -89,7 +89,7 @@ namespace XmlTools.Tests.Parser.FileTests
         public void RootElementChildElementTypeType()
         {
             var rootElementChildType = RootElementChild.Type;
-            Assert.IsType(typeof(XmlSimpleContentEnumerationComplexType), rootElementChildType);
+            Assert.IsType<XmlSimpleContentEnumerationComplexType>(rootElementChildType);
         }
 
         [Fact]
@@ -105,7 +105,7 @@ namespace XmlTools.Tests.Parser.FileTests
         [Fact]
         public void RootElementChildElementAttributesCount()
         {
-            Assert.Equal(1, RootElementChildType.Attributes.Count);
+            Assert.Single(RootElementChildType.Attributes);
         }
 
         [Fact]
@@ -128,7 +128,7 @@ namespace XmlTools.Tests.Parser.FileTests
         public void RootElementChildElementAttributeTypeType()
         {
             var attributeType = RootElementChildType.Attributes.First().Type;
-            Assert.IsType(typeof(XmlEnumerationType), attributeType);
+            Assert.IsType<XmlEnumerationType>(attributeType);
         }
 
         [Fact]

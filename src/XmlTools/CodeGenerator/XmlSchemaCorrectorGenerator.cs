@@ -81,7 +81,7 @@ namespace XmlTools.CodeGenerator
             var assembly = typeof(XmlSchemaCorrectorGenerator).GetTypeInfo().Assembly;
             var toolName = assembly.GetName().Name;
             var assemblyVersion = assembly.GetName().Version;
-            var toolVersion = $"{assemblyVersion.Major}.{assemblyVersion.Minor}.{assemblyVersion.Revision}";
+            var toolVersion = $"{assemblyVersion.Major}.{assemblyVersion.Minor}.{assemblyVersion.Build}";
             var generatedCodeAttribute = $"[GeneratedCode(\"{toolName}\", \"{toolVersion}\")]";
             _stringBuilder.AppendLine(generatedCodeAttribute);
         }

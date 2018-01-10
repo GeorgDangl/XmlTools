@@ -1,6 +1,8 @@
 $testProjects = "XmlTools.Tests"
-$testFrameworks = "net46", "netcoreapp1.1"
 $testRuns = 1;
+
+& dotnet restore
+& dotnet build -c Debug
 
 # Get the most recent OpenCover NuGet package from the dotnet nuget packages
 $nugetOpenCoverPackage = Join-Path -Path $env:USERPROFILE -ChildPath "\.nuget\packages\OpenCover"
@@ -9,25 +11,43 @@ $latestOpenCover = Join-Path -Path ((Get-ChildItem -Path $nugetOpenCoverPackage 
 $nugetCoberturaConverterPackage = Join-Path -Path $env:USERPROFILE -ChildPath "\.nuget\packages\OpenCoverToCoberturaConverter"
 $latestCoberturaConverter = Join-Path -Path (Get-ChildItem -Path $nugetCoberturaConverterPackage | Sort-Object Fullname -Descending)[0].FullName -ChildPath "tools\OpenCoverToCoberturaConverter.exe"
 
-foreach ($testProject in $testProjects){
-    foreach ($testFramework in $testFrameworks){
-        # Arguments for running dotnet
-        $dotnetArguments = "test", "-f $testFramework", "`"`"$PSScriptRoot\test\$testProject`"`"", "-xml results_$testRuns.testresults"
-
-        "Running tests with OpenCover"
-        & $latestOpenCover `
-            -register:user `
-            -target:dotnet.exe `
-            "-targetargs:$dotnetArguments" `
-            -returntargetcode `
-            -output:"$PSScriptRoot\OpenCover.coverageresults" `
-            -mergeoutput `
-            -excludebyattribute:System.CodeDom.Compiler.GeneratedCodeAttribute `
-            "-filter:+[XmlTools*]* -[*.Tests]* -[*.Tests.*]*"
-
-        $testRuns++
-    }
+If (Test-Path "$PSScriptRoot\OpenCover.coverageresults"){
+	Remove-Item "$PSScriptRoot\OpenCover.coverageresults"
 }
+
+If (Test-Path "$PSScriptRoot\Cobertura.coverageresults"){
+	Remove-Item "$PSScriptRoot\Cobertura.coverageresults"
+}
+
+$oldResults = Get-ChildItem -Path "$PSScriptRoot\results_*.testresults"
+if ($oldResults) {
+    Remove-Item $oldResults
+}
+
+foreach ($testProject in $testProjects){
+    # Arguments for running dotnet
+    $dotnetArguments = "xunit", "-nobuild", "-xml \""$PSScriptRoot\results_$testRuns.testresults\"""
+
+    "Running tests with OpenCover"
+    & $latestOpenCover `
+        -register:user `
+        -target:dotnet.exe `
+        "-targetargs:$dotnetArguments" `
+        -targetdir:$PSScriptRoot\test\$testProject `
+        -returntargetcode `
+        -output:"$PSScriptRoot\OpenCover.coverageresults" `
+        -mergeoutput `
+        -oldstyle `
+        -excludebyattribute:System.CodeDom.Compiler.GeneratedCodeAttribute `
+        "-filter:+[XmlTools*]* -[*.Tests]* -[*.Tests.*]*"
+
+    $testRuns++
+}
+
+"Prepending framework to test method name for better CI visualization"
+$resultsGlobPattern = "results_*.testresults"
+$prependFrameworkScript = ".\AppendxUnitFramework.ps1"
+& $prependFrameworkScript $resultsGlobPattern "$PSScriptRoot"
 
 "Converting coverage reports to Cobertura format"
 & $latestCoberturaConverter `

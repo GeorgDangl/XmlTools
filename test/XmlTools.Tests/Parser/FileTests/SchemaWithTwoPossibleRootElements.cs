@@ -17,7 +17,7 @@ namespace XmlTools.Tests.Parser.FileTests
         public void HasNoAttributeTypes()
         {
             var attributeTypes = ParsedSchema.GetAllDeclaredAttributeTypes().ToList();
-            Assert.Equal(0, attributeTypes.Count);
+            Assert.Empty(attributeTypes);
         }
 
         [Fact]
@@ -64,7 +64,7 @@ namespace XmlTools.Tests.Parser.FileTests
         public void RootElementTypeIsEnumerationType1()
         {
             var rootElementType = ParsedSchema.RootElements[0].Type;
-            Assert.IsType(typeof(XmlEnumerationType), rootElementType);
+            Assert.IsType<XmlEnumerationType>(rootElementType);
         }
 
         [Fact]
@@ -88,7 +88,7 @@ namespace XmlTools.Tests.Parser.FileTests
         public void RootElementTypeType2()
         {
             var secondRootElementType = ParsedSchema.RootElements[1].Type;
-            Assert.IsType(typeof(XmlComplexType), secondRootElementType);
+            Assert.IsType<XmlComplexType>(secondRootElementType);
         }
     }
 }
