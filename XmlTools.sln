@@ -1,14 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A73E0B67-F19E-4918-A933-F34F6D92547C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{11F59317-49B5-434A-982D-FA1250E55CAA}"
 	ProjectSection(SolutionItems) = preProject
+		AppendxUnitFramework.ps1 = AppendxUnitFramework.ps1
+		GenerateAndDeployDocs.ps1 = GenerateAndDeployDocs.ps1
 		LICENCE.md = LICENCE.md
 		README.md = README.md
+		Tests.ps1 = Tests.ps1
+		TestsAndCoverage.ps1 = TestsAndCoverage.ps1
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{57E9C9EF-A3EB-4503-A71B-198646C464C6}"
