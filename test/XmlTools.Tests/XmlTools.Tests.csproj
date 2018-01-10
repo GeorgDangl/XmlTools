@@ -8,6 +8,8 @@
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <!-- Required, otherwise multiple 2.0.x frameworks lead to xUnit not discovering the framework to run in -->
+    <RuntimeFrameworkVersion Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">2.0.0</RuntimeFrameworkVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,8 +22,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
-    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0-beta1-build3919" />
+    <PackageReference Include="xunit" Version="2.4.0-beta1-build3919" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.0.0" />
     <PackageReference Include="OpenCover" Version="4.6.519">
       <PrivateAssets>All</PrivateAssets>
@@ -29,7 +31,7 @@
     <PackageReference Include="OpenCoverToCoberturaConverter" Version="0.2.6">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
-    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.4.0-beta1-build3919" />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">
