@@ -26,7 +26,7 @@
 
   <!-- This ItemGroup includes the console tools in the NuGet output package -->
   <ItemGroup Condition="'$(Configuration)'=='Release'">
-    <None Include="..\XmlTools.Console\bin\Release\net46\win7-x64\**\*.*" Exclude="**\*.pdb">
+    <None Include="..\XmlTools.Console\bin\Release\net46\**\*.*" Exclude="**\*.pdb">
       <PackagePath>Tools/net46/</PackagePath>
       <Pack>true</Pack>
     </None>
