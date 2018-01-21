@@ -29,7 +29,7 @@ Add-Type -AssemblyName "System.IO.Compression.FileSystem"
 [IO.Compression.ZipFile]::CreateFromDirectory($docsFolder, $zipDestination)
 
 # Get version from NuGet package
-$nuGetPackageName = (Get-ChildItem -Path "$PSScriptRoot/src/$projectName/bin/Release" -Filter "$projectName.*.nupkg").Name
+$nuGetPackageName = (Get-ChildItem -Path "$PSScriptRoot/src/$projectName" -Filter "$projectName.*.nupkg").Name
 $packageVersion = $nuGetPackageName.Replace("$projectName.", "").Replace(".nupkg", "")
 
 # Uploading documentation to WebDocu
