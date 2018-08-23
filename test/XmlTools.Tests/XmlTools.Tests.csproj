@@ -17,6 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Testfiles\GroupFlattener\ontext.xsd" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\XmlTools\XmlTools.csproj" />
   </ItemGroup>
 

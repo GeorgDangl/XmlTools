@@ -45,3 +45,9 @@ whenever you want to recreate your code.
 
 There's the `XmlSchemaParser` in `XmlTools.Parser` to read Xml schemas and then there's the `XmlSchemaCorrectorGenerator`
 in `XmlTools.CodeGenerator` to create validation code.
+
+### Flattener
+
+The function of the `XmlTools.GroupFlattener.Flattener` is to flatten or unroll groups. Many Xml tools have trouble
+with resolving circular group references, so this is an easy way to fix this while still preserving the schema. In addition,
+it makes sure that any elements of type `xs:key` will have their unique naming restored.

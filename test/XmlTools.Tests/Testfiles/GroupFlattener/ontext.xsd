@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.oenorm.at/schema/A2063/2009-06-01" xmlns:on="http://www.oenorm.at/schema/A2063/2009-06-01" targetNamespace="http://www.oenorm.at/schema/A2063/2009-06-01" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation>ontext.xsd - ÖNORM A 2063 Formatierter Text (orientiert an XHTML Modularization, http://www.w3.org/TR/xhtml-modularization/)</xs:documentation>
+	</xs:annotation>
+	<xs:annotation>
+		<xs:documentation> ÖNORM A 2063, Ausgabe: 2011-05-01
+
+Austausch von Leistungsbeschreibungs-, Elementkatalogs-, Ausschreibungs-, Angebots-, Auftrags- und Abrechnungsdaten in elektronischer Form
+
+Folgende Schema-Dokumente bilden einen Bestandteil zur Umsetzung der vorliegenden ÖNORM:
+–	ontypdef.xsd: Typdefinitionen für alle Datenbestände;
+–	onformel.xsd: Formelkatalog nach Anhang A;
+–	ontext.xsd: Formatierung der Texte von Vorbemerkungen und Positionen;
+–	onlb.xsd: Datenbestand LB;
+–	onpr.xsd: Datenbestand Preise zu einer LB;
+–	onaek.xsd: Datenbestand AEK;
+–	onpek.xsd: Datenbestand PEK;
+–	onlv.xsd: Datenbestand LV;
+–	onre.xsd: Datenbestand Abrechnung einschließlich Mengenberechnung.
+
+Weitere Informationen:
+http://www.as-institute.at/development/downloads/
+
+Copyright © Austrian Standards Institute 2011.
+
+Austrian Standards Institute/
+Österreichisches Normungsinstitut (ON)
+Heinestraße 38, 1020 Wien
+</xs:documentation>
+	</xs:annotation>
+	<!--===-->
+	<!--=== simple === -->
+	<xs:simpleType name="ontext.percent.type">
+		<xs:restriction base="xs:token">
+			<xs:pattern value="\d+%"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ontext.border.type">
+		<xs:restriction base="xs:token">
+			<xs:pattern value="0|1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--=== lücken === -->
+	<!-- al, bl -->
+	<xs:attributeGroup name="ontext.Luecke.attlist"/>
+	<xs:group name="ontext.Luecke.content">
+		<xs:sequence>
+			<xs:group ref="ontext.Memo.mix" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="ontext.Luecke.type" mixed="true">
+		<xs:group ref="ontext.Luecke.content"/>
+		<xs:attributeGroup ref="ontext.Luecke.attlist"/>
+	</xs:complexType>
+	<xs:group name="ontext.Luecke.class">
+		<xs:choice>
+			<xs:element name="al" type="ontext.Luecke.type"/>
+			<xs:element name="bl" type="ontext.Luecke.type"/>
+		</xs:choice>
+	</xs:group>
+	<!--=== inline === -->
+	<!-- br -->
+	<xs:attributeGroup name="ontext.br.attlist"/>
+	<xs:group name="ontext.br.content">
+		<xs:sequence/>
+	</xs:group>
+	<xs:complexType name="ontext.br.type">
+		<xs:group ref="ontext.br.content"/>
+		<xs:attributeGroup ref="ontext.br.attlist"/>
+	</xs:complexType>
+	<!-- b, i, tt, sub, sup, u -->
+	<xs:attributeGroup name="ontext.InlPres.attlist"/>
+	<xs:group name="ontext.InlPres.content">
+		<xs:sequence>
+			<xs:group ref="ontext.Inline.mix" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="ontext.InlPres.type" mixed="true">
+		<xs:group ref="ontext.InlPres.content"/>
+		<xs:attributeGroup ref="ontext.InlPres.attlist"/>
+	</xs:complexType>
+	<!-- classes -->
+	<xs:group name="ontext.InlStruct.class">
+		<xs:choice>
+			<xs:element name="br" type="ontext.br.type"/>
+		</xs:choice>
+	</xs:group>
+	<xs:group name="ontext.InlPres.class">
+		<xs:choice>
+			<xs:element name="tt" type="ontext.InlPres.type"/>
+			<xs:element name="i" type="ontext.InlPres.type"/>
+			<xs:element name="b" type="ontext.InlPres.type"/>
+			<xs:element name="sub" type="ontext.InlPres.type"/>
+			<xs:element name="sup" type="ontext.InlPres.type"/>
+			<xs:element name="u" type="ontext.InlPres.type"/>
+		</xs:choice>
+	</xs:group>
+	<xs:group name="ontext.Inline.class">
+		<xs:choice>
+			<xs:group ref="ontext.InlStruct.class"/>
+			<xs:group ref="ontext.InlPres.class"/>
+		</xs:choice>
+	</xs:group>
+	<!--=== block === -->
+	<!-- h1, h2, h3 -->
+	<xs:attributeGroup name="ontext.BlkHead.attlist"/>
+	<xs:group name="ontext.BlkHead.content">
+		<xs:sequence>
+			<xs:group ref="ontext.Inline.mix" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="ontext.BlkHead.type" mixed="true">
+		<xs:group ref="ontext.BlkHead.content"/>
+		<xs:attributeGroup ref="ontext.BlkHead.attlist"/>
+	</xs:complexType>
+	<!-- li -->
+	<xs:attributeGroup name="ontext.li.attlist"/>
+	<xs:group name="ontext.li.content">
+		<xs:sequence>
+			<xs:group ref="ontext.Flow.mix" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="ontext.li.type" mixed="true">
+		<xs:group ref="ontext.li.content"/>
+		<xs:attributeGroup ref="ontext.li.attlist"/>
+	</xs:complexType>
+	<!-- ol -->
+	<xs:attributeGroup name="ontext.ol.attlist"/>
+	<xs:group name="ontext.ol.content">
+		<xs:sequence>
+			<xs:element name="li" type="ontext.li.type" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="ontext.ol.type">
+		<xs:group ref="ontext.ol.content"/>
+		<xs:attributeGroup ref="ontext.ol.attlist"/>
+	</xs:complexType>
+	<!-- ul -->
+	<xs:attributeGroup name="ontext.ul.attlist"/>
+	<xs:group name="ontext.ul.content">
+		<xs:sequence>
+			<xs:element name="li" type="ontext.li.type" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="ontext.ul.type">
+		<xs:group ref="ontext.ul.content"/>
+		<xs:attributeGroup ref="ontext.ul.attlist"/>
+	</xs:complexType>
+	<!-- p -->
+	<xs:attributeGroup name="ontext.p.attlist"/>
+	<xs:group name="ontext.p.content">
+		<xs:sequence>
+			<xs:group ref="ontext.Inline.mix" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="ontext.p.type" mixed="true">
+		<xs:group ref="ontext.p.content"/>
+		<xs:attributeGroup ref="ontext.p.attlist"/>
+	</xs:complexType>
+	<!-- td -->
+	<xs:attributeGroup name="ontext.CellVAlign.attrib">
+		<xs:attribute name="valign">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="top"/>
+					<xs:enumeration value="middle"/>
+					<xs:enumeration value="bottom"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="ontext.CellHAlign.attrib">
+		<xs:attribute name="align">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="left"/>
+					<xs:enumeration value="center"/>
+					<xs:enumeration value="right"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="ontext.td.attlist">
+		<xs:attribute name="width" type="ontext.percent.type"/>
+		<xs:attributeGroup ref="ontext.CellHAlign.attrib"/>
+		<xs:attributeGroup ref="ontext.CellVAlign.attrib"/>
+	</xs:attributeGroup>
+	<xs:group name="ontext.td.content">
+		<xs:sequence>
+			<xs:group ref="ontext.Flow.mix" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="ontext.td.type" mixed="true">
+		<xs:group ref="ontext.td.content"/>
+		<xs:attributeGroup ref="ontext.td.attlist"/>
+	</xs:complexType>
+	<!-- tr -->
+	<xs:attributeGroup name="ontext.tr.attlist"/>
+	<xs:group name="ontext.tr.content">
+		<xs:sequence>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="td" type="ontext.td.type"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="ontext.tr.type">
+		<xs:group ref="ontext.tr.content"/>
+		<xs:attributeGroup ref="ontext.tr.attlist"/>
+	</xs:complexType>
+	<!-- table -->
+	<xs:attributeGroup name="ontext.table.attlist">
+		<xs:attribute name="width" type="ontext.percent.type"/>
+		<xs:attribute name="border" type="ontext.border.type"/>
+	</xs:attributeGroup>
+	<xs:group name="ontext.table.content">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="tr" type="ontext.tr.type" maxOccurs="unbounded"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="ontext.table.type">
+		<xs:group ref="ontext.table.content"/>
+		<xs:attributeGroup ref="ontext.table.attlist"/>
+	</xs:complexType>
+	<!-- classes -->
+	<xs:group name="ontext.Heading.class">
+		<xs:choice>
+			<xs:element name="h1" type="ontext.BlkHead.type"/>
+			<xs:element name="h2" type="ontext.BlkHead.type"/>
+			<xs:element name="h3" type="ontext.BlkHead.type"/>
+		</xs:choice>
+	</xs:group>
+	<xs:group name="ontext.List.class">
+		<xs:choice>
+			<xs:element name="ul" type="ontext.ul.type"/>
+			<xs:element name="ol" type="ontext.ol.type"/>
+		</xs:choice>
+	</xs:group>
+	<xs:group name="ontext.Table.class">
+		<xs:choice>
+			<xs:element name="table" type="ontext.table.type"/>
+		</xs:choice>
+	</xs:group>
+	<xs:group name="ontext.BlkStruct.class">
+		<xs:choice>
+			<xs:element name="p" type="ontext.p.type"/>
+		</xs:choice>
+	</xs:group>
+	<xs:group name="ontext.BlkSpecial.class">
+		<xs:choice>
+			<xs:group ref="ontext.Table.class"/>
+		</xs:choice>
+	</xs:group>
+	<xs:group name="ontext.Block.class">
+		<xs:choice>
+			<xs:group ref="ontext.BlkStruct.class"/>
+			<xs:group ref="ontext.BlkSpecial.class"/>
+		</xs:choice>
+	</xs:group>
+	<!--=== mix === -->
+	<xs:group name="ontext.Memo.mix">
+		<xs:choice>
+			<xs:group ref="ontext.InlStruct.class"/>
+		</xs:choice>
+	</xs:group>
+	<xs:group name="ontext.Inline.mix">
+		<xs:choice>
+			<xs:group ref="ontext.Inline.class"/>
+			<xs:group ref="ontext.Luecke.class"/>
+		</xs:choice>
+	</xs:group>
+	<xs:group name="ontext.Block.mix">
+		<xs:choice>
+			<xs:group ref="ontext.Heading.class"/>
+			<xs:group ref="ontext.List.class"/>
+			<xs:group ref="ontext.Block.class"/>
+		</xs:choice>
+	</xs:group>
+	<xs:group name="ontext.Flow.mix">
+		<xs:choice>
+			<xs:group ref="ontext.Heading.class"/>
+			<xs:group ref="ontext.List.class"/>
+			<xs:group ref="ontext.Block.class"/>
+			<xs:group ref="ontext.Inline.class"/>
+			<xs:group ref="ontext.Luecke.class"/>
+		</xs:choice>
+	</xs:group>
+	<!--=== main === -->
+	<xs:attributeGroup name="ontext.memo.attlist"/>
+	<xs:group name="ontext.memo.content">
+		<xs:sequence>
+			<xs:group ref="ontext.Memo.mix" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="ontext.memo.type" mixed="true">
+		<xs:group ref="ontext.memo.content"/>
+		<xs:attributeGroup ref="ontext.memo.attlist"/>
+	</xs:complexType>
+	<xs:attributeGroup name="ontext.text.attlist"/>
+	<xs:group name="ontext.text.content">
+		<xs:sequence>
+			<xs:group ref="ontext.Block.mix" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="ontext.text.type">
+		<xs:group ref="ontext.text.content"/>
+		<xs:attributeGroup ref="ontext.text.attlist"/>
+	</xs:complexType>
+</xs:schema>
