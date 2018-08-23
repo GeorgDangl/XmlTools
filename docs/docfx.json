@@ -15,7 +15,7 @@
       ],
       "dest":"./api",
       "properties":{
-        "TargetFramework":"netstandard1.3"
+        "TargetFramework":"netstandard2.0"
       }
     }
   ],
@@ -44,7 +44,7 @@
       "_enableSearch":true,
       "_gitUrlPattern": "github"
     },
-    "dest":"../generated_docs",
+    "dest":"../output",
     "template": [
       "default",
       "template"

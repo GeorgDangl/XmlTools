@@ -50,7 +50,7 @@ class Build : NukeBuild
     [KeyVaultSecret("XmlTools-DocuApiKey")] string DocuApiKey;
     [KeyVaultSecret] string NuGetApiKey;
 
-    string DocFxFile => SolutionDirectory / "docfx.json";
+    string DocFxFile => SolutionDirectory / "docs" / "docfx.json";
 
     // This is used to to infer which dotnet sdk version to use when generating DocFX metadata
     string DocFxDotNetSdkVersion = "2.1.4";
@@ -161,22 +161,20 @@ class Build : NukeBuild
         .Executes(() =>
         {
             // Using README.md as index.md
-            if (File.Exists(SolutionDirectory / "index.md"))
+            if (File.Exists(SolutionDirectory / "docs" / "index.md"))
             {
-                File.Delete(SolutionDirectory / "index.md");
+                File.Delete(SolutionDirectory / "docs" / "index.md");
             }
 
-            File.Copy(SolutionDirectory / "README.md", SolutionDirectory / "index.md");
+            File.Copy(SolutionDirectory / "README.md", SolutionDirectory / "docs" / "index.md");
 
             DocFxBuild(DocFxFile, s => s
                 .ClearXRefMaps()
                 .SetLogLevel(DocFxLogLevel.Warning));
 
-            File.Delete(SolutionDirectory / "index.md");
-            Directory.Delete(SolutionDirectory / "core", true);
-            Directory.Delete(SolutionDirectory / "cli", true);
-            Directory.Delete(SolutionDirectory / "nuke", true);
-            Directory.Delete(SolutionDirectory / "obj", true);
+            File.Delete(SolutionDirectory / "docs" / "index.md");
+            Directory.Delete(SolutionDirectory / "docs" / "api", true);
+            Directory.Delete(SolutionDirectory / "docs" / "obj", true);
         });
 
     Target UploadDocumentation => _ => _
