@@ -10,7 +10,10 @@ namespace XmlTools.Console
         [Option('o', "output", Required = true, HelpText = "Relative or absolute path to the output code file")]
         public string OutputFilePath { get; set; }
 
-        [Option('n', "namespace", Required = true, HelpText = "Namespace for the generated class")]
+        [Option('n', "namespace", Required = false, HelpText = "Namespace for the generated class")]
         public string Namespace { get; set; }
+
+        [Option('f', "flatten", Required = false, HelpText = "If enabled, groups will be flattened")]
+        public bool FlattenGroups { get; set; }
     }
 }

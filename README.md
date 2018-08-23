@@ -1,7 +1,8 @@
 # XmlTools
 
-[![Build Status](https://jenkins.dangl.me/buildStatus/icon?job=XmlTools.Tests)](https://jenkins.dangl.me/job/XmlTools.Tests)
-[![NuGet](https://img.shields.io/nuget/v/XmlTools.svg)](https://www.nuget.org/packages/XmlTools)
+[![Build Status](https://jenkins.dangl.me/buildStatus/icon?job=XmlTools/develop)](https://jenkins.dangl.me/job/XmlTools/develop)  
+[![NuGet](https://img.shields.io/nuget/v/XmlTools.svg)](https://www.nuget.org/packages/XmlTools)  
+[![Built with Nuke](http://nuke.build/rounded)](https://www.nuke.build)  
 
 [Online Documentation](https://docs.dangl-it.com/Projects/XmlTools)
 
@@ -32,8 +33,8 @@ With the package available in the local NuGet cache, you need to create two file
 ```PowerShell
 param([string]$inputPath, [string]$outputPath, [string]$namespace)
 # Find the latest version of the XmlTools.Console app
-$xmlToolPackages = Join-Path -Path $env:USERPROFILE -ChildPath "\.nuget\packages\XmlTools"
-$latestXmlToolConsoleApp = Join-Path -Path ((Get-ChildItem -Path $xmlToolPackages | Sort-Object Fullname -Descending)[0].FullName) -ChildPath "Tools\net46\XmlTools.Console.exe"
+$xmlToolPackages = Join-Path -Path $env:USERPROFILE -ChildPath "\.nuget\packages\XmlTools.Console"
+$latestXmlToolConsoleApp = Join-Path -Path ((Get-ChildItem -Path $xmlToolPackages | Sort-Object Fullname -Descending)[0].FullName) -ChildPath "tools\net461\XmlTools.Console.exe"
 # Call the tool to make the conversion
 & $latestXmlToolConsoleApp -i $inputPath -o $outputPath -n $namespace
 ```
@@ -45,3 +46,9 @@ whenever you want to recreate your code.
 
 There's the `XmlSchemaParser` in `XmlTools.Parser` to read Xml schemas and then there's the `XmlSchemaCorrectorGenerator`
 in `XmlTools.CodeGenerator` to create validation code.
+
+### Flattener
+
+The function of the `XmlTools.GroupFlattener.Flattener` is to flatten or unroll groups. Many Xml tools have trouble
+with resolving circular group references, so this is an easy way to fix this while still preserving the schema. In addition,
+it makes sure that any elements of type `xs:key` will have their unique naming restored.

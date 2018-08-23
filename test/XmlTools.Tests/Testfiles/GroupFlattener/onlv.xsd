@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.oenorm.at/schema/A2063/2009-06-01" xmlns:on="http://www.oenorm.at/schema/A2063/2009-06-01" targetNamespace="http://www.oenorm.at/schema/A2063/2009-06-01" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:include schemaLocation="ontypdef.xsd"/>
+	<xs:annotation>
+		<xs:documentation>onlv.xsd - ÖNORM A 2063 Datenbestand LV</xs:documentation>
+	</xs:annotation>
+	<xs:annotation>
+		<xs:documentation> ÖNORM A 2063, Ausgabe: 2011-05-01
+
+Austausch von Leistungsbeschreibungs-, Elementkatalogs-, Ausschreibungs-, Angebots-, Auftrags- und Abrechnungsdaten in elektronischer Form
+
+Folgende Schema-Dokumente bilden einen Bestandteil zur Umsetzung der vorliegenden ÖNORM:
+–	ontypdef.xsd: Typdefinitionen für alle Datenbestände;
+–	onformel.xsd: Formelkatalog nach Anhang A;
+–	ontext.xsd: Formatierung der Texte von Vorbemerkungen und Positionen;
+–	onlb.xsd: Datenbestand LB;
+–	onpr.xsd: Datenbestand Preise zu einer LB;
+–	onaek.xsd: Datenbestand AEK;
+–	onpek.xsd: Datenbestand PEK;
+–	onlv.xsd: Datenbestand LV;
+–	onre.xsd: Datenbestand Abrechnung einschließlich Mengenberechnung.
+
+Weitere Informationen:
+http://www.as-institute.at/development/downloads/
+
+Copyright © Austrian Standards Institute 2011.
+
+Austrian Standards Institute/
+Österreichisches Normungsinstitut (ON)
+Heinestraße 38, 1020 Wien
+</xs:documentation>
+	</xs:annotation>
+	<!--===-->
+	<xs:group name="onlv-pos.group">
+		<xs:annotation>
+			<xs:documentation>Daten je Position/Wählbare Vorbemerkung</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="pos-eigenschaften" type="lv-wvb-pos.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="onlv-list-posfrei.group">
+		<xs:annotation>
+			<xs:documentation>Liste Positionen und Wählbare Vorbemerkungen (LV ohne Gliederung)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="preiserstellungsverfahren" type="preiserstellungsverfahren.type"/>
+			<xs:element name="positionen">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="position" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:group ref="onlv-pos.group"/>
+								</xs:sequence>
+								<xs:attribute name="nr" type="posnrfrei.type" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:key name="uid_posfrei">
+					<xs:selector xpath="on:position"/>
+					<xs:field xpath="@nr"/>
+				</xs:key>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="onlv-list-pos.group">
+		<xs:annotation>
+			<xs:documentation>Liste Positionen und Wählbare Vorbemerkungen (LV mit Gliederung; geteilte oder ungeteilte)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="positionen">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="grundtextnr" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>2-stellige Nr.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:choice>
+									<xs:annotation>
+										<xs:documentation>Entweder n-mal ungeteilte Positionen mit Mehrfachverwendung oder ein Grundtext und n-mal Folgepositionen</xs:documentation>
+									</xs:annotation>
+									<xs:element name="ungeteilteposition" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:group ref="onlv-pos.group"/>
+											</xs:sequence>
+											<xs:attribute name="mfv" type="mfv-optional.type" use="required">
+												<xs:annotation>
+													<xs:documentation>Leerstring wenn Position ohne Mehrfachverwendung</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+										</xs:complexType>
+									</xs:element>
+									<xs:sequence>
+										<xs:element name="grundtext" type="lv-grundtext.type"/>
+										<xs:element name="folgeposition" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:group ref="onlv-pos.group"/>
+												</xs:sequence>
+												<xs:attribute name="ftnr" type="ftnr.type" use="required"/>
+												<xs:attribute name="mfv" type="mfv-optional.type" use="required">
+													<xs:annotation>
+														<xs:documentation>Leerstring wenn Position ohne Mehrfachverwendung</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:choice>
+								<xs:attribute name="nr" type="gtnr.type" use="required"/>
+							</xs:complexType>
+							<xs:key name="uid_ungeteiltepos">
+								<xs:selector xpath="on:ungeteilteposition"/>
+								<xs:field xpath="@mfv"/>
+							</xs:key>
+							<xs:key name="uid_folgepos">
+								<xs:selector xpath="on:folgeposition"/>
+								<xs:field xpath="@ftnr"/>
+								<xs:field xpath="@mfv"/>
+							</xs:key>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:key name="uid_grundtext">
+					<xs:selector xpath="on:grundtextnr"/>
+					<xs:field xpath="@nr"/>
+				</xs:key>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="onlv-list-ulg.group">
+		<xs:annotation>
+			<xs:documentation>Liste ULG</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ulg-liste">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ulg" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ulg-eigenschaften" type="lv-ulg.type"/>
+									<xs:group ref="onlv-list-pos.group"/>
+									<xs:element name="ulg-summe" type="gruppensumme.type" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Nicht im Entwurfs-LV und Ausschreibungs-LV</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="nr" type="ulgnr.type" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:key name="uid_ulg">
+					<xs:selector xpath="on:ulg"/>
+					<xs:field xpath="@nr"/>
+				</xs:key>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="onlv-list-lg.group">
+		<xs:annotation>
+			<xs:documentation>Liste LG</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="lv-ogheader.group"/>
+			<xs:element name="lg-liste">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="lg" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="lg-eigenschaften" type="lv-lg.type"/>
+									<xs:group ref="onlv-list-ulg.group"/>
+									<xs:element name="lg-summe" type="gruppensumme.type" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Nicht im Entwurfs-LV und Ausschreibungs-LV</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="nr" type="lgnr.type" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:key name="uid_lg">
+					<xs:selector xpath="on:lg"/>
+					<xs:field xpath="@nr"/>
+				</xs:key>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="onlv-list-og.group">
+		<xs:annotation>
+			<xs:documentation>Liste OG</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="og-liste">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="og" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="og-eigenschaften" type="lv-og.type"/>
+									<xs:group ref="onlv-list-lg.group"/>
+									<xs:element name="og-summe" type="gruppensumme.type" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Nicht im Entwurfs-LV und Ausschreibungs-LV</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="nr" type="ognr.type" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:key name="uid_og">
+					<xs:selector xpath="on:og"/>
+					<xs:field xpath="@nr"/>
+				</xs:key>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="onlv-list-hg.group">
+		<xs:annotation>
+			<xs:documentation>Liste HG</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="hg-liste">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="hg" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="hg-eigenschaften" type="lv-hg.type"/>
+									<xs:group ref="onlv-list-og.group"/>
+									<xs:element name="hg-summe" type="gruppensumme.type" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Nicht im Entwurfs-LV und Ausschreibungs-LV</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="nr" type="hgnr.type" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:key name="uid_hg">
+					<xs:selector xpath="on:hg"/>
+					<xs:field xpath="@nr"/>
+				</xs:key>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="onlv-body.group">
+		<xs:annotation>
+			<xs:documentation>LV-Body</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="gliederung-hg">
+					<xs:annotation>
+						<xs:documentation>LV mit Gliederung; Gliederung HG, OG, LG, ULG, Posnr</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:group ref="onlv-list-hg.group"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="gliederung-og">
+					<xs:annotation>
+						<xs:documentation>LV mit Gliederung; Gliederung OG, LG, ULG, Posnr</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:group ref="onlv-list-og.group"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="gliederung-lg">
+					<xs:annotation>
+						<xs:documentation>LV mit Gliederung; Gliederung LG, ULG, Posnr</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:group ref="onlv-list-lg.group"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="gliederung-posfrei">
+					<xs:annotation>
+						<xs:documentation>LV ohne Gliederung; Posnr</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:group ref="onlv-list-posfrei.group"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+			<xs:sequence>
+				<xs:element name="lv-summe" type="gruppensumme.type" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Nicht im Entwurfs-LV und Ausschreibungs-LV</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="summenormalausfuehrung" type="gesamtsumme.type" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Nicht im Entwurfs-LV und Ausschreibungs-LV</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:group ref="variantenzusammenstellungstabelle.group"/>
+				<xs:group ref="teilangebotstabelle.group"/>
+			</xs:sequence>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="onlv-header.group">
+		<xs:annotation>
+			<xs:documentation>LV-Header</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="grafiktabelle.group"/>
+			<xs:group ref="leistungsteiltabelle.group"/>
+			<xs:group ref="akztabelle.group"/>
+			<xs:element name="hilfsberechnungen" type="mebe-hilfsberechnungen.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Globale Hilfsberechnungen für die Mengenermittlung; Optional im Entwurfs-LV und Kostenschätzungs-LV, sonst nicht erlaubt</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="zugelassenenachlaesse.group"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:element name="onlv">
+		<xs:annotation>
+			<xs:documentation>Root</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:group ref="metadaten.group"/>
+				<xs:group ref="onlv-header.group"/>
+				<xs:choice>
+					<xs:element name="entwurfs-lv">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="kenndaten" type="lv-kenndaten-entwurfslv.type"/>
+								<xs:group ref="onlv-body.group"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="kostenschaetzungs-lv">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="kenndaten" type="lv-kenndaten-kostenschaetzungslv.type"/>
+								<xs:group ref="onlv-body.group"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="ausschreibungs-lv">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="kenndaten" type="lv-kenndaten-ausschreibungslv.type"/>
+								<xs:group ref="onlv-body.group"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="angebots-lv">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="kenndaten" type="lv-kenndaten-angebotslv.type"/>
+								<xs:group ref="onlv-body.group"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="alternativangebots-lv">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="kenndaten" type="lv-kenndaten-angebotslv.type"/>
+								<xs:group ref="onlv-body.group"/>
+							</xs:sequence>
+							<xs:attribute name="alternativangebotsnummer" type="altangnummer.type" use="required"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="abaenderungsangebot-lv">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="kenndaten" type="lv-kenndaten-angebotslv.type"/>
+								<xs:group ref="onlv-body.group"/>
+							</xs:sequence>
+							<xs:attribute name="abaenderungsangebotsnummer" type="altangnummer.type" use="required"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="vertrags-lv">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="kenndaten" type="lv-kenndaten-vertragslv.type"/>
+								<xs:group ref="onlv-body.group"/>
+							</xs:sequence>
+							<xs:attribute name="alternativangebotsnummer" type="altangnummer.type"/>
+							<xs:attribute name="abaenderungsangebotsnummer" type="altangnummer.type"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="abrechnungs-lv">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="kenndaten" type="lv-kenndaten-abrechnungslv.type"/>
+								<xs:group ref="onlv-body.group"/>
+							</xs:sequence>
+							<xs:attribute name="alternativangebotsnummer" type="altangnummer.type"/>
+							<xs:attribute name="abaenderungsangebotsnummer" type="altangnummer.type"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="zusatzangebots-lv">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="kenndaten" type="lv-kenndaten-zusatzangebotslv.type"/>
+								<xs:group ref="onlv-body.group"/>
+							</xs:sequence>
+							<xs:attribute name="zusatzangebotslvnummer" type="zusatzangebotslvnummer.type" use="required"/>
+						</xs:complexType>
+					</xs:element>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

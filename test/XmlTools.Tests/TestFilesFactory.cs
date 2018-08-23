@@ -21,6 +21,11 @@ namespace XmlTools.Tests
             return GetStreamForTestFile("SchemaCorrector", file.ToString());
         }
 
+        public static Stream GetStreamForTestFile(GroupFlattenerTestFile file)
+        {
+            return GetStreamForTestFile("GroupFlattener", file.ToString());
+        }
+
         private static Stream GetStreamForTestFile(string testFileCategory, string testFile)
         {
             var resourceNameStart = $"XmlTools.Tests.Testfiles.{testFileCategory}.{testFile}";

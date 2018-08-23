@@ -7,12 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A73E0B67-F19
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{11F59317-49B5-434A-982D-FA1250E55CAA}"
 	ProjectSection(SolutionItems) = preProject
-		AppendxUnitFramework.ps1 = AppendxUnitFramework.ps1
-		GenerateAndDeployDocs.ps1 = GenerateAndDeployDocs.ps1
+		CHANGELOG.md = CHANGELOG.md
+		GitVersion.yml = GitVersion.yml
 		LICENCE.md = LICENCE.md
 		README.md = README.md
-		Tests.ps1 = Tests.ps1
-		TestsAndCoverage.ps1 = TestsAndCoverage.ps1
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{57E9C9EF-A3EB-4503-A71B-198646C464C6}"
@@ -22,6 +20,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XmlTools.Tests", "test\XmlTools.Tests\XmlTools.Tests.csproj", "{179B81CD-1EE8-499D-91B7-48DAA7E4DA02}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XmlTools.Console", "src\XmlTools.Console\XmlTools.Console.csproj", "{D44A20C7-C673-4138-A910-FAA3E00D1109}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = ".build", "build\.build.csproj", "{53A60B0A-C27A-4FC4-B3C9-22A9705D263A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +41,9 @@ Global
 		{D44A20C7-C673-4138-A910-FAA3E00D1109}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D44A20C7-C673-4138-A910-FAA3E00D1109}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D44A20C7-C673-4138-A910-FAA3E00D1109}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53A60B0A-C27A-4FC4-B3C9-22A9705D263A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53A60B0A-C27A-4FC4-B3C9-22A9705D263A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53A60B0A-C27A-4FC4-B3C9-22A9705D263A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

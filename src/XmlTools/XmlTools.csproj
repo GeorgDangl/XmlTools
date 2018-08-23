@@ -1,13 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Copyright>Copyright 2017 Georg Dangl</Copyright>
     <AssemblyTitle>XmlTools</AssemblyTitle>
-    <VersionPrefix>0.1.2</VersionPrefix>
-    <VersionSuffix Condition=" '$(GIT_BRANCH)' == 'origin/develop'">build-$(BUILD_NUMBER)</VersionSuffix>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Georg Dangl</Authors>
-    <TargetFrameworks>netstandard1.3;net46</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.0;net461</TargetFrameworks>
     <AssemblyName>XmlTools</AssemblyName>
     <PackageId>XmlTools</PackageId>
     <PackageTags>Xml;Schema;XSD;Validation</PackageTags>
