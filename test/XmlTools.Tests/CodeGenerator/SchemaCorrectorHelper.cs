@@ -67,7 +67,7 @@ namespace XmlTools.Tests.CodeGenerator
 #if NETSTANDARD
                 var assembly = System.Runtime.Loader.AssemblyLoadContext.Default.LoadFromStream(ms);
 #endif
-#if NET46
+#if NET461
                 var assembly = Assembly.Load(ms.ToArray());
 #endif
                 return assembly;
