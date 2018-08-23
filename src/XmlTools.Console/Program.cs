@@ -31,8 +31,6 @@ namespace XmlTools.Console
                     DisplayExceptionDetails(e);
                 }
             }
-            System.Console.WriteLine("Press any key to exit");
-            System.Console.ReadKey();
         }
 
         private static void DisplayExceptionDetails(Exception e)
