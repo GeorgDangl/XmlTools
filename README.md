@@ -6,14 +6,15 @@
 
 [Online Documentation](https://docs.dangl-it.com/Projects/XmlTools)
 
-This packages purpose is to correct invalid Xml files where enumeration restrictions
+This packages purpose is to correct invalid Xml files where enumeration restrictions or Xml date format masks
 are violated. It's intended to make working with code generated from Xml schemas easier.
 
 While it can be used dynamically (see `XmlTools.Tests.CodeGenerator.SchemaCorrectorHelper` for dynamically
 generating the code, compiling in-memory with Roslyn and then working with this code), it's main
 use case is to auto generate code that is then used to sanitize incoming Xml.
 
-Features are currently limited to correcting Xml enumeration restrictions.
+Features are currently limited to correcting Xml enumeration restrictions and repairing or removing invalid
+Xml date elements.
 Both attributes and elements are supported. When an invalid enumeration value
 is encountered, it is either **deleted** if it's not valid at all or **case corrected**
 if the casing is off.
