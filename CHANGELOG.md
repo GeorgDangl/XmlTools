@@ -2,7 +2,7 @@
 
 All notable changes to **XmlTools** are documented here.
 
-# v0.3.1
+## v0.3.1
 - Fix comment style in generated code
 
 ## v0.3.0:
