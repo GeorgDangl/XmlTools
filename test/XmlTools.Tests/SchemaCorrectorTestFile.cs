@@ -33,6 +33,8 @@ namespace XmlTools.Tests
         SchemaWithComplexTypeWithSimpleContentAsEnumerationWithAttribute_MultipleIssues = 26,
         SchemaWithComplexTypeWithSimpleContentAsEnumerationWithAttribute_MultipleIssues_Expected = 27,
         SchemaWithEnumerationAttribute_EnumAttributeNameCasing = 28,
-        SchemaWithEnumerationAttribute_EnumAttributeNameCasing_Expected = 29
+        SchemaWithEnumerationAttribute_EnumAttributeNameCasing_Expected = 29,
+        GAEB_XML_InvalidDateTimes = 30,
+        GAEB_XML_InvalidDateTimes_Expected = 31
     }
 }

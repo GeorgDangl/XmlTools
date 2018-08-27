@@ -364,5 +364,26 @@ namespace XmlTools.Tests.Parser.FileTests
             var allValuesPresent = expectedValues.All(v => attributeType.EnumerationValues.Any(e => e == v));
             Assert.True(allValuesPresent);
         }
+
+        [Fact]
+        public void DetectAllXmlDateTimeTypes()
+        {
+            var expectedDateTimeTypes = new[]
+            {
+                "tgDate"
+            };
+
+            foreach (var xmlType in GetAllElementTypesUsedInSchema())
+            {
+                if (expectedDateTimeTypes.Contains(xmlType.Name))
+                {
+                    Assert.True(xmlType.GetType().IsAssignableFrom(typeof(XmlDateTimeType)), $"Did expect {xmlType.Name} to be a DateTime type");
+                }
+                else
+                {
+                    Assert.False(xmlType.GetType().IsAssignableFrom(typeof(XmlDateTimeType)), $"Did not expect {xmlType.Name} to be a DateTime type");
+                }
+            }
+        }
     }
 }
