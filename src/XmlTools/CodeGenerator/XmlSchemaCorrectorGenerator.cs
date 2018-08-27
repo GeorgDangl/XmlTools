@@ -35,6 +35,9 @@ namespace XmlTools.CodeGenerator
         {
             var usings = new[]
             {
+                "System.Text.RegularExpressions",
+                "System",
+                "System.Xml",
                 "System.Xml.Linq",
                 "System.Linq",
                 "System.CodeDom.Compiler"

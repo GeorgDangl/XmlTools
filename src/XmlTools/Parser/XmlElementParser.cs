@@ -111,6 +111,8 @@ namespace XmlTools.Parser
 
         private void SetUpXmlTypeParsers()
         {
+            var dateTimeParser = new XmlDateTimeParser(_document);
+            XmlTypeParsers.Add(dateTimeParser);
             var enumerationRestrictionParser = new EnumerationRestrictionParser(_document);
             var simpleTypeParser = new XmlSimpleTypeParser(_document, _xmlUnknownTypeParser, enumerationRestrictionParser);
             XmlTypeParsers.Add(simpleTypeParser);

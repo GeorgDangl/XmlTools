@@ -1,12 +1,12 @@
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Emit;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Emit;
 
 namespace XmlTools.Tests.CodeGenerator
 {
@@ -56,7 +56,6 @@ namespace XmlTools.Tests.CodeGenerator
             return compilation;
         }
 
-
         private static Assembly CompileLoadAndGetAssembly(CSharpCompilation compilation)
         {
             using (var ms = new MemoryStream())
@@ -93,7 +92,6 @@ namespace XmlTools.Tests.CodeGenerator
             }
         }
 
-
         private static IEnumerable<MetadataReference> GetAssemblyReferences()
         {
             var references = new MetadataReference[]
@@ -102,10 +100,21 @@ namespace XmlTools.Tests.CodeGenerator
                 MetadataReference.CreateFromFile(Path.Combine(typeof(object).GetTypeInfo().Assembly.Location, "..", "mscorlib.dll")),
                 MetadataReference.CreateFromFile(Path.Combine(typeof(object).GetTypeInfo().Assembly.Location, "..", "System.Runtime.dll")),
                 MetadataReference.CreateFromFile(Path.Combine(typeof(object).GetTypeInfo().Assembly.Location, "..", "System.Collections.dll")),
+                MetadataReference.CreateFromFile(Path.Combine(typeof(object).GetTypeInfo().Assembly.Location, "..", "System.Xml.ReaderWriter.dll")),
+                MetadataReference.CreateFromFile(Path.Combine(typeof(object).GetTypeInfo().Assembly.Location, "..", "System.Xml.dll")),
+                MetadataReference.CreateFromFile(Path.Combine(typeof(object).GetTypeInfo().Assembly.Location, "..", "System.Text.RegularExpressions.dll")),
                 MetadataReference.CreateFromFile(typeof(Enumerable).GetTypeInfo().Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(XElement).GetTypeInfo().Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(System.CodeDom.Compiler.GeneratedCodeAttribute).GetTypeInfo().Assembly.Location)
             };
+
+            if (File.Exists(Path.Combine(typeof(object).GetTypeInfo().Assembly.Location, "..", "System.Private.Xml.dll")))
+            {
+                references = references
+                    .Concat(new[] { MetadataReference.CreateFromFile(Path.Combine(typeof(object).GetTypeInfo().Assembly.Location, "..", "System.Private.Xml.dll")) })
+                    .ToArray();
+            }
+
             return references;
         }
     }

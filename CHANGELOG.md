@@ -2,6 +2,9 @@
 
 All notable changes to **XmlTools** are documented here.
 
+## v0.3.0:
+- Add feature to repair or remove invalid Xml date elements
+
 ## v0.2.0
 - Add `GroupFlattener`
 
