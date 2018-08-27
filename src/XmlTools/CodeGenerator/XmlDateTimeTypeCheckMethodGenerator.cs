@@ -23,9 +23,9 @@ namespace XmlTools.CodeGenerator
             _stringBuilder.AppendLine("if (Regex.IsMatch(elementDateValue, regexPattern))");
             using (new CodeGeneratorBlockWrapper(_stringBuilder))
             {
-                _stringBuilder.AppendLine("/// Replaces dates in a XML file that are not correctly formatted according to the XML specification.");
-                _stringBuilder.AppendLine("/// Use case: Sometimes a date is given in an European format, e.g. \"12.02.2015\" or \"12/02/2015\". This will be");
-                _stringBuilder.AppendLine("/// transformed to \"2015-02-15\" to comply with the XML Date specification.");
+                _stringBuilder.AppendLine("// Replaces dates in a XML file that are not correctly formatted according to the XML specification.");
+                _stringBuilder.AppendLine("// Use case: Sometimes a date is given in an European format, e.g. \"12.02.2015\" or \"12/02/2015\". This will be");
+                _stringBuilder.AppendLine("// transformed to \"2015-02-15\" to comply with the XML Date specification.");
                 _stringBuilder.AppendLine($"{CodeGeneratorConstants.ELEMENT_CHECK_METHOD_ELEMENT_VARIABLE_NAME}.Value = elementDateValue.Substring(6, 4) + \"-\" + elementDateValue.Substring(3, 2) + \"-\" + elementDateValue.Substring(0, 2);");
             }
             _stringBuilder.AppendLine("else");
