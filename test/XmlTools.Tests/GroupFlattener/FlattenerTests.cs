@@ -136,7 +136,7 @@ namespace XmlTools.Tests.GroupFlattener
             using (var inputStream = TestFilesFactory.GetStreamForTestFile(testFile))
             {
                 using (var resStrm = new XmlTools.GroupFlattener.Flattener(inputStream).FlattenGroups())
-                    {
+                {
                     using (var strmRdr = new StreamReader(resStrm))
                     {
                         var text = strmRdr.ReadToEnd();
