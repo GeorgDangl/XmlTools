@@ -2,6 +2,9 @@
 
 All notable changes to **XmlTools** are documented here.
 
+## v0.4.0:
+- Add feature to merge multiple schemas
+
 ## v0.3.1
 - Fix comment style in generated code
 
