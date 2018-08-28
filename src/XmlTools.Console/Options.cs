@@ -15,5 +15,8 @@ namespace XmlTools.Console
 
         [Option('f', "flatten", Required = false, HelpText = "If enabled, groups will be flattened")]
         public bool FlattenGroups { get; set; }
+
+        [Option('m', "merge", Required = false, HelpText = "If enabled, the schema will be merged")]
+        public bool MergeSchema { get; set; }
     }
 }

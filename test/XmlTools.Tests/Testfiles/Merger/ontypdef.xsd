@@ -1,0 +1,2537 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.oenorm.at/schema/A2063/2009-06-01" xmlns:on="http://www.oenorm.at/schema/A2063/2009-06-01" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.oenorm.at/schema/A2063/2009-06-01" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation>ontypdef.xsd - ÖNORM A 2063 Typdefinitionen für alle Datenbestände</xs:documentation>
+	</xs:annotation>
+	<xs:annotation>
+		<xs:documentation> ÖNORM A 2063, Ausgabe: 2011-05-01
+
+Austausch von Leistungsbeschreibungs-, Elementkatalogs-, Ausschreibungs-, Angebots-, Auftrags- und Abrechnungsdaten in elektronischer Form
+
+Folgende Schema-Dokumente bilden einen Bestandteil zur Umsetzung der vorliegenden ÖNORM:
+–	ontypdef.xsd: Typdefinitionen für alle Datenbestände;
+–	onformel.xsd: Formelkatalog nach Anhang A;
+–	ontext.xsd: Formatierung der Texte von Vorbemerkungen und Positionen;
+–	onlb.xsd: Datenbestand LB;
+–	onpr.xsd: Datenbestand Preise zu einer LB;
+–	onaek.xsd: Datenbestand AEK;
+–	onpek.xsd: Datenbestand PEK;
+–	onlv.xsd: Datenbestand LV;
+–	onre.xsd: Datenbestand Abrechnung einschließlich Mengenberechnung.
+
+Weitere Informationen:
+http://www.as-institute.at/development/downloads/
+
+Copyright © Austrian Standards Institute 2011.
+
+Austrian Standards Institute/
+Österreichisches Normungsinstitut (ON)
+Heinestraße 38, 1020 Wien
+</xs:documentation>
+	</xs:annotation>
+	<xs:include schemaLocation="onformel.xsd"/>
+	<xs:include schemaLocation="ontext.xsd"/>
+	<!--===-->
+	<!--===Allgemeine Typen-->
+	<xs:simpleType name="text.type">
+		<xs:annotation>
+			<xs:documentation>Allgemeiner einzeiliger Text</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:normalizedString">
+			<xs:whiteSpace value="replace"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="text60.type">
+		<xs:annotation>
+			<xs:documentation>Allgemeiner einzeiliger Text, Min. Länge 1, Max.Länge 60</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="text.type">
+			<xs:maxLength value="60"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="memo.type">
+		<xs:annotation>
+			<xs:documentation>Allgemeiner mehrzeiliger Text ohne Formatierungen, nur Zeilenumbruch</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ontext.memo.type"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="formatmemo.type">
+		<xs:annotation>
+			<xs:documentation>Allgemeiner mehrzeiliger Text mit Formatierungen</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ontext.text.type"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="formatmemo-albl.type">
+		<xs:annotation>
+			<xs:documentation>Mehrzeiliger Text mit Formatierungen und Lücken</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ontext.text.type"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="datum.type">
+		<xs:annotation>
+			<xs:documentation>Datum</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="datumzeit.type">
+		<xs:annotation>
+			<xs:documentation>Datum und Uhrzeit</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:dateTime"/>
+	</xs:simpleType>
+	<xs:simpleType name="bild.type">
+		<xs:annotation>
+			<xs:documentation>Bild-Datei (Binärdaten); Max. Größe festgelegt.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:base64Binary">
+			<xs:maxLength value="65536"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="bildmitformat.type">
+		<xs:annotation>
+			<xs:documentation>Bild-Datei mit Angabe des Grafikformates</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="format" type="grafikformat.type"/>
+			<xs:element name="daten" type="bild.type"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="uuid.type">
+		<xs:annotation>
+			<xs:documentation>Universally Unique Identifier (UUID) nach ISO/IEC 9834-8</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:length value="36"/>
+			<xs:pattern value="[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="keystring.type">
+		<xs:annotation>
+			<xs:appinfo>alphanum[*]</xs:appinfo>
+			<xs:documentation>Ziffern/Großbuchstaben, für Ordnungsbegriffe</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:pattern value="[A-Z0-9]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="keystringpunkt.type">
+		<xs:annotation>
+			<xs:appinfo>alphanum[*]</xs:appinfo>
+			<xs:documentation>Ziffern/Großbuchstaben/Punkt/Bindestrich, für Ordnungsbegriffe</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:pattern value="[A-Z0-9\.\-]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="grossbuchstaben.type">
+		<xs:annotation>
+			<xs:appinfo>alphanum[*]</xs:appinfo>
+			<xs:documentation>Nur Großbuchstaben, für Ordnungsbegriffe</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:pattern value="[A-Z]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="betrag.type">
+		<xs:annotation>
+			<xs:documentation>Geldbetrag, Preis, Summe (9 999 999 999,99)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="12"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="prozent.type">
+		<xs:annotation>
+			<xs:documentation>Allgemeiner Prozentsatz (-99,99 bis 999,99)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="5"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ustsatz.type">
+		<xs:annotation>
+			<xs:documentation>Umsatzsteuersatz in Prozent (0 bis 99,99)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="4"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ustkennzeichen.type">
+		<xs:annotation>
+			<xs:documentation>Umsatzsteuerkennzeichen (0-9)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="9"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="wkz.type">
+		<xs:annotation>
+			<xs:documentation>Währungskennzeichen nach ISO 4217</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="keystring.type">
+			<xs:length value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="kontakt-adresse.type">
+		<xs:annotation>
+			<xs:documentation>Adresse</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="strasse" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="text.type">
+						<xs:maxLength value="60"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ort">
+				<xs:simpleType>
+					<xs:restriction base="text.type">
+						<xs:maxLength value="60"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="plz">
+				<xs:simpleType>
+					<xs:restriction base="text.type">
+						<xs:maxLength value="10"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="land">
+				<xs:annotation>
+					<xs:documentation>Dreibuchstabiges Länderkürzel nach ISO 3166-1 (ALPHA-3)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="text.type">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="kontakt-kommunikation.type">
+		<xs:annotation>
+			<xs:documentation>Kontaktkommunikation: Adresse, Tel, Fax, E-Mail, www, Zusatzinfo</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="adresse" type="kontakt-adresse.type" minOccurs="0"/>
+			<xs:element name="telefon" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="text.type">
+						<xs:maxLength value="30"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="fax" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="text.type">
+						<xs:maxLength value="30"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="email" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="text.type">
+						<xs:maxLength value="80"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="www" type="xs:anyURI" minOccurs="0"/>
+			<xs:element name="zusatzinfo" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="text.type">
+						<xs:maxLength value="80"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="kontakt-firma.type">
+		<xs:annotation>
+			<xs:documentation>Firma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="name" type="text60.type"/>
+			<xs:element name="kommunikation" type="kontakt-kommunikation.type" minOccurs="0"/>
+			<xs:element name="kontaktperson" type="kontakt-person.type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="kontakt-person.type">
+		<xs:annotation>
+			<xs:documentation>Person</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="nachname" type="text60.type"/>
+			<xs:element name="vorname" type="text60.type" minOccurs="0"/>
+			<xs:element name="kommunikation" type="kontakt-kommunikation.type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="kontakt.type">
+		<xs:annotation>
+			<xs:documentation>Kontakt, Firma oder Person</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="firma" type="kontakt-firma.type"/>
+			<xs:element name="person">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="kontakt-person.type"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:group name="metadaten.group">
+		<xs:annotation>
+			<xs:documentation>Allgemeine Metadaten für jeden ÖNORM-Datenträger</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="metadaten">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="erstelltam" type="datumzeit.type">
+							<xs:annotation>
+								<xs:documentation>Datum und Uhrzeit beim Erstellen der XML-Datei</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="dateiname" type="text60.type">
+							<xs:annotation>
+								<xs:documentation>Dateiname beim Erstellen der XML-Datei</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="programmsystem" type="text60.type">
+							<xs:annotation>
+								<xs:documentation>Erstellt mit Programmsystem</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="programmversion" type="text60.type">
+							<xs:annotation>
+								<xs:documentation>Version des Programmsystems</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<!--===-->
+	<!--===Allgemeine LB-/LV-Typen-->
+	<xs:simpleType name="hgnr.type">
+		<xs:annotation>
+			<xs:documentation>HG-Nummer</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="keystring.type">
+			<xs:length value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ognr.type">
+		<xs:annotation>
+			<xs:documentation>OG-Nummer</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="keystring.type">
+			<xs:length value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="lgnr.type">
+		<xs:annotation>
+			<xs:documentation>LG-Nummer</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="keystring.type">
+			<xs:length value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ulgnr.type">
+		<xs:annotation>
+			<xs:documentation>ULG-Nummer</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="keystring.type">
+			<xs:length value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="gtnr.type">
+		<xs:annotation>
+			<xs:documentation>Grundtext-Nummer oder ungeteilte Pos, 2stellig</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="keystring.type">
+			<xs:length value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ftnr.type">
+		<xs:annotation>
+			<xs:documentation>Kennzeichen für Folgetextposition (A-Z)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="grossbuchstaben.type">
+			<xs:length value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="mfv.type">
+		<xs:annotation>
+			<xs:documentation>Kennzeichen für Mehrfachverwendung (1-9)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:length value="1"/>
+			<xs:pattern value="[1-9]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="mfv-optional.type">
+		<xs:annotation>
+			<xs:documentation>Kennzeichen für Mehrfachverwendung (1-9), optional</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:pattern value="[1-9]?"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="posnrfrei.type">
+		<xs:annotation>
+			<xs:documentation>Positionsnummer frei, 1-12stellig, für LV ohne Gliederung</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="keystringpunkt.type">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="12"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ueberschrift.type">
+		<xs:annotation>
+			<xs:documentation>Überschrift (HG,OG,LG,ULG)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="text60.type"/>
+	</xs:simpleType>
+	<xs:group name="stichwort.group">
+		<xs:annotation>
+			<xs:documentation>Stichwort (optional mit Stichwortlücke)</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="stichwort">
+				<xs:simpleType>
+					<xs:restriction base="text.type">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="60"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:sequence>
+				<xs:element name="stichwort-kurz">
+					<xs:simpleType>
+						<xs:restriction base="text.type">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="50"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="stichwort-luecke">
+					<xs:simpleType>
+						<xs:restriction base="text.type">
+							<xs:maxLength value="10"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:choice>
+	</xs:group>
+	<xs:complexType name="langtext.type">
+		<xs:annotation>
+			<xs:documentation>Langtext ohne Lücken</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="formatmemo.type"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="langtext-albl.type">
+		<xs:annotation>
+			<xs:documentation>Langtext mit Ausschreiber- und Bieterlücken</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="formatmemo-albl.type"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="einheit.type">
+		<xs:annotation>
+			<xs:documentation>Mengeneinheit</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="cm"/>
+			<xs:enumeration value="m"/>
+			<xs:enumeration value="km"/>
+			<xs:enumeration value="cm²"/>
+			<xs:enumeration value="m²"/>
+			<xs:enumeration value="cm³"/>
+			<xs:enumeration value="m³"/>
+			<xs:enumeration value="l"/>
+			<xs:enumeration value="g"/>
+			<xs:enumeration value="kg"/>
+			<xs:enumeration value="t"/>
+			<xs:enumeration value="Stk"/>
+			<xs:enumeration value="PA"/>
+			<xs:enumeration value="h"/>
+			<xs:enumeration value="d"/>
+			<xs:enumeration value="Wo"/>
+			<xs:enumeration value="Mo"/>
+			<xs:enumeration value="VE"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="herkunftskennzeichen.type">
+		<xs:annotation>
+			<xs:documentation>Kennzeichen für Ergänzungs-LB/Freiformulierte Position (+, Z)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="+"/>
+			<xs:enumeration value="Z"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="vorbemerkungskennzeichen.type">
+		<xs:annotation>
+			<xs:documentation>Kennzeichen für hierarchisch übergeordnete frei formulierte Vorbemerkungen (V)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="V"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="preisanteilmodell.type">
+		<xs:annotation>
+			<xs:documentation>Preisanteilmodell: Preisanteile oder nur Preis</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="preisanteile">
+					<xs:annotation>
+						<xs:documentation>Aufgliederung in Preisanteile</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="preisanteilbez" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>wenn nicht angegegeben, gilt "Lohn" und "Sonstiges"</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="preisanteil1bez">
+											<xs:simpleType>
+												<xs:restriction base="text.type">
+													<xs:minLength value="1"/>
+													<xs:maxLength value="10"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="preisanteil2bez">
+											<xs:simpleType>
+												<xs:restriction base="text.type">
+													<xs:minLength value="1"/>
+													<xs:maxLength value="10"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="keinepreisanteile" fixed="">
+					<xs:annotation>
+						<xs:documentation>Keine Aufgliederung in Preisanteile</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="betragmitpreisanteilen.type">
+		<xs:annotation>
+			<xs:documentation>Betrag mit Aufgliederung in Preisanteile (Lo, So, Gesamt)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:sequence minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Wenn Aufgliederung in Preisanteile erfolgt</xs:documentation>
+				</xs:annotation>
+				<xs:element name="preisanteil1" type="betrag.type"/>
+				<xs:element name="preisanteil2" type="betrag.type"/>
+			</xs:sequence>
+			<xs:element name="gesamt" type="betrag.type"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--===Grafik-->
+	<xs:simpleType name="grafikid.type">
+		<xs:annotation>
+			<xs:documentation>Eindeutige ID der Grafik (Universally Unique Identifier (UUID) nach ISO/IEC 9834-8)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="uuid.type"/>
+	</xs:simpleType>
+	<xs:simpleType name="grafikformat.type">
+		<xs:annotation>
+			<xs:documentation>Grafikformat</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="image/jpeg"/>
+			<xs:enumeration value="image/gif"/>
+			<xs:enumeration value="image/png"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="grafikelement.type">
+		<xs:annotation>
+			<xs:documentation>Definition einer Grafik</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="bezeichnung" type="text60.type"/>
+			<xs:element name="format" type="grafikformat.type"/>
+			<xs:element name="daten" type="bild.type"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="grafikid.type" use="required"/>
+	</xs:complexType>
+	<xs:group name="grafiktabelle.group">
+		<xs:annotation>
+			<xs:documentation>Liste aller Grafiken</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="grafiktabelle">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="grafikelement" type="grafikelement.type" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:key name="uid_grafiktabelle">
+					<xs:selector xpath="on:grafikelement"/>
+					<xs:field xpath="@id"/>
+				</xs:key>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="grafiklinks.group">
+		<xs:annotation>
+			<xs:documentation>Liste von Links auf Grafiken</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="grafiklinks" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="grafiklink" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:attribute name="linkid" type="grafikid.type" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:key name="uid_grafiklink">
+					<xs:selector xpath="on:grafiklink"/>
+					<xs:field xpath="@linkid"/>
+				</xs:key>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<!--===-->
+	<!--===Allgemeine LB-Typen-->
+	<xs:simpleType name="lb-kennung.type">
+		<xs:annotation>
+			<xs:documentation>LB-Kennung (1-10stellig), Beispiel "BMWA-HB"</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="10"/>
+			<xs:pattern value="[A-Z .-]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="lb-versionsnummer.type">
+		<xs:annotation>
+			<xs:documentation>LB-Versionsnummer (1-999)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="lb-freigabestatus.type">
+		<xs:annotation>
+			<xs:documentation>Status Entwurf oder freigegeben</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Entwurf"/>
+			<xs:enumeration value="freigegeben"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="lb-kommentar.type">
+		<xs:annotation>
+			<xs:documentation>Kommentar zu einer LB-Position</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="formatmemo.type"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="lb-aenderungsumfang.type">
+		<xs:annotation>
+			<xs:documentation>Umfang der inhaltlichen Änderung</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="geringfügig geändert"/>
+			<xs:enumeration value="geändert"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="lb-aenderungskennzeichnungen.type">
+		<xs:annotation>
+			<xs:documentation>Änderungskennzeichnungen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="lbversion" type="lb-versionsnummer.type">
+				<xs:annotation>
+					<xs:documentation>Versions-Nummer der
+LB, bei der dieser Text erstmals aufgenommen oder zuletzt geändert wurde</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:sequence minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Anzugeben, wenn inhaltlich gegenüber der letzten Version geändert</xs:documentation>
+				</xs:annotation>
+				<xs:element name="aenderungsumfang" type="lb-aenderungsumfang.type"/>
+				<xs:element name="aenderungsbeschreibung" type="formatmemo.type" minOccurs="0"/>
+			</xs:sequence>
+			<xs:element name="vorherigeposition" type="lb-posnr-ref.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Anzugeben bei Umnummerierung</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="lb-posnr-ref.type">
+		<xs:annotation>
+			<xs:documentation>Referenz auf einen LB-Ordnungsbegriff</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="lg" type="lgnr.type"/>
+			<xs:element name="ulg" type="ulgnr.type" minOccurs="0"/>
+			<xs:element name="gtnr" type="gtnr.type" minOccurs="0"/>
+			<xs:element name="ftnr" type="ftnr.type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="lb-kenndaten.type">
+		<xs:annotation>
+			<xs:documentation>LB-Kenndaten</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="bezeichnung" type="ueberschrift.type"/>
+			<xs:element name="herausgeber" type="kontakt.type"/>
+			<xs:element name="lbkennung" type="lb-kennung.type"/>
+			<xs:element name="versionsnummer" type="lb-versionsnummer.type"/>
+			<xs:element name="versionsdatum" type="datum.type"/>
+			<xs:element name="status" type="lb-freigabestatus.type"/>
+			<xs:element name="downloadurl" type="xs:anyURI" minOccurs="0"/>
+			<xs:element name="bezeichnungteilausgabe" type="ueberschrift.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Anzugeben bei Teilausgaben einer LB</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="lb-kenndaten-preisdatenbestand.type">
+		<xs:annotation>
+			<xs:documentation>Kenndaten des LB-Preisdatenbestandes</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="bezeichnung" type="ueberschrift.type"/>
+			<xs:element name="herausgeber" type="kontakt.type"/>
+			<xs:element name="datum" type="datum.type"/>
+			<xs:element name="preisanteilmodell" type="preisanteilmodell.type"/>
+			<xs:element name="wkz" type="wkz.type"/>
+			<xs:element name="kommentar" type="formatmemo.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Preisgrundlagenkommentar</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--===-->
+	<!--===LB-Elemente-->
+	<xs:group name="lb-element-basisdaten.group">
+		<xs:annotation>
+			<xs:documentation>Daten zu LB-SVB, LG, ULG, WVB, POS</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="grafiklinks.group"/>
+			<xs:element name="kommentar" type="lb-kommentar.type" minOccurs="0"/>
+			<xs:element name="aenderungskennzeichnungen" type="lb-aenderungskennzeichnungen.type"/>
+			<xs:element name="herkunftskennzeichen" type="herkunftskennzeichen.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Anzugeben, wenn der Text aus der Ergänzungs-LB („+“) stammt</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="nichtinteilausgabe" fixed="" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Anzugeben nur bei LB-Teilausgaben bei allen LG, ULG, WVB, POS, die nicht in dieser Teilausgabe enthalten sind</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="lb-lg-ulg-basisdaten.group">
+		<xs:annotation>
+			<xs:documentation>Daten zu LB-LG, ULG</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ueberschrift" type="ueberschrift.type"/>
+			<xs:element name="vorbemerkung" type="langtext.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Formatierter Text entsprechend 8.4, jedoch ohne die Formatierungen al und bl</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="lb-wvb-pos-basisdaten.group">
+		<xs:annotation>
+			<xs:documentation>Daten zu LB-WVB, POS</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="stichwort.group"/>
+			<xs:element name="langtext" type="langtext-albl.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Formatierter Text entsprechend 8.4</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="lb-pos-basisdaten.group">
+		<xs:annotation>
+			<xs:documentation>Daten zu LB-POS</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="einheit" type="einheit.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="lb-svb.type">
+		<xs:annotation>
+			<xs:documentation>LB-Ständige Vorbemerkung</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="vorbemerkung" type="langtext.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Formatierter Text entsprechend 8.4, jedoch ohne die Formatierungen al und bl</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="lb-element-basisdaten.group"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="lb-lg.type">
+		<xs:annotation>
+			<xs:documentation>LB-LG</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="lb-lg-ulg-basisdaten.group"/>
+			<xs:group ref="lb-element-basisdaten.group"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="lb-ulg.type">
+		<xs:annotation>
+			<xs:documentation>LB-ULG</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="lb-lg-ulg-basisdaten.group"/>
+			<xs:group ref="lb-element-basisdaten.group"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="lb-grundtext.type">
+		<xs:annotation>
+			<xs:documentation>LB-Grundtext</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="langtext" type="langtext.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Formatierter Text entsprechend 8.4, jedoch ohne die Formatierungen al und bl</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="kommentar" type="lb-kommentar.type" minOccurs="0"/>
+			<xs:element name="herkunftskennzeichen" type="herkunftskennzeichen.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Anzugeben, wenn der Text aus der Ergänzungs-LB („+“) stammt</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="lb-wvb-pos.type">
+		<xs:annotation>
+			<xs:documentation>LB-Wählbare Vorbemerkung oder LB-Position</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="lb-wvb-pos-basisdaten.group"/>
+			<xs:group ref="lb-element-basisdaten.group"/>
+			<xs:group ref="lb-pos-basisdaten.group" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Nicht bei Wählbarer Vorbemerkung</xs:documentation>
+				</xs:annotation>
+			</xs:group>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="lb-element-simple.type">
+		<xs:annotation>
+			<xs:documentation>LB-Element mit wenigen redundanten Daten, für LB-Preise</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="stichwort.group"/>
+			<xs:element name="einheit" type="einheit.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Nicht bei LG,ULG,WVB</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--===-->
+	<!--===Allgemeine LV-Typen-->
+	<xs:simpleType name="bieternummer.type">
+		<xs:annotation>
+			<xs:documentation>Bieternummer (1-999)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="altangnummer.type">
+		<xs:annotation>
+			<xs:documentation>Nummer Alternativ- oder Abänderungsangebot (1-99)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="99"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:group name="lv-kenndaten-basis.group">
+		<xs:annotation>
+			<xs:documentation>LV-Kenndaten Basiselemente</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="lvcode" type="text60.type"/>
+			<xs:element name="vorhaben" type="text60.type"/>
+			<xs:element name="lvbezeichnung" type="text60.type"/>
+			<xs:element name="auftraggeber" type="kontakt.type"/>
+			<xs:element name="vergebendestelle" type="kontakt.type" minOccurs="0"/>
+			<xs:element name="lversteller" type="kontakt.type" minOccurs="0"/>
+			<xs:element name="bearbeitungsstand" type="datum.type" minOccurs="0"/>
+			<xs:element name="preisanteilmodell" type="preisanteilmodell.type"/>
+			<xs:element name="wkz" type="wkz.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="lv-kenndaten-entwurfslv.type">
+		<xs:annotation>
+			<xs:documentation>LV-Kenndaten für Entwurfs-LV</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="lv-kenndaten-basis.group"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="lv-kenndaten-kostenschaetzungslv.type">
+		<xs:annotation>
+			<xs:documentation>LV-Kenndaten für Kostenschätzungs-LV</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="lv-kenndaten-basis.group"/>
+			<xs:element name="preisbasis" type="datum.type">
+				<xs:annotation>
+					<xs:documentation>Nicht im Entwurfs-LV</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="lv-kenndaten-ausschreibungslv.type">
+		<xs:annotation>
+			<xs:documentation>LV-Kenndaten für Ausschreibungs-LV</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="lv-kenndaten-basis.group"/>
+			<xs:choice>
+				<xs:element name="preisbasis" type="datum.type">
+					<xs:annotation>
+						<xs:documentation>Nicht im Entwurfs-LV</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="angebotsfrist" type="datumzeit.type">
+					<xs:annotation>
+						<xs:documentation>Nicht im Entwurfs-LV und Kostenschätzungs-LV</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="lv-kenndaten-angebotslv.type">
+		<xs:annotation>
+			<xs:documentation>LV-Kenndaten für Angebots-LV, Alternativangebots-LV, Abänderungsangebots-LV</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="lv-kenndaten-basis.group"/>
+			<xs:choice>
+				<xs:element name="preisbasis" type="datum.type">
+					<xs:annotation>
+						<xs:documentation>Nicht im Entwurfs-LV</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="angebotsfrist" type="datumzeit.type">
+					<xs:annotation>
+						<xs:documentation>Nicht im Entwurfs-LV und Kostenschätzungs-LV</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="bieter_auftragnehmer" type="kontakt.type">
+				<xs:annotation>
+					<xs:documentation>Nicht im Entwurfs-
+LV, Kostenschätzungs-LV und Ausschreibungs-LV</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="lv-kenndaten-vertragslv.type">
+		<xs:annotation>
+			<xs:documentation>LV-Kenndaten für Vertrags-LV</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="lv-kenndaten-basis.group"/>
+			<xs:choice>
+				<xs:element name="preisbasis" type="datum.type">
+					<xs:annotation>
+						<xs:documentation>Nicht im Entwurfs-LV</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="angebotsfrist" type="datumzeit.type">
+					<xs:annotation>
+						<xs:documentation>Nicht im Entwurfs-LV und Kostenschätzungs-LV</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="bieter_auftragnehmer" type="kontakt.type">
+				<xs:annotation>
+					<xs:documentation>Nicht im Entwurfs-
+LV, Kostenschätzungs-LV und Ausschreibungs-LV</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="bieternummer" type="bieternummer.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Nur im Vertrags-LV und Abrechnungs-LV; optional</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="auftragcode" type="text60.type">
+				<xs:annotation>
+					<xs:documentation>Nur bei Vertrags-LV, Abrechnungs-LV und Zusatzangebots-LV</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="lv-kenndaten-abrechnungslv.type">
+		<xs:annotation>
+			<xs:documentation>LV-Kenndaten für Abrechnungs-LV</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="lv-kenndaten-basis.group"/>
+			<xs:choice>
+				<xs:element name="preisbasis" type="datum.type">
+					<xs:annotation>
+						<xs:documentation>Nicht im Entwurfs-LV</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="angebotsfrist" type="datumzeit.type">
+					<xs:annotation>
+						<xs:documentation>Nicht im Entwurfs-LV und Kostenschätzungs-LV</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="bieter_auftragnehmer" type="kontakt.type">
+				<xs:annotation>
+					<xs:documentation>Nicht im Entwurfs-
+LV, Kostenschätzungs-LV und Ausschreibungs-LV</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="bieternummer" type="bieternummer.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Nur im Vertrags-LV und Abrechnungs-LV; optional</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="auftragcode" type="text60.type">
+				<xs:annotation>
+					<xs:documentation>Nur bei Vertrags-LV, Abrechnungs-LV und Zusatzangebots-LV</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="lv-kenndaten-zusatzangebotslv.type">
+		<xs:annotation>
+			<xs:documentation>LV-Kenndaten für Zusatzangebots-LV</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="lv-kenndaten-basis.group"/>
+			<xs:choice>
+				<xs:element name="preisbasis" type="datum.type">
+					<xs:annotation>
+						<xs:documentation>Nicht im Entwurfs-LV</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="angebotsfrist" type="datumzeit.type">
+					<xs:annotation>
+						<xs:documentation>Nicht im Entwurfs-LV und Kostenschätzungs-LV</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="bieter_auftragnehmer" type="kontakt.type">
+				<xs:annotation>
+					<xs:documentation>Nicht im Entwurfs-
+LV, Kostenschätzungs-LV und Ausschreibungs-LV</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="auftragcode" type="text60.type">
+				<xs:annotation>
+					<xs:documentation>Nur bei Vertrags-LV, Abrechnungs-LV und Zusatzangebots-LV</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--===-->
+	<xs:simpleType name="lvmenge.type">
+		<xs:annotation>
+			<xs:documentation>LV-Menge (9 999 999 999,99)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="12"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="berechnetemenge.type">
+		<xs:annotation>
+			<xs:documentation>Berechnete Menge, Abrechnungsmenge (9 999 999 999,999)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="13"/>
+			<xs:fractionDigits value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:group name="berechnetemengen.group">
+		<xs:annotation>
+			<xs:documentation>Berechnete Mengen mit Mengenermittlung, optional je AKZ</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="berechnetemengen" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Optional im Entwurfs-LV und Kostenschätzungs-LV, sonst nicht erlaubt</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="gesamt">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="berechnetemenge" type="berechnetemenge.type"/>
+									<xs:element name="mengenermittlung" type="mebe-mengenberechnung.type" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="jeakz">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="akz" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="berechnetemenge" type="berechnetemenge.type"/>
+												<xs:element name="mengenermittlung" type="mebe-mengenberechnung.type" minOccurs="0"/>
+											</xs:sequence>
+											<xs:attribute name="akz" type="akz.type" use="required"/>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+							<xs:key name="uid_jeakz">
+								<xs:selector xpath="on:akz"/>
+								<xs:field xpath="@akz"/>
+							</xs:key>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="notiz.type">
+		<xs:annotation>
+			<xs:documentation>Notiz zu einer LV-Position</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="formatmemo.type"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="wesentlicheposition.type">
+		<xs:annotation>
+			<xs:documentation>Kennzeichen für Wesentliche Position</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="W"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="garantierteangebotssumme.type">
+		<xs:annotation>
+			<xs:documentation>Kennzeichen für garantierte Angebotssumme</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="G"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="variantennummer.type">
+		<xs:annotation>
+			<xs:documentation>Variantennummer (0-9)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="9"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="zuordnungskennzeichen.type">
+		<xs:annotation>
+			<xs:documentation>Zuordnungskennzeichen (ZZ)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="keystring.type">
+			<xs:length value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="pzzv.type">
+		<xs:annotation>
+			<xs:documentation>PZZV</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="normalposition">
+				<xs:annotation>
+					<xs:documentation>In Summe berücksichtigt; Kennzeichen für Positionsart nicht vorhanden</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="zz" type="zuordnungskennzeichen.type" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="normalposition_einer_variante">
+				<xs:annotation>
+					<xs:documentation>Normalposition oder beauftragte Position einer Variante; in Normalangebotssumme berücksichtigt; Kennzeichen für Positionsart nicht vorhanden</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="zz" type="zuordnungskennzeichen.type"/>
+						<xs:element name="variantennummer" type="variantennummer.type"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="wahlposition">
+				<xs:annotation>
+					<xs:documentation>Wahlposition oder nicht beauftragte Normalposition einer Variante; in Normalangebotssumme nicht berücksichtigt; Kennzeichen für Positionsart "W"</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="zz" type="zuordnungskennzeichen.type"/>
+						<xs:element name="variantennummer" type="variantennummer.type"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="eventualposition">
+				<xs:annotation>
+					<xs:documentation>In Summe nicht berücksichtigt; Kennzeichen für Positionsart "E"</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="zz" type="zuordnungskennzeichen.type" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="variantenzusammenstellungsnummer.type">
+		<xs:annotation>
+			<xs:documentation>Nummer einer Variantenzusammenstellung</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="1"/>
+			<xs:pattern value="[A-Z]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:group name="variantenzusammenstellungstabelle.group">
+		<xs:annotation>
+			<xs:documentation>Tabelle der Variantenzusammenstellungen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="variantenzusammenstellungstabelle" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Erforderlich wenn im LV Varianten definiert sind</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="variantenzusammenstellung" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="bezeichnung" type="text60.type"/>
+									<xs:element name="zuordnungen">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="zuordnung" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="variantennummer" type="variantennummer.type"/>
+														</xs:sequence>
+														<xs:attribute name="zz" type="zuordnungskennzeichen.type" use="required"/>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+										<xs:key name="uid_varzus_zz">
+											<xs:selector xpath="on:zuordnung"/>
+											<xs:field xpath="@zz"/>
+										</xs:key>
+									</xs:element>
+									<xs:element name="gesamtsumme" type="gesamtsumme.type" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Nicht im Entwurfs-LV und Ausschreibungs-LV</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="nr" type="variantenzusammenstellungsnummer.type" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:key name="uid_varzus">
+					<xs:selector xpath="on:variantenzusammenstellung"/>
+					<xs:field xpath="@nr"/>
+				</xs:key>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:simpleType name="teilsummenkennzeichen.type">
+		<xs:annotation>
+			<xs:documentation>Kennzeichen für Bildung von Teilsummen</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="9999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="lv-posnr-ref.type">
+		<xs:annotation>
+			<xs:documentation>Referenz auf einen LV-Ordnungsbegriff</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:annotation>
+				<xs:documentation>Abhängig von LV-Gliederung</xs:documentation>
+			</xs:annotation>
+			<xs:sequence>
+				<xs:element name="hg" type="hgnr.type"/>
+				<xs:element name="og" type="ognr.type" minOccurs="0"/>
+				<xs:element name="lg" type="lgnr.type" minOccurs="0"/>
+				<xs:element name="ulg" type="ulgnr.type" minOccurs="0"/>
+				<xs:element name="gtnr" type="gtnr.type" minOccurs="0"/>
+				<xs:element name="ftnr" type="ftnr.type" minOccurs="0"/>
+				<xs:element name="mfv" type="mfv.type" minOccurs="0"/>
+			</xs:sequence>
+			<xs:sequence>
+				<xs:element name="og" type="ognr.type"/>
+				<xs:element name="lg" type="lgnr.type" minOccurs="0"/>
+				<xs:element name="ulg" type="ulgnr.type" minOccurs="0"/>
+				<xs:element name="gtnr" type="gtnr.type" minOccurs="0"/>
+				<xs:element name="ftnr" type="ftnr.type" minOccurs="0"/>
+				<xs:element name="mfv" type="mfv.type" minOccurs="0"/>
+			</xs:sequence>
+			<xs:sequence>
+				<xs:element name="lg" type="lgnr.type"/>
+				<xs:element name="ulg" type="ulgnr.type" minOccurs="0"/>
+				<xs:element name="gtnr" type="gtnr.type" minOccurs="0"/>
+				<xs:element name="ftnr" type="ftnr.type" minOccurs="0"/>
+				<xs:element name="mfv" type="mfv.type" minOccurs="0"/>
+			</xs:sequence>
+			<xs:element name="nr" type="posnrfrei.type"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="preiserstellungsverfahren.type">
+		<xs:annotation>
+			<xs:documentation>Preiserstellungsverfahren</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Preisangebotsverfahren"/>
+			<xs:enumeration value="Preisaufschlags- und -nachlassverfahren"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--===-->
+	<xs:simpleType name="akz.type">
+		<xs:annotation>
+			<xs:documentation>Auswertungskennzeichen</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="keystringpunkt.type">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="akzbezeichnung.type">
+		<xs:annotation>
+			<xs:documentation>Auswertungskennzeichen Bezeichnung</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="text60.type"/>
+	</xs:simpleType>
+	<xs:group name="akztabelle.group">
+		<xs:annotation>
+			<xs:documentation>Liste aller AKZ</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="akztabelle" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Optional im Entwurfs-LV und Kostenschätzungs-LV; Optional in der Abrechnung</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="akzelement" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="bezeichnung" type="akzbezeichnung.type"/>
+								</xs:sequence>
+								<xs:attribute name="nr" type="akz.type" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:key name="uid_akz">
+					<xs:selector xpath="on:akzelement"/>
+					<xs:field xpath="@nr"/>
+				</xs:key>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<!--===-->
+	<xs:simpleType name="leistungsteil.type">
+		<xs:annotation>
+			<xs:documentation>Leistungsteil für Preisumrechnung (1-99)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="99"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="indexwarenkorbzuordnung.type">
+		<xs:annotation>
+			<xs:documentation>Zuordnungsinfo zu Index oder Warenkorb</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="index">
+				<xs:annotation>
+					<xs:documentation>Auch Angabe BMF und USK siehe ÖNORM B2111:2007</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="bezeichnung">
+							<xs:simpleType>
+								<xs:restriction base="text.type">
+									<xs:maxLength value="80"/>
+									<xs:minLength value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="kategorie" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="text.type">
+									<xs:maxLength value="80"/>
+									<xs:minLength value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="warenkorb">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="bezeichnung">
+							<xs:simpleType>
+								<xs:restriction base="text.type">
+									<xs:maxLength value="80"/>
+									<xs:minLength value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="festpreise" fixed=""/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:group name="leistungsteiltabelle.group">
+		<xs:annotation>
+			<xs:documentation>Liste aller Leistungsteile für Preisumrechnung</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="leistungsteiltabelle">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="leistungsteil" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:choice>
+									<xs:element name="definition" type="indexwarenkorbzuordnung.type">
+										<xs:annotation>
+											<xs:documentation>Ohne Aufgliederung in Preisanteile</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:sequence>
+										<xs:annotation>
+											<xs:documentation>Bei Aufgliederung in Preisanteile</xs:documentation>
+										</xs:annotation>
+										<xs:element name="definition-preisanteil1" type="indexwarenkorbzuordnung.type"/>
+										<xs:element name="definition-preisanteil2" type="indexwarenkorbzuordnung.type"/>
+									</xs:sequence>
+								</xs:choice>
+								<xs:attribute name="nr" type="leistungsteil.type" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:key name="uid_leistungsteile">
+					<xs:selector xpath="on:leistungsteil"/>
+					<xs:field xpath="@nr"/>
+				</xs:key>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<!--===-->
+	<xs:simpleType name="teilangebotskennzeichen.type">
+		<xs:annotation>
+			<xs:documentation>Teilangebotskennzeichen (1-99)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="99"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:group name="teilangebotstabelle.group">
+		<xs:annotation>
+			<xs:documentation>Tabelle der Teilangebote mit ihren Summen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="teilangebotssummen" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Erforderlich wenn im LV Teilangebotskennzeichen zugeordnet sind</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="teilangebot" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:choice minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Nicht im Entwurfs-LV und Ausschreibungs-LV</xs:documentation>
+									</xs:annotation>
+									<xs:element name="nichtangeboten" fixed=""/>
+									<xs:sequence>
+										<xs:element name="summenormalausfuehrung" type="gesamtsumme.type"/>
+										<xs:element name="variantenzusammenstellungen" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Erforderlich wenn im LV Varianten definiert sind</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="summevariantenzusammenstellung" maxOccurs="unbounded">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="gesamtsumme" type="gesamtsumme.type"/>
+															</xs:sequence>
+															<xs:attribute name="nr" type="variantenzusammenstellungsnummer.type" use="required"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+											<xs:key name="uid_teilang_varzus">
+												<xs:selector xpath="on:summevariantenzusammenstellung"/>
+												<xs:field xpath="@nr"/>
+											</xs:key>
+										</xs:element>
+									</xs:sequence>
+								</xs:choice>
+								<xs:attribute name="teilangebotskennzeichen" type="teilangebotskennzeichen.type" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:key name="uid_teilangebote">
+					<xs:selector xpath="on:teilangebot"/>
+					<xs:field xpath="@teilangebotskennzeichen"/>
+				</xs:key>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<!--===-->
+	<xs:group name="zugelassenenachlaesse.group">
+		<xs:annotation>
+			<xs:documentation>Zugelassene Nachlässe und Aufschläge</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="zugelassenenachlaesse">
+				<xs:annotation>
+					<xs:documentation>Definiert, wo im LV Nachlässe/Aufschläge zugelassen sind</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice>
+							<xs:element name="aufsummen" fixed="">
+								<xs:annotation>
+									<xs:documentation>Im gesamten LV sind Nachlässe und Aufschläge nur auf die Gruppensummen, nicht auf einzelne Preisanteile der Gruppensummen zulässig</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="aufpreisanteile" fixed="">
+								<xs:annotation>
+									<xs:documentation>Im gesamten LV sind Nachlässe und Aufschläge nur auf die einzelnen Preisanteile der Gruppensummen, nicht auf die Gruppensumme gesamt zulässig</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:choice>
+						<xs:element name="hierarchiestufen">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="auflvsumme" fixed="" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Element ist auszugeben, wenn Nachlässe/Aufschläge auf Ebene LV-Summe zugelassen sind</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="aufhgsummen" fixed="" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Element ist auszugeben, wenn Nachlässe/Aufschläge auf Ebene HG-Summen zugelassen sind</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="aufogsummen" fixed="" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Element ist auszugeben, wenn Nachlässe/Aufschläge auf Ebene OG-Summen zugelassen sind</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="auflgsummen" fixed="" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Element ist auszugeben, wenn Nachlässe/Aufschläge auf Ebene LG-Summen zugelassen sind</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="aufulgsummen" fixed="" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Element ist auszugeben, wenn Nachlässe/Aufschläge auf Ebene ULG-Summen zugelassen sind</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="nachlass.type">
+		<xs:annotation>
+			<xs:documentation>Nachlass/Aufschlag</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:annotation>
+					<xs:documentation>Je nachdem, ob Nachlässe auf Preisanteile oder die gesamte Summe zugelassen sind.</xs:documentation>
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="pa1-prozent" type="prozent.type"/>
+					<xs:element name="pa2-prozent" type="prozent.type"/>
+				</xs:sequence>
+				<xs:element name="summe-prozent" type="prozent.type"/>
+			</xs:choice>
+			<xs:element name="ergebnis" type="betragmitpreisanteilen.type">
+				<xs:annotation>
+					<xs:documentation>Ergebnisbetrag des prozentuellen N/A</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="gruppensumme.type">
+		<xs:annotation>
+			<xs:documentation>HG-, OG-, LG-Summe, auch LV-Summe und Rechnungssumme</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="summe" type="betragmitpreisanteilen.type">
+				<xs:annotation>
+					<xs:documentation>Summe inkl. aller vorangegangenen Nachlässe und Aufschläge</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="nachlass" type="nachlass.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Nachlässe und Aufschläge auf dieser Hierarchie-Stufe; zulässig nur, wenn in Element "zugelassenenachlaesse" erlaubt</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="summe-inkl-na" type="betragmitpreisanteilen.type">
+				<xs:annotation>
+					<xs:documentation>Summe inkl. der eingerechneten Nachlässe und Aufschläge auf dieser Hierarchie-Stufe</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="gesamtsumme.type">
+		<xs:annotation>
+			<xs:documentation>LV-Summendaten</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="summe-des-lv" type="betrag.type">
+				<xs:annotation>
+					<xs:documentation>Summe Positionen ohne Berücksichtigung von Nachlässen und Aufschlägen</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="summe-nachlaesse" type="betrag.type">
+				<xs:annotation>
+					<xs:documentation>Die Summe aller Nachlässe und Aufschläge</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="gesamtpreis" type="betrag.type"/>
+			<xs:choice>
+				<xs:element name="ust">
+					<xs:annotation>
+						<xs:documentation>Wenn 1 USt-Satz für das gesamte LV gilt</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ustsatz" type="ustsatz.type"/>
+							<xs:element name="ustbetrag" type="betrag.type"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ustanteile">
+					<xs:annotation>
+						<xs:documentation>Wenn mehrere USt-Sätze verwendet werden (wenn bei den LV-Positionen USt-Kennzeichen zugeordnet sind)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ustanteil" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Für jedes in den LV-Positionen verwendete USt-Kennzeichen</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="netto" type="betrag.type"/>
+										<xs:element name="ustsatz" type="ustsatz.type"/>
+										<xs:element name="ustbetrag" type="betrag.type"/>
+										<xs:element name="brutto" type="betrag.type"/>
+									</xs:sequence>
+									<xs:attribute name="ustkennzeichen" type="ustkennzeichen.type" use="required"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+					<xs:unique name="uid_ustanteile">
+						<xs:selector xpath="on:ustanteil"/>
+						<xs:field xpath="@ustkennzeichen"/>
+					</xs:unique>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="angebotspreis" type="betrag.type">
+				<xs:annotation>
+					<xs:documentation>Angebotspreis bzw. Auftragssumme</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--===-->
+	<xs:simpleType name="zusatzangebotslvnummer.type">
+		<xs:annotation>
+			<xs:documentation>Nummer Zusatzangebots-LV (1-999)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="zusatzangebotslvpos-status.type">
+		<xs:annotation>
+			<xs:documentation>Zusatzangebots-LV-Position: Beantragt, Genehmigt oder Abgelehnt</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Beantragt"/>
+			<xs:enumeration value="Genehmigt"/>
+			<xs:enumeration value="Abgelehnt"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="zusatzangebotslvpos-info.type">
+		<xs:annotation>
+			<xs:documentation>Zusatzangebots-LV-Position: Statusinformationen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="zusatzangebotslvnummer" type="zusatzangebotslvnummer.type"/>
+			<xs:element name="status" type="zusatzangebotslvpos-status.type"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--===-->
+	<!--===LV-Elemente-->
+	<xs:group name="lv-element-basisdaten.group">
+		<xs:annotation>
+			<xs:documentation>Daten zu LV-LG, ULG, WVB, POS</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="herkunftskennzeichen" type="herkunftskennzeichen.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Anzugeben, wenn der Text aus einer Ergänzungs-LB („+“) übernommen oder frei formuliert („Z“) wurde</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="vorbemerkungskennzeichen" type="vorbemerkungskennzeichen.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Wird eine Vorbemerkung einer Gruppe frei formuliert, müssen alle hierarchisch unverändert übernommenen untergeordneten Gruppen, Vorbemerkungen und Positionen mit Vorbemerkungskennzeichen "V" gekennzeichnet werden</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="grafiklinks.group"/>
+			<xs:element name="notiz" type="notiz.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Nur bei Entwurfs-LV und Kostenschätzungs-LV</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="lv-lg-ulg-basisdaten.group">
+		<xs:annotation>
+			<xs:documentation>Daten zu LV-LG, ULG</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ueberschrift" type="ueberschrift.type"/>
+			<xs:element name="vorbemerkung" type="langtext.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Formatierter Text entsprechend 8.4, jedoch ohne die Formatierungen al und bl</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="lv-wvb-pos-basisdaten.group">
+		<xs:annotation>
+			<xs:documentation>Daten zu LV-WVB, POS</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="stichwort.group"/>
+			<xs:element name="langtext" type="langtext-albl.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Formatierter Text entsprechend 8.4</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="zusatzangebotslvinfo" type="zusatzangebotslvpos-info.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Nur bei Abrechnungs-LV und Zusatzangebots-LV</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="lv-pos-basisdaten.group">
+		<xs:annotation>
+			<xs:documentation>Daten zu LV-POS</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="einheit" type="einheit.type"/>
+			<xs:element name="pzzv" type="pzzv.type"/>
+			<xs:element name="wesentlicheposition" type="wesentlicheposition.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Anzugeben bei wesentlicher Positiion</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="garantierteangebotssumme" type="garantierteangebotssumme.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Anzugeben bei Positionen, die einer garantierten Angebotssumme unterliegen (Nur im Alternativangebots-LV, Vertrags-LV, Abrechnungs-LV)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="teilangebotskennzeichen" type="teilangebotskennzeichen.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Nur wenn Teilangebote vorgesehen sind</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="leistungsteil" type="leistungsteil.type">
+				<xs:annotation>
+					<xs:documentation>Leistungsteil für Preisumrechnung</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="teilsummenkennzeichen" type="teilsummenkennzeichen.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Für die mögliche Bildung von Teilsummen im LV ohne Gliederung</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="lvmenge" type="lvmenge.type"/>
+			<xs:group ref="berechnetemengen.group"/>
+			<xs:choice>
+				<xs:element name="nichtangeboten" fixed="">
+					<xs:annotation>
+						<xs:documentation>Bei nicht angebotenen Positionen im Preisangebotsverfahren  sowie im Entwurfs-LV und im Ausschreibungs-LV bei Teilen mit Preisangebotsverfahren</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:sequence>
+					<xs:element name="preis" type="betragmitpreisanteilen.type">
+						<xs:annotation>
+							<xs:documentation>Preis/EH</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="pospreis" type="betrag.type"/>
+					<xs:element name="ustkennzeichen" type="ustkennzeichen.type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Nicht im Entwurfs-LV und im Ausschreibungs-LV; nur wenn mehr als ein USt-Satz im LV vorgesehen wird</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="lv-svb.type">
+		<xs:annotation>
+			<xs:documentation>LV-Ständige Vorbemerkung</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="vorbemerkung" type="langtext.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Formatierter Text entsprechend 8.4, jedoch ohne die Formatierungen al und bl</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="lv-element-basisdaten.group"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="lv-hg.type">
+		<xs:annotation>
+			<xs:documentation>LV-HG</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ueberschrift" type="ueberschrift.type"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="lv-og.type">
+		<xs:annotation>
+			<xs:documentation>LV-OG</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ueberschrift" type="ueberschrift.type"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="lv-lg.type">
+		<xs:annotation>
+			<xs:documentation>LV-LG</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="lv-lg-ulg-basisdaten.group"/>
+			<xs:group ref="lv-element-basisdaten.group"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="lv-ulg.type">
+		<xs:annotation>
+			<xs:documentation>LV-ULG</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="lv-lg-ulg-basisdaten.group"/>
+			<xs:group ref="lv-element-basisdaten.group"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="lv-grundtext.type">
+		<xs:annotation>
+			<xs:documentation>LV-Grundtext</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="langtext" type="langtext.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Formatierter Text entsprechend 8.4, jedoch ohne die Formatierungen al und bl</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="herkunftskennzeichen" type="herkunftskennzeichen.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Anzugeben, wenn der Text aus einer Ergänzungs-LB („+“) übernommen oder frei formuliert („Z“) wurde</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="lv-wvb-pos.type">
+		<xs:annotation>
+			<xs:documentation>LV-Wählbare Vorbemerkung oder LV-Position</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="lv-wvb-pos-basisdaten.group"/>
+			<xs:group ref="lv-element-basisdaten.group"/>
+			<xs:group ref="lv-pos-basisdaten.group" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Nicht bei Wählbarer Vorbemerkung</xs:documentation>
+				</xs:annotation>
+			</xs:group>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="lv-element-simple.type">
+		<xs:annotation>
+			<xs:documentation>LV-Element mit wenigen redundanten Daten, für Rechnung</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="stichwort.group">
+				<xs:annotation>
+					<xs:documentation>Überschrift bei LG, ULG; Stichwort (optional mit Stichwortlücke) bei Positionen, Wählbaren Vorbemerkungen</xs:documentation>
+				</xs:annotation>
+			</xs:group>
+			<xs:element name="langtext" type="langtext-albl.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Vorbemerkung bei LG, ULG; Langtext bei Positionen, Wählbaren Vorbemerkungen</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:sequence minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Nur bei Pos. mit Menge, nicht bei LG usw.</xs:documentation>
+				</xs:annotation>
+				<xs:element name="einheit" type="einheit.type"/>
+				<xs:element name="preis" type="betragmitpreisanteilen.type">
+					<xs:annotation>
+						<xs:documentation>Preis/EH</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ustkennzeichen" type="ustkennzeichen.type" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Nicht im Entwurfs-LV und im Ausschreibungs-LV; nur wenn mehr als ein USt-Satz im LV vorgesehen wird</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="leistungsteil" type="leistungsteil.type">
+					<xs:annotation>
+						<xs:documentation>Leistungsteil für Preisumrechnung</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="teilsummenkennzeichen" type="teilsummenkennzeichen.type" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Für die mögliche Bildung von Teilsummen im LV ohne Gliederung</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="lv-ogheader.group">
+		<xs:annotation>
+			<xs:documentation>Daten je OG bzw. für das gesamte LV bei LV ohne HG/OG</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="preiserstellungsverfahren" type="preiserstellungsverfahren.type"/>
+			<xs:sequence>
+				<xs:element name="lb" type="lb-kenndaten.type">
+					<xs:annotation>
+						<xs:documentation>Anm.: Bei Teilen ohne Bezug zu einer LB ist hier FF999 anzugeben</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="erglb" type="lb-kenndaten.type" minOccurs="0"/>
+			</xs:sequence>
+			<xs:element name="svb" type="lv-svb.type"/>
+		</xs:sequence>
+	</xs:group>
+	<!--===-->
+	<!--===Mengenberechnungs-Typen-->
+	<!--===-->
+	<xs:simpleType name="mebe-kommentar.type">
+		<xs:annotation>
+			<xs:documentation>Kommentar</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="text.type">
+			<xs:maxLength value="60"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="mebe-rechenansatz.type">
+		<xs:annotation>
+			<xs:documentation>Frei formulierter Rechenansatz</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="memo.type"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="mebe-formelergebnis.type">
+		<xs:annotation>
+			<xs:documentation>Formelergebnis, auch Hilfsergebnis</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="rechenansatz" type="mebe-rechenansatz.type"/>
+				<xs:element name="formel" type="formel.type"/>
+			</xs:choice>
+			<xs:element name="ergebnis" type="berechnetemenge.type"/>
+			<xs:element name="variable" type="variablenbezeichner.type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="mebe-teilergebnis.type">
+		<xs:annotation>
+			<xs:documentation>Teilergebnis</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="kommentar" type="mebe-kommentar.type"/>
+			<xs:element name="ergebnis" type="berechnetemenge.type"/>
+			<xs:element name="variable" type="variablenbezeichner.type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="mebe-mengenberechnung.type">
+		<xs:annotation>
+			<xs:documentation>Mengenberechnung allgemein, für Mengenberechnung in LV und Rechnung</xs:documentation>
+		</xs:annotation>
+		<xs:choice maxOccurs="unbounded">
+			<xs:element name="k" type="mebe-kommentar.type"/>
+			<xs:element name="a" type="mebe-formelergebnis.type"/>
+			<xs:element name="t" type="mebe-teilergebnis.type"/>
+			<xs:element name="h" type="mebe-formelergebnis.type"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="mebe-hilfsberechnungen.type">
+		<xs:annotation>
+			<xs:documentation>Hilfsberechnungen allgemein, für Hilfsberechnungen in LV und Rechnung</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="k" type="mebe-kommentar.type"/>
+			<xs:element name="h" type="mebe-formelergebnis.type"/>
+		</xs:choice>
+	</xs:complexType>
+	<!--===-->
+	<!--===Allgemeine Rechnungs-Typen-->
+	<xs:simpleType name="lz.type">
+		<xs:annotation>
+			<xs:documentation>Leistungszeitraum (JJJJ-MM)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:gYearMonth"/>
+	</xs:simpleType>
+	<xs:simpleType name="pp.type">
+		<xs:annotation>
+			<xs:documentation>Preisperiode (0-999)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="umrechnungsprozentsatz.type">
+		<xs:annotation>
+			<xs:documentation>Umrechnungsprozentsatz (-99,99 bis 999,99)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="prozent.type"/>
+	</xs:simpleType>
+	<xs:group name="umrechungsprozentsaetze.group">
+		<xs:annotation>
+			<xs:documentation>Umrechungsprozentsätze</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="umrechnungsprozentsaetze" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Erforderlich wenn veränderliche Preise vereinbart werden</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="pp" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="beginndatum" type="datum.type"/>
+									<xs:element name="leistungsteile">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="leistungsteil" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:choice>
+															<xs:annotation>
+																<xs:documentation>Abhängig vom gewählten Preisanteilmodell</xs:documentation>
+															</xs:annotation>
+															<xs:sequence>
+																<xs:element name="up-preisanteil1" type="umrechnungsprozentsatz.type"/>
+																<xs:element name="up-preisanteil2" type="umrechnungsprozentsatz.type"/>
+															</xs:sequence>
+															<xs:element name="up" type="umrechnungsprozentsatz.type"/>
+														</xs:choice>
+														<xs:attribute name="nr" type="leistungsteil.type" use="required"/>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+										<xs:key name="uid_ppleistungsteil">
+											<xs:selector xpath="on:leistungsteil"/>
+											<xs:field xpath="@nr"/>
+										</xs:key>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="nr" type="pp.type" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:key name="uid_pp">
+					<xs:selector xpath="on:pp"/>
+					<xs:field xpath="@nr"/>
+				</xs:key>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:simpleType name="amblnr.type">
+		<xs:annotation>
+			<xs:documentation>Ausmaßblattnummer</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="keystringpunkt.type">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="25"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="amblbez.type">
+		<xs:annotation>
+			<xs:documentation>Ausmaßblattbezeichnung</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="text60.type"/>
+	</xs:simpleType>
+	<xs:simpleType name="fortlaufende-rechnungsnr.type">
+		<xs:annotation>
+			<xs:documentation>Fortlaufende Rechnungsnummer (1-99999)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="99999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:group name="re-kenndaten-allgemein.group">
+		<xs:annotation>
+			<xs:documentation>Allgemeine Rechnungskenndaten</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="rechnungsnummer" type="text60.type" minOccurs="0"/>
+			<xs:element name="rechnungsdatum" type="datum.type" minOccurs="0"/>
+			<xs:element name="kommentar" type="formatmemo.type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:group>
+	<!--===-->
+	<!--===Allgemeine Elementkatalog-Typen-->
+	<xs:simpleType name="ek-idnr.type">
+		<xs:annotation>
+			<xs:documentation>Identifikations-Nummer, inkl. aller Hierarchiestufen (Ohne Trennzeichen für Gliederungsebenen)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="keystring.type">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="aek-kennung.type">
+		<xs:annotation>
+			<xs:documentation>Kennung des Elementkatalogs</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="lb-kennung.type"/>
+	</xs:simpleType>
+	<xs:simpleType name="aek-versionsnummer.type">
+		<xs:annotation>
+			<xs:documentation>Versionsnummer des Elementkatalogs</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="lb-versionsnummer.type"/>
+	</xs:simpleType>
+	<xs:simpleType name="aek-freigabestatus.type">
+		<xs:annotation>
+			<xs:documentation>Status Entwurf oder freigegeben</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="lb-freigabestatus.type"/>
+	</xs:simpleType>
+	<xs:complexType name="aek-kenndaten.type">
+		<xs:annotation>
+			<xs:documentation>Elementkatalog-Kenndaten AEK</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="bezeichnung" type="ueberschrift.type"/>
+			<xs:element name="herausgeber" type="kontakt.type"/>
+			<xs:element name="ekkennung" type="aek-kennung.type"/>
+			<xs:element name="versionsnummer" type="aek-versionsnummer.type"/>
+			<xs:element name="versionsdatum" type="datum.type"/>
+			<xs:element name="status" type="aek-freigabestatus.type"/>
+			<xs:element name="beschreibung" type="formatmemo.type" minOccurs="0"/>
+			<xs:element name="grafik" type="bildmitformat.type" minOccurs="0"/>
+			<xs:element name="downloadurl" type="xs:anyURI" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="pek-kenndaten.type">
+		<xs:annotation>
+			<xs:documentation>Elementkatalog-Kenndaten PEK</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="pekcode" type="text60.type"/>
+			<xs:element name="vorhaben" type="text60.type"/>
+			<xs:element name="auftraggeber" type="kontakt.type"/>
+			<xs:element name="ersteller" type="kontakt.type" minOccurs="0"/>
+			<xs:element name="beschreibung" type="formatmemo.type" minOccurs="0"/>
+			<xs:element name="bearbeitungsstand" type="datum.type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ek-kenndaten-preise.type">
+		<xs:annotation>
+			<xs:documentation>Elementkatalog-Kenndaten Preiskenndaten (AEK und PEK)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="preisanteilmodell" type="preisanteilmodell.type"/>
+			<xs:element name="wkz" type="wkz.type"/>
+			<xs:element name="datum" type="datum.type"/>
+			<xs:element name="preisgrundlagenkommentar" type="formatmemo.type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="pek-herkunftskennzeichen.type">
+		<xs:annotation>
+			<xs:documentation>Kennzeichen für aus einem AEK abgeändert ("A") übernommene oder frei formulierte ("F") Elemente oder Elementgruppen</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="A"/>
+			<xs:enumeration value="F"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="pek-elementmenge.type">
+		<xs:annotation>
+			<xs:documentation>Menge eines verwendeten Elements im PEK</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="lvmenge.type"/>
+	</xs:simpleType>
+	<!--===-->
+	<!--===Katalogzuordnungen für Verweise auf CAD-Elemente und Zuordnungen zu anderen Gliederungssystemen (z.B. Baugliederung und/oder Leistungsgliederung gemäß ÖNORM B 1801-1)-->
+	<xs:simpleType name="ek-zuordnungskatalogkennung.type">
+		<xs:annotation>
+			<xs:documentation>Kennung eines Zuordnungskatalogs (Key)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="keystringpunkt.type">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ek-zuordnungskatalogart.type">
+		<xs:annotation>
+			<xs:documentation>Art des Katalogs (CAD-Elemente oder anderes Gliederungssystem)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CAD-Elemente"/>
+			<xs:enumeration value="Anderes Gliederungssystem"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ek-zuordnungsnr.type">
+		<xs:annotation>
+			<xs:documentation>Nummer eines Eintrags in einem Zuordnungskatalog</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="keystringpunkt.type">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:group name="ek-zuordnungskataloge.group">
+		<xs:annotation>
+			<xs:documentation>Liste aller Zuordnungskataloge mit ihren Einträgen (für Verweise auf CAD-Elemente und Zuordnungen zu anderen Gliederungssystemen)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="zuordnungskataloge">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="katalog" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="bezeichnung" type="text60.type">
+										<xs:annotation>
+											<xs:documentation>Katalogbezeichnung</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="katalogart" type="ek-zuordnungskatalogart.type">
+										<xs:annotation>
+											<xs:documentation>Art des Katalogs (CAD-Elemente oder anderes Gliederungssystem)</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="eintraege">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="eintrag" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="bezeichnung" minOccurs="0">
+																<xs:simpleType>
+																	<xs:restriction base="text.type">
+																		<xs:minLength value="1"/>
+																		<xs:maxLength value="255"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:element>
+														</xs:sequence>
+														<xs:attribute name="nr" type="ek-zuordnungsnr.type" use="required"/>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+										<xs:key name="uid_zuordnungskatalogeintraege">
+											<xs:selector xpath="on:eintrag"/>
+											<xs:field xpath="@nr"/>
+										</xs:key>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="kennung" type="ek-zuordnungskatalogkennung.type" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:key name="uid_zuordnungskataloge">
+					<xs:selector xpath="on:katalog"/>
+					<xs:field xpath="@kennung"/>
+				</xs:key>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="ek-zuordnungen.group">
+		<xs:annotation>
+			<xs:documentation>Liste von Links auf Zuordnungskataloge</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="katalogzuordnungen" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Katalogzuordnungen für Verweise auf CAD-Elemente und Zuordnungen zu anderen Gliederungssystemen (z.B. Baugliederung und/oder Leistungsgliederung gemäß ÖNORM B 1801-1). Zuordnungen zu anderen Gliederungssystemen sind bei Elementgruppen nicht erlaubt.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="katalogzuordnung" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Zuordnung zu einem Eintrag eines Katalogs</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="nr" type="ek-zuordnungsnr.type">
+										<xs:annotation>
+											<xs:documentation>Zugeordneter Eintrag</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="kennung" type="ek-zuordnungskatalogkennung.type" use="required">
+									<xs:annotation>
+										<xs:documentation>Zuordnungskatalog</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:key name="uid_katalogzuordnung">
+					<xs:selector xpath="on:katalogzuordnung"/>
+					<xs:field xpath="@kennung"/>
+				</xs:key>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<!--===-->
+	<!--===Elementkatalog-Einträge (für allgemeinen und Projektelementkatalog)-->
+	<xs:group name="ek-eintrag-basisdaten.group">
+		<xs:annotation>
+			<xs:documentation>Basisdaten für Überschrift, Elementgruppe und Element</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="stichwort" type="text60.type"/>
+			<xs:element name="langtext" type="langtext.type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Beschreibender Text (Formatierter Text entsprechend 8.4, jedoch ohne die Formatierungen al und bl) </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="grafiklinks.group"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="ek-elementgruppe-element-basisdaten.group">
+		<xs:annotation>
+			<xs:documentation>Basisdaten für Elementgruppe und Element</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="einheit" type="einheit.type">
+				<xs:annotation>
+					<xs:documentation>Mengeneinheit</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="ek-zuordnungen.group"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="ek-ueberschrift-eigenschaften.type">
+		<xs:annotation>
+			<xs:documentation>Eigenschaften Überschrift</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="ek-eintrag-basisdaten.group"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ek-elementgruppe-eigenschaften.type">
+		<xs:annotation>
+			<xs:documentation>Eigenschaften Elementgruppe</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="ek-eintrag-basisdaten.group"/>
+			<xs:group ref="ek-elementgruppe-element-basisdaten.group"/>
+			<xs:element name="elementgruppenaufbau">
+				<xs:complexType>
+					<xs:choice maxOccurs="unbounded">
+						<xs:element name="referenz">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ekkennung" type="aek-kennung.type" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Referenz auf Element oder Elementgruppe aus diesem verwendeten AEK; nur im PEK anzugeben.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="idnr" type="ek-idnr.type">
+										<xs:annotation>
+											<xs:documentation>Element oder Elementgruppe</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="abaenderungsnr" type="mfv.type" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Im PEK anzugeben, wenn ein AEK-Element oder eine AEK-Elementgruppe mehrfach abgeändert übernommen wurde</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="berechnungsansatz" type="mebe-rechenansatz.type"/>
+									<xs:element name="menge" type="berechnetemenge.type">
+										<xs:annotation>
+											<xs:documentation>Ergebnis von berechnungsansatz</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ek-element-eigenschaften.type">
+		<xs:annotation>
+			<xs:documentation>Eigenschaften Element</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="ek-eintrag-basisdaten.group"/>
+			<xs:group ref="ek-elementgruppe-element-basisdaten.group"/>
+			<xs:element name="elementaufbau">
+				<xs:complexType>
+					<xs:choice minOccurs="0" maxOccurs="unbounded">
+						<xs:element name="textzeile" type="mebe-kommentar.type"/>
+						<xs:element name="komponente">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:sequence minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Anzugeben, wenn eine Komponente aus einer LB übernommen wird oder eine frei formulierte Komponente später in einem LV als frei formulierte Position in eine LB eingegliedert werden soll</xs:documentation>
+										</xs:annotation>
+										<xs:element name="lbkennung" type="lb-kennung.type"/>
+										<xs:element name="lbversion" type="lb-versionsnummer.type"/>
+										<xs:element name="posnr" type="lb-posnr-ref.type">
+											<xs:annotation>
+												<xs:documentation>Referenz nur auf Positionen (mit EH) zulässig</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+									<xs:group ref="stichwort.group">
+										<xs:annotation>
+											<xs:documentation>Stichwort (optional mit ausgefüllter Stichwortlücke)</xs:documentation>
+										</xs:annotation>
+									</xs:group>
+									<xs:element name="einheit" type="einheit.type">
+										<xs:annotation>
+											<xs:documentation>Mengeneinheit</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="langtext" type="langtext-albl.type" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Optional mit ausgefüllten Lücken</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="ehpreis" type="betragmitpreisanteilen.type" minOccurs="0"/>
+									<xs:element name="berechnungsansatz" type="mebe-rechenansatz.type"/>
+									<xs:element name="menge" type="berechnetemenge.type">
+										<xs:annotation>
+											<xs:documentation>Ergebnis von berechnungsansatz</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="ek-eintrag.group">
+		<xs:annotation>
+			<xs:documentation>Ein Eintrag im Elementkatalog (Überschrift, Elementgruppe oder Element)</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="ueberschrift" type="ek-ueberschrift-eigenschaften.type"/>
+			<xs:element name="elementgruppe" type="ek-elementgruppe-eigenschaften.type"/>
+			<xs:element name="element" type="ek-element-eigenschaften.type"/>
+		</xs:choice>
+	</xs:group>
+</xs:schema>

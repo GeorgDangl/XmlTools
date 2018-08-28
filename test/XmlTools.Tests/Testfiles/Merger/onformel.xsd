@@ -1,0 +1,2660 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.oenorm.at/schema/A2063/2009-06-01" xmlns:on="http://www.oenorm.at/schema/A2063/2009-06-01" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.oenorm.at/schema/A2063/2009-06-01" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation>onformel.xsd - ÖNORM A 2063 Formelkatalog</xs:documentation>
+	</xs:annotation>
+	<xs:annotation>
+		<xs:documentation> ÖNORM A 2063, Ausgabe: 2011-05-01
+
+Austausch von Leistungsbeschreibungs-, Elementkatalogs-, Ausschreibungs-, Angebots-, Auftrags- und Abrechnungsdaten in elektronischer Form
+
+Folgende Schema-Dokumente bilden einen Bestandteil zur Umsetzung der vorliegenden ÖNORM:
+–	ontypdef.xsd: Typdefinitionen für alle Datenbestände;
+–	onformel.xsd: Formelkatalog nach Anhang A;
+–	ontext.xsd: Formatierung der Texte von Vorbemerkungen und Positionen;
+–	onlb.xsd: Datenbestand LB;
+–	onpr.xsd: Datenbestand Preise zu einer LB;
+–	onaek.xsd: Datenbestand AEK;
+–	onpek.xsd: Datenbestand PEK;
+–	onlv.xsd: Datenbestand LV;
+–	onre.xsd: Datenbestand Abrechnung einschließlich Mengenberechnung.
+
+Weitere Informationen:
+http://www.as-institute.at/development/downloads/
+
+Copyright © Austrian Standards Institute 2011.
+
+Austrian Standards Institute/
+Österreichisches Normungsinstitut (ON)
+Heinestraße 38, 1020 Wien
+</xs:documentation>
+	</xs:annotation>
+	<!--===-->
+	<xs:complexType name="formel.type">
+		<xs:annotation>
+			<xs:documentation>Formel (alle)</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="Formel1" type="Formel1"/>
+			<xs:element name="Formel2" type="Formel2"/>
+			<xs:element name="Formel3" type="Formel3"/>
+			<xs:element name="Formel4" type="Formel4"/>
+			<xs:element name="Formel5" type="Formel5"/>
+			<xs:element name="Formel6" type="Formel6"/>
+			<xs:element name="Formel10" type="Formel10"/>
+			<xs:element name="Formel11" type="Formel11"/>
+			<xs:element name="Formel12" type="Formel12"/>
+			<xs:element name="Formel13" type="Formel13"/>
+			<xs:element name="Formel14" type="Formel14"/>
+			<xs:element name="Formel15" type="Formel15"/>
+			<xs:element name="Formel20" type="Formel20"/>
+			<xs:element name="Formel21" type="Formel21"/>
+			<xs:element name="Formel22" type="Formel22"/>
+			<xs:element name="Formel23" type="Formel23"/>
+			<xs:element name="Formel27" type="Formel27"/>
+			<xs:element name="Formel30" type="Formel30"/>
+			<xs:element name="Formel31" type="Formel31"/>
+			<xs:element name="Formel32" type="Formel32"/>
+			<xs:element name="Formel33" type="Formel33"/>
+			<xs:element name="Formel40" type="Formel40"/>
+			<xs:element name="Formel41" type="Formel41"/>
+			<xs:element name="Formel42" type="Formel42"/>
+			<xs:element name="Formel43" type="Formel43"/>
+			<xs:element name="Formel46" type="Formel46"/>
+			<xs:element name="Formel47" type="Formel47"/>
+			<xs:element name="Formel48" type="Formel48"/>
+			<xs:element name="Formel49" type="Formel49"/>
+			<xs:element name="Formel50" type="Formel50"/>
+			<xs:element name="Formel51" type="Formel51"/>
+			<xs:element name="Formel52" type="Formel52"/>
+			<xs:element name="Formel53" type="Formel53"/>
+			<xs:element name="Formel56" type="Formel56"/>
+			<xs:element name="Formel57" type="Formel57"/>
+			<xs:element name="Formel58" type="Formel58"/>
+			<xs:element name="Formel59" type="Formel59"/>
+			<xs:element name="Formel60" type="Formel60"/>
+			<xs:element name="Formel61" type="Formel61"/>
+			<xs:element name="Formel62" type="Formel62"/>
+			<xs:element name="Formel63" type="Formel63"/>
+			<xs:element name="Formel66" type="Formel66"/>
+			<xs:element name="Formel67" type="Formel67"/>
+			<xs:element name="Formel68" type="Formel68"/>
+			<xs:element name="Formel69" type="Formel69"/>
+			<xs:element name="Formel70" type="Formel70"/>
+			<xs:element name="Formel71" type="Formel71"/>
+			<xs:element name="Formel72" type="Formel72"/>
+			<xs:element name="Formel73" type="Formel73"/>
+			<xs:element name="Formel76" type="Formel76"/>
+			<xs:element name="Formel77" type="Formel77"/>
+			<xs:element name="Formel78" type="Formel78"/>
+			<xs:element name="Formel79" type="Formel79"/>
+			<xs:element name="Formel80" type="Formel80"/>
+			<xs:element name="Formel81" type="Formel81"/>
+			<xs:element name="Formel82" type="Formel82"/>
+			<xs:element name="Formel83" type="Formel83"/>
+			<xs:element name="Formel86" type="Formel86"/>
+			<xs:element name="Formel87" type="Formel87"/>
+			<xs:element name="Formel88" type="Formel88"/>
+			<xs:element name="Formel89" type="Formel89"/>
+			<xs:element name="Formel90" type="Formel90"/>
+			<xs:element name="Formel91" type="Formel91"/>
+			<xs:element name="Formel92" type="Formel92"/>
+			<xs:element name="Formel93" type="Formel93"/>
+			<xs:element name="Formel96" type="Formel96"/>
+			<xs:element name="Formel97" type="Formel97"/>
+			<xs:element name="Formel98" type="Formel98"/>
+			<xs:element name="Formel99" type="Formel99"/>
+			<xs:element name="Formel100" type="Formel100"/>
+			<xs:element name="Formel101" type="Formel101"/>
+			<xs:element name="Formel102" type="Formel102"/>
+			<xs:element name="Formel103" type="Formel103"/>
+			<xs:element name="Formel110" type="Formel110"/>
+			<xs:element name="Formel111" type="Formel111"/>
+			<xs:element name="Formel112" type="Formel112"/>
+			<xs:element name="Formel113" type="Formel113"/>
+			<xs:element name="Formel120" type="Formel120"/>
+			<xs:element name="Formel121" type="Formel121"/>
+			<xs:element name="Formel122" type="Formel122"/>
+			<xs:element name="Formel126" type="Formel126"/>
+			<xs:element name="Formel127" type="Formel127"/>
+			<xs:element name="Formel128" type="Formel128"/>
+			<xs:element name="Formel129" type="Formel129"/>
+			<xs:element name="Formel136" type="Formel136"/>
+			<xs:element name="Formel141" type="Formel141"/>
+			<xs:element name="Formel142" type="Formel142"/>
+			<xs:element name="Formel143" type="Formel143"/>
+			<xs:element name="Formel144" type="Formel144"/>
+			<xs:element name="Formel145" type="Formel145"/>
+			<xs:element name="Formel146" type="Formel146"/>
+			<xs:element name="Formel150" type="Formel150"/>
+			<xs:element name="Formel151" type="Formel151"/>
+			<xs:element name="Formel160" type="Formel160"/>
+			<xs:element name="Formel161" type="Formel161"/>
+			<xs:element name="Formel170" type="Formel170"/>
+			<xs:element name="Formel171" type="Formel171"/>
+			<xs:element name="Formel172" type="Formel172"/>
+			<xs:element name="Formel173" type="Formel173"/>
+			<xs:element name="Formel174" type="Formel174"/>
+			<xs:element name="Formel180" type="Formel180"/>
+			<xs:element name="Formel181" type="Formel181"/>
+			<xs:element name="Formel190" type="Formel190"/>
+			<xs:element name="Formel191" type="Formel191"/>
+			<xs:element name="Formel200" type="Formel200"/>
+			<xs:element name="Formel201" type="Formel201"/>
+			<xs:element name="Formel210" type="Formel210"/>
+			<xs:element name="Formel211" type="Formel211"/>
+			<xs:element name="Formel212" type="Formel212"/>
+			<xs:element name="Formel213" type="Formel213"/>
+			<xs:element name="Formel220" type="Formel220"/>
+			<xs:element name="Formel221" type="Formel221"/>
+			<xs:element name="Formel230" type="Formel230"/>
+			<xs:element name="Formel231" type="Formel231"/>
+			<xs:element name="Formel240" type="Formel240"/>
+			<xs:element name="Formel241" type="Formel241"/>
+			<xs:element name="Formel246" type="Formel246"/>
+			<xs:element name="Formel250" type="Formel250"/>
+			<xs:element name="Formel251" type="Formel251"/>
+			<xs:element name="Formel260" type="Formel260"/>
+			<xs:element name="Formel261" type="Formel261"/>
+			<xs:element name="Formel270" type="Formel270"/>
+			<xs:element name="Formel271" type="Formel271"/>
+			<xs:element name="Formel280" type="Formel280"/>
+			<xs:element name="Formel281" type="Formel281"/>
+			<xs:element name="Formel290" type="Formel290"/>
+			<xs:element name="Formel291" type="Formel291"/>
+			<xs:element name="Formel293" type="Formel293"/>
+			<xs:element name="Formel300" type="Formel300"/>
+			<xs:element name="Formel301" type="Formel301"/>
+			<xs:element name="Formel310" type="Formel310"/>
+			<xs:element name="Formel311" type="Formel311"/>
+			<xs:element name="Formel380" type="Formel380"/>
+			<xs:element name="Formel390" type="Formel390"/>
+			<xs:element name="Formel401" type="Formel401"/>
+			<xs:element name="Formel402" type="Formel402"/>
+			<xs:element name="Formel403" type="Formel403"/>
+			<xs:element name="Formel404" type="Formel404"/>
+			<xs:element name="Formel405" type="Formel405"/>
+			<xs:element name="Formel411" type="Formel411"/>
+			<xs:element name="Formel412" type="Formel412"/>
+			<xs:element name="Formel413" type="Formel413"/>
+			<xs:element name="Formel421" type="Formel421"/>
+			<xs:element name="Formel431" type="Formel431"/>
+			<xs:element name="Formel432" type="Formel432"/>
+			<xs:element name="Formel500" type="Formel500"/>
+			<xs:element name="Formel501" type="Formel501"/>
+			<xs:element name="Formel502" type="Formel502"/>
+			<xs:element name="Formel503" type="Formel503"/>
+			<xs:element name="Formel511" type="Formel511"/>
+			<xs:element name="Formel520" type="Formel520"/>
+			<xs:element name="Formel530" type="Formel530"/>
+			<xs:element name="Formel531" type="Formel531"/>
+			<xs:element name="Formel532" type="Formel532"/>
+			<xs:element name="Formel533" type="Formel533"/>
+			<xs:element name="Formel536" type="Formel536"/>
+			<xs:element name="Formel550" type="Formel550"/>
+			<xs:element name="Formel551" type="Formel551"/>
+			<xs:element name="Formel560" type="Formel560"/>
+			<xs:element name="Formel561" type="Formel561"/>
+			<xs:element name="Formel571" type="Formel571"/>
+			<xs:element name="Formel572" type="Formel572"/>
+			<xs:element name="Formel580" type="Formel580"/>
+			<xs:element name="Formel581" type="Formel581"/>
+		</xs:choice>
+	</xs:complexType>
+	<!--===Formeln-->
+	<xs:complexType name="Formel1">
+		<xs:annotation>
+			<xs:documentation>Summe von max. 4 Werten</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="X1" type="formelwert.type"/>
+			<xs:element name="X2" type="formelwert.type" minOccurs="0"/>
+			<xs:element name="X3" type="formelwert.type" minOccurs="0"/>
+			<xs:element name="X4" type="formelwert.type" minOccurs="0"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel2">
+		<xs:annotation>
+			<xs:documentation>Produkt von max. 4 Werten</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="X1" type="formelwert.type"/>
+			<xs:element name="X2" type="formelwert.type"/>
+			<xs:element name="X3" type="formelwert.type" minOccurs="0"/>
+			<xs:element name="X4" type="formelwert.type" minOccurs="0"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel3">
+		<xs:annotation>
+			<xs:documentation>Produkt von 2 Summen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="X1" type="formelwert.type"/>
+			<xs:element name="X2" type="formelwert.type" minOccurs="0"/>
+			<xs:element name="X3" type="formelwert.type"/>
+			<xs:element name="X4" type="formelwert.type" minOccurs="0"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel4">
+		<xs:annotation>
+			<xs:documentation>Quotient von 2 Produkten</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="X1" type="formelwert.type"/>
+			<xs:element name="X2" type="formelwert.type" minOccurs="0"/>
+			<xs:element name="X3" type="formelwert.type"/>
+			<xs:element name="X4" type="formelwert.type" minOccurs="0"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel5">
+		<xs:annotation>
+			<xs:documentation>Seite eines rechtwinkeligen Dreiecks (Hypothenuse)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel6">
+		<xs:annotation>
+			<xs:documentation>Seite eines rechtwinkeligen Dreiecks (Kathete)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="a" type="formelwert.type"/>
+				<xs:element name="b" type="formelwert.type"/>
+			</xs:choice>
+			<xs:element name="c" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel10">
+		<xs:annotation>
+			<xs:documentation>Rechteck</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel11">
+		<xs:annotation>
+			<xs:documentation>Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel12">
+		<xs:annotation>
+			<xs:documentation>Pyramide</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel13">
+		<xs:annotation>
+			<xs:documentation>Pyramidenstumpf</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:choice>
+				<xs:element name="a2"/>
+				<xs:element name="b2"/>
+			</xs:choice>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel14">
+		<xs:annotation>
+			<xs:documentation>Keil</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:element name="a2" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel15">
+		<xs:annotation>
+			<xs:documentation>Keilstumpf</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:element name="a2" type="formelwert.type"/>
+			<xs:element name="b2" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel20">
+		<xs:annotation>
+			<xs:documentation>Grundfläche Trapez aus a, c, h</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="c" type="formelwert.type"/>
+			<xs:element name="h" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel20">
+		<xs:annotation>
+			<xs:documentation>Trapez aus a, c, h </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel20"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel21">
+		<xs:annotation>
+			<xs:documentation>Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel20"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel22">
+		<xs:annotation>
+			<xs:documentation>Pyramide</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel20"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel23">
+		<xs:annotation>
+			<xs:documentation>Pyramidenstumpf</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel20"/>
+			<xs:choice>
+				<xs:element name="a2" type="formelwert.type"/>
+				<xs:element name="c2" type="formelwert.type"/>
+				<xs:element name="h2" type="formelwert.type"/>
+			</xs:choice>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel27">
+		<xs:annotation>
+			<xs:documentation>Obelisk</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel20"/>
+			<xs:element name="a2" type="formelwert.type"/>
+			<xs:element name="c2" type="formelwert.type"/>
+			<xs:element name="h2" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel30">
+		<xs:annotation>
+			<xs:documentation>Grundfläche Trapez aus a, b, c, d</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:element name="c" type="formelwert.type"/>
+			<xs:element name="d" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel30">
+		<xs:annotation>
+			<xs:documentation>Trapez aus a, b, c, d</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel30"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel31">
+		<xs:annotation>
+			<xs:documentation>Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel30"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel32">
+		<xs:annotation>
+			<xs:documentation>Pyramide</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel30"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel33">
+		<xs:annotation>
+			<xs:documentation>Pyramidenstumpf</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel30"/>
+			<xs:choice>
+				<xs:element name="a2" type="formelwert.type"/>
+				<xs:element name="b2" type="formelwert.type"/>
+				<xs:element name="c2" type="formelwert.type"/>
+				<xs:element name="d2" type="formelwert.type"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel40">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Dreieck aus g, h</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="g" type="formelwert.type"/>
+			<xs:element name="h" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel40">
+		<xs:annotation>
+			<xs:documentation>Dreieck aus g, h</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel40"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel41">
+		<xs:annotation>
+			<xs:documentation>Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel40"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel42">
+		<xs:annotation>
+			<xs:documentation>Pyramide</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel40"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel43">
+		<xs:annotation>
+			<xs:documentation>Pyramidenstumpf</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel40"/>
+			<xs:choice>
+				<xs:element name="g2" type="formelwert.type"/>
+				<xs:element name="h2" type="formelwert.type"/>
+			</xs:choice>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel46">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus 3 Höhen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel40"/>
+			<xs:group ref="SubFormel_x6"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel47">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus Hs</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="SubFormel_x7"/>
+			<xs:group ref="Formel40"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel48">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus 6 Koten</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel40"/>
+			<xs:group ref="SubFormel_x8"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel49">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus Schwerpunktkoten</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel40"/>
+			<xs:group ref="SubFormel_x9"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel50">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Dreieck aus a, b, c</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:element name="c" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel50">
+		<xs:annotation>
+			<xs:documentation>Dreieck aus a, b, c</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel50"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel51">
+		<xs:annotation>
+			<xs:documentation>Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel50"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel52">
+		<xs:annotation>
+			<xs:documentation>Pyramide</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel50"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel53">
+		<xs:annotation>
+			<xs:documentation>Pyramidenstumpf</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel50"/>
+			<xs:choice>
+				<xs:element name="a2" type="formelwert.type"/>
+				<xs:element name="b2" type="formelwert.type"/>
+				<xs:element name="c2" type="formelwert.type"/>
+			</xs:choice>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel56">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus 3 Höhen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel50"/>
+			<xs:group ref="SubFormel_x6"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel57">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus Hs</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="SubFormel_x7"/>
+			<xs:group ref="Formel50"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel58">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus 6 Koten</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel50"/>
+			<xs:group ref="SubFormel_x8"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel59">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus Schwerpunktkoten</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel50"/>
+			<xs:group ref="SubFormel_x9"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel60">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Dreieck aus a, b, Gamma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:element name="Gamma" type="winkelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel60">
+		<xs:annotation>
+			<xs:documentation>Dreieck aus a, b, Gamma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel60"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel61">
+		<xs:annotation>
+			<xs:documentation>Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel60"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel62">
+		<xs:annotation>
+			<xs:documentation>Pyramide</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel60"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel63">
+		<xs:annotation>
+			<xs:documentation>Pyramidenstumpf</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel60"/>
+			<xs:choice>
+				<xs:element name="a2" type="formelwert.type"/>
+				<xs:element name="b2" type="formelwert.type"/>
+			</xs:choice>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel66">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus 3 Höhen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel60"/>
+			<xs:group ref="SubFormel_x6"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel67">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus Hs</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="SubFormel_x7"/>
+			<xs:group ref="Formel60"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel68">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus 6 Koten</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel60"/>
+			<xs:group ref="SubFormel_x8"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel69">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus Schwerpunktkoten</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel60"/>
+			<xs:group ref="SubFormel_x9"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel70">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Dreieck aus a, b, Alpha</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:element name="Alpha" type="winkelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel70">
+		<xs:annotation>
+			<xs:documentation>Dreieck aus a, b, Alpha</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel70"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel71">
+		<xs:annotation>
+			<xs:documentation>Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel70"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel72">
+		<xs:annotation>
+			<xs:documentation>Pyramide</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel70"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel73">
+		<xs:annotation>
+			<xs:documentation>Pyramidenstumpf</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel70"/>
+			<xs:choice>
+				<xs:element name="a2" type="formelwert.type"/>
+				<xs:element name="b2" type="formelwert.type"/>
+			</xs:choice>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel76">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus 3 Höhen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel70"/>
+			<xs:group ref="SubFormel_x6"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel77">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus Hs</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="SubFormel_x7"/>
+			<xs:group ref="Formel70"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel78">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus 6 Koten</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel70"/>
+			<xs:group ref="SubFormel_x8"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel79">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus Schwerpunktkoten</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel70"/>
+			<xs:group ref="SubFormel_x9"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel80">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Dreieck aus b, Gamma, Alpha</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:element name="Gamma" type="winkelwert.type"/>
+			<xs:element name="Alpha" type="winkelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel80">
+		<xs:annotation>
+			<xs:documentation>Dreieck aus b, Gamma, Alpha</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel80"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel81">
+		<xs:annotation>
+			<xs:documentation>Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel80"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel82">
+		<xs:annotation>
+			<xs:documentation>Pyramide</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel80"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel83">
+		<xs:annotation>
+			<xs:documentation>Pyramidenstumpf</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel80"/>
+			<xs:element name="b2" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel86">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus 3 Höhen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel80"/>
+			<xs:group ref="SubFormel_x6"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel87">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus Hs</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="SubFormel_x7"/>
+			<xs:group ref="Formel80"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel88">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus 6 Koten</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel80"/>
+			<xs:group ref="SubFormel_x8"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel89">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus Schwerpunktkoten</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel80"/>
+			<xs:group ref="SubFormel_x9"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel90">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Dreieck aus a, Gamma, Alpha</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="Gamma" type="winkelwert.type"/>
+			<xs:element name="Alpha" type="winkelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel90">
+		<xs:annotation>
+			<xs:documentation>Dreieck aus a, Gamma, Alpha</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel90"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel91">
+		<xs:annotation>
+			<xs:documentation>Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel90"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel92">
+		<xs:annotation>
+			<xs:documentation>Pyramide</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel90"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel93">
+		<xs:annotation>
+			<xs:documentation>Pyramidenstumpf</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel90"/>
+			<xs:element name="a2" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel96">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus 3 Höhen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel90"/>
+			<xs:group ref="SubFormel_x6"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel97">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus Hs</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="SubFormel_x7"/>
+			<xs:group ref="Formel90"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel98">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus 6 Koten</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel90"/>
+			<xs:group ref="SubFormel_x8"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel99">
+		<xs:annotation>
+			<xs:documentation>Prisma schief abgeschnitten aus Schwerpunktkoten</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel90"/>
+			<xs:group ref="SubFormel_x9"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel100">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Regelmäßiges n-Eck, offen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="r" type="formelwert.type"/>
+			<xs:element name="Alpha" type="winkelwert.type"/>
+			<xs:element name="n" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel100">
+		<xs:annotation>
+			<xs:documentation>regelm. n-Eck, offen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel100"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel101">
+		<xs:annotation>
+			<xs:documentation>Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel100"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel102">
+		<xs:annotation>
+			<xs:documentation>Pyramide</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel100"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel103">
+		<xs:annotation>
+			<xs:documentation>Pyramidenstumpf</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel100"/>
+			<xs:element name="r2" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel110">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Regelmäßiges n-Eck, geschlossen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="r" type="formelwert.type"/>
+			<xs:element name="n" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel110">
+		<xs:annotation>
+			<xs:documentation>regelm n-Eck, geschlossen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel110"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel111">
+		<xs:annotation>
+			<xs:documentation>Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel110"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel112">
+		<xs:annotation>
+			<xs:documentation>Pyramide</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel110"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel113">
+		<xs:annotation>
+			<xs:documentation>Pyramidenstumpf</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel110"/>
+			<xs:element name="r2" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel120">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Unregelmäßiges n-Eck</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Punkte">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="n" type="formelwert.type"/>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:group ref="punkt.group"/>
+						</xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel120">
+		<xs:annotation>
+			<xs:documentation>unregelm n-Eck (Gauß-Elling)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel120"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel121">
+		<xs:annotation>
+			<xs:documentation>Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel120"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel122">
+		<xs:annotation>
+			<xs:documentation>Pyramide</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel120"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel126">
+		<xs:annotation>
+			<xs:documentation>Prisma, schief abgeschnitten</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="k" type="formelwert.type"/>
+			<xs:element name="l" type="formelwert.type"/>
+			<xs:element name="m" type="formelwert.type"/>
+			<xs:element name="Punkte">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="n" type="formelwert.type"/>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:group ref="punkt.group"/>
+						</xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Hk" type="formelwert.type"/>
+			<xs:element name="Hl" type="formelwert.type"/>
+			<xs:element name="Hm" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel127">
+		<xs:annotation>
+			<xs:documentation>Prismatoid</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:element name="Grundfläche">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="n" type="formelwert.type"/>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:group ref="punkt.group"/>
+						</xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Deckfläche">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="m" type="formelwert.type"/>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:sequence>
+								<xs:element name="x_" type="formelwert.type"/>
+								<xs:element name="y_" type="formelwert.type"/>
+							</xs:sequence>
+						</xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Kanten">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="N" type="formelwert.type"/>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:element name="K" type="formelwert.type"/>
+							<xs:element name="K_" type="formelwert.type"/>
+						</xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel128">
+		<xs:annotation>
+			<xs:documentation>Profilmassen bei gerader Achse</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel120"/>
+			<xs:element name="ai" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel129">
+		<xs:annotation>
+			<xs:documentation>Profilachsen bei gekrümmter Achse</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel120"/>
+			<xs:element name="ai" type="formelwert.type"/>
+			<xs:element name="Betai" type="winkelwert.type"/>
+			<xs:element name="Gammai" type="winkelwert.type"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel136">
+		<xs:annotation>
+			<xs:documentation>Punkthaufen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Punkte">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="n" type="formelwert.type"/>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:element name="x" type="formelwert.type"/>
+							<xs:element name="y" type="formelwert.type"/>
+							<xs:element name="z" type="formelwert.type"/>
+						</xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Prismen">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="m" type="formelwert.type"/>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:element name="Kj1" type="formelwert.type"/>
+							<xs:element name="Kj2" type="formelwert.type"/>
+							<xs:element name="Kj3" type="formelwert.type"/>
+						</xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel141">
+		<xs:annotation>
+			<xs:documentation>Rampe (geneigter Ansatz, geneigte Seiten)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:element name="m" type="formelwert.type"/>
+			<xs:element name="n1" type="formelwert.type"/>
+			<xs:element name="n" type="formelwert.type"/>
+			<xs:choice>
+				<xs:element name="H" type="formelwert.type"/>
+				<xs:element name="l" type="formelwert.type"/>
+			</xs:choice>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel142">
+		<xs:annotation>
+			<xs:documentation>Rampe (lotrechter Ansatz, geneigte Seiten)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:element name="m" type="formelwert.type"/>
+			<xs:element name="n1" type="formelwert.type"/>
+			<xs:choice>
+				<xs:element name="H" type="formelwert.type"/>
+				<xs:element name="l" type="formelwert.type"/>
+			</xs:choice>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel143">
+		<xs:annotation>
+			<xs:documentation>Rampe (geneigter Ansatz, lotrechte Seiten)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:element name="m" type="formelwert.type"/>
+			<xs:element name="n" type="formelwert.type"/>
+			<xs:choice>
+				<xs:element name="H" type="formelwert.type"/>
+				<xs:element name="l" type="formelwert.type"/>
+			</xs:choice>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel144">
+		<xs:annotation>
+			<xs:documentation>Rampe (lotrechter Ansatz, lotrechte Seiten)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:element name="m" type="formelwert.type"/>
+			<xs:choice>
+				<xs:element name="H" type="formelwert.type"/>
+				<xs:element name="l" type="formelwert.type"/>
+			</xs:choice>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel145">
+		<xs:annotation>
+			<xs:documentation>Rampe schräg angesetzt</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:element name="m" type="formelwert.type"/>
+			<xs:element name="n" type="formelwert.type"/>
+			<xs:element name="H" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel146">
+		<xs:annotation>
+			<xs:documentation>Damm</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:element name="m" type="formelwert.type"/>
+			<xs:element name="n" type="formelwert.type"/>
+			<xs:element name="H" type="formelwert.type"/>
+			<xs:element name="l" type="formelwert.type" minOccurs="0"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel150">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Fläche nach Rechteckregel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="Rechtecke">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="n" type="formelwert.type"/>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:element name="b" type="formelwert.type"/>
+						</xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel150">
+		<xs:annotation>
+			<xs:documentation>Fläche nach Rechteckregel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel150"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel151">
+		<xs:annotation>
+			<xs:documentation>Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel150"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel160">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Fläche nach Trapezregel mit konstanten Abständen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="Breiten">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="n" type="formelwert.type"/>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:element name="b" type="formelwert.type"/>
+						</xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel160">
+		<xs:annotation>
+			<xs:documentation>Fläche nach Trapezregel, konstante Abstände</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel160"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel161">
+		<xs:annotation>
+			<xs:documentation>Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel160"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel170">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Fläche nach Trapezregel mit variablen Abständen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Breiten">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="n" type="formelwert.type"/>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:element name="b" type="formelwert.type"/>
+							<xs:element name="a" type="formelwert.type"/>
+						</xs:sequence>
+						<xs:element name="bn" type="formelwert.type"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel170">
+		<xs:annotation>
+			<xs:documentation>Fläche nach Trapezregel, variable Abstände</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel170"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel171">
+		<xs:annotation>
+			<xs:documentation>Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel170"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel172">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Fläche nach Trapezregel aus Stationsaufnahme</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Stationen">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="n" type="formelwert.type"/>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:element name="b" type="formelwert.type"/>
+							<xs:element name="s" type="formelwert.type"/>
+						</xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel172">
+		<xs:annotation>
+			<xs:documentation>Fläche nach Trapezregel aus Stationsaufnahme</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel172"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel173">
+		<xs:annotation>
+			<xs:documentation>Prisma (konstante Breite/Tiefe)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel172"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel174">
+		<xs:annotation>
+			<xs:documentation>Prisma (variable Breite/Tiefe)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Stationen">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="n" type="formelwert.type"/>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:element name="b" type="formelwert.type"/>
+							<xs:element name="s" type="formelwert.type"/>
+							<xs:element name="H" type="formelwert.type"/>
+						</xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel180">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Fläche nach Simpson</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="Breiten">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="n" type="formelwert.type"/>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:element name="b" type="formelwert.type"/>
+						</xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel180">
+		<xs:annotation>
+			<xs:documentation>Fläche nach Simpson</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel180"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel181">
+		<xs:annotation>
+			<xs:documentation>Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel180"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel190">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Fläche polar mit konstantem Zentriwinkel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Alpha" type="winkelwert.type"/>
+			<xs:element name="Abstände">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="n" type="formelwert.type"/>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:element name="r" type="formelwert.type"/>
+						</xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel190">
+		<xs:annotation>
+			<xs:documentation>Fläche polar mit konstantem Zentriwinkel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel190"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel191">
+		<xs:annotation>
+			<xs:documentation>Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel190"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel200">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Fläche polar mit variablem Zentriwinkel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Abstände">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="n" type="formelwert.type"/>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:element name="r" type="formelwert.type"/>
+							<xs:element name="Alpha" type="winkelwert.type"/>
+						</xs:sequence>
+						<xs:element name="rn" type="formelwert.type"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel200">
+		<xs:annotation>
+			<xs:documentation>Fläche polar mit variablem Zentriwinkel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel200"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel201">
+		<xs:annotation>
+			<xs:documentation>Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel200"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel210">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Kreis</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="r" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel210">
+		<xs:annotation>
+			<xs:documentation>Kreis</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel210"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel211">
+		<xs:annotation>
+			<xs:documentation>Zylinder</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel210"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel212">
+		<xs:annotation>
+			<xs:documentation>Kegel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel210"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel213">
+		<xs:annotation>
+			<xs:documentation>Kegelstumpf</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel210"/>
+			<xs:element name="r2" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel220">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Kreissektor</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Phi" type="winkelwert.type"/>
+			<xs:element name="r" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel220">
+		<xs:annotation>
+			<xs:documentation>Kreissektor</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel220"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel221">
+		<xs:annotation>
+			<xs:documentation>Zylindersektor</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel220"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel230">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Kreisringsektor</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Phi" type="winkelwert.type" minOccurs="0"/>
+			<xs:element name="r1" type="formelwert.type"/>
+			<xs:element name="r2" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel230">
+		<xs:annotation>
+			<xs:documentation>Kreisringsektor</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel230"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel231">
+		<xs:annotation>
+			<xs:documentation>Röhrensektor</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel230"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel240">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Kreissegment aus Phi (Zentriwinkel)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Phi" type="winkelwert.type"/>
+			<xs:element name="r" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel240">
+		<xs:annotation>
+			<xs:documentation>Kreissegment aus Phi</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel240"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel241">
+		<xs:annotation>
+			<xs:documentation>Zylindersegment</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel240"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel246">
+		<xs:annotation>
+			<xs:documentation>Zylinderhuf</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:element name="Phi" type="winkelwert.type" minOccurs="0"/>
+			<xs:element name="r" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel250">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Kreissegment aus f (Stichhöhe)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="f" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel250">
+		<xs:annotation>
+			<xs:documentation>Kreissegment aus f</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel250"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel251">
+		<xs:annotation>
+			<xs:documentation>Zylindersegment</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel250"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel260">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Kreiszwickel, rechtwinkelig</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Phi" type="winkelwert.type"/>
+			<xs:element name="r" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel260">
+		<xs:annotation>
+			<xs:documentation>Kreiszwickel, rechtwinkelig, aus Phi, r</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel260"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel261">
+		<xs:annotation>
+			<xs:documentation>Zylinderzwickel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel260"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel270">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Kreiszwickel, rechtwinkelig</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="b" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel270">
+		<xs:annotation>
+			<xs:documentation>Kreiszwickel, rechtwinkelig, aus a, b</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel270"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel271">
+		<xs:annotation>
+			<xs:documentation>Zylinderzwickel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel270"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel280">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Kreiszwickel, gleichschenkelig</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Phi" type="winkelwert.type"/>
+			<xs:element name="r" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel280">
+		<xs:annotation>
+			<xs:documentation>Kreiszwickel, gleichschenkelig</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel280"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel281">
+		<xs:annotation>
+			<xs:documentation>Zylinderzwickel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel280"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel290">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Ellipse</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="b" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel290">
+		<xs:annotation>
+			<xs:documentation>Ellipse</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel290"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel291">
+		<xs:annotation>
+			<xs:documentation>Zylinder</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel290"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel293">
+		<xs:annotation>
+			<xs:documentation>Kübel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:element name="a2" type="formelwert.type"/>
+			<xs:element name="b2" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel300">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Parabel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:element name="N" type="formelwert.type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel300">
+		<xs:annotation>
+			<xs:documentation>Parabel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel300"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel301">
+		<xs:annotation>
+			<xs:documentation>Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel300"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel310">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Parabelzwickel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:element name="N" type="formelwert.type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel310">
+		<xs:annotation>
+			<xs:documentation>Parabelzwickel, konkaves Segment</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel310"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel311">
+		<xs:annotation>
+			<xs:documentation>Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel310"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel380">
+		<xs:annotation>
+			<xs:documentation>unregelm. n-Eck mit Segmenten aus (x, y)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="n" type="formelwert.type">
+				<xs:annotation>
+					<xs:documentation>Anzahl der Polygonpunkte</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="k" type="formelwert.type">
+				<xs:annotation>
+					<xs:documentation>Anzahl der Kreissegmente</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="l" type="formelwert.type">
+				<xs:annotation>
+					<xs:documentation>Anzahl der Parabelsegemente</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="Multiplikator"/>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="Gerade">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="x" type="formelwert.type"/>
+							<xs:element name="y" type="formelwert.type"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Kreissegment">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="x" type="formelwert.type"/>
+							<xs:element name="y" type="formelwert.type"/>
+							<xs:element name="Xm" type="formelwert.type" minOccurs="0"/>
+							<xs:element name="Ym" type="formelwert.type" minOccurs="0"/>
+							<xs:element name="KZS">
+								<xs:annotation>
+									<xs:documentation>Lage des Segments: 'L' oder 'R'</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="L"/>
+										<xs:enumeration value="R"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="KZK">
+								<xs:annotation>
+									<xs:documentation>Art des Bestimmungsstücks: 'F', 'R', 'T' oder 'M'</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="F"/>
+										<xs:enumeration value="R"/>
+										<xs:enumeration value="T"/>
+										<xs:enumeration value="M"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="b" type="formelwert.type" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Bestimmungsstück (nicht bei KZK = 'M')</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="KZM">
+								<xs:annotation>
+									<xs:documentation>Lage des Kreismittelpunkts: 'L', 'R' oder ' ' bei KZK = 'M'</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="L"/>
+										<xs:enumeration value="R"/>
+										<xs:enumeration value=""/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Parabelsegment">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="x" type="formelwert.type"/>
+							<xs:element name="y" type="formelwert.type"/>
+							<xs:element name="KZS">
+								<xs:annotation>
+									<xs:documentation>Lage des Segments: 'L' oder 'R'</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="L"/>
+										<xs:enumeration value="R"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="KZP">
+								<xs:annotation>
+									<xs:documentation>Art des Bestimmungsstücks: 'F' oder 'T'</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="F"/>
+										<xs:enumeration value="T"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="b" type="formelwert.type">
+								<xs:annotation>
+									<xs:documentation>Bestimmungsstück</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel390">
+		<xs:annotation>
+			<xs:documentation>unregelm. n-Eck mit Segmenten aus (r, Phi)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="n" type="formelwert.type"/>
+			<xs:element name="k" type="formelwert.type"/>
+			<xs:element name="Neigung">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value=" "/>
+						<xs:enumeration value="A"/>
+						<xs:enumeration value="P"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Alpha" type="winkelwert.type" minOccurs="0"/>
+			<xs:group ref="Multiplikator"/>
+			<xs:sequence maxOccurs="unbounded">
+				<xs:element name="Nr" type="formelwert.type"/>
+				<xs:element name="Typ">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value=" "/>
+							<xs:enumeration value="H"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="r" type="formelwert.type"/>
+				<xs:element name="Azimut" type="winkelwert.type"/>
+				<xs:element name="Zenit" type="winkelwert.type" minOccurs="0"/>
+			</xs:sequence>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel401">
+		<xs:annotation>
+			<xs:documentation>Trapez</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="r" type="formelwert.type"/>
+			<xs:element name="h" type="formelwert.type"/>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:element name="Phi" type="winkelwert.type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel402">
+		<xs:annotation>
+			<xs:documentation>Dreieck mit Spitze außen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="r" type="formelwert.type"/>
+			<xs:element name="h" type="formelwert.type"/>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="Phi" type="winkelwert.type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel403">
+		<xs:annotation>
+			<xs:documentation>Dreieck mit Spitze innen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="r" type="formelwert.type"/>
+			<xs:element name="h" type="formelwert.type"/>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:element name="Phi" type="winkelwert.type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel404">
+		<xs:annotation>
+			<xs:documentation>unregelm. n-Eck</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="xa" type="formelwert.type"/>
+				<xs:element name="ya" type="formelwert.type"/>
+			</xs:choice>
+			<xs:element name="Phi" type="winkelwert.type" minOccurs="0"/>
+			<xs:element name="Punkte">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="n" type="formelwert.type"/>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:group ref="punkt.group"/>
+						</xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel405">
+		<xs:annotation>
+			<xs:documentation>kreisförmiger Ring</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="rm" type="formelwert.type"/>
+			<xs:element name="r" type="formelwert.type"/>
+			<xs:element name="Phi" type="winkelwert.type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel411">
+		<xs:annotation>
+			<xs:documentation>Kugel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="r" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel412">
+		<xs:annotation>
+			<xs:documentation>Kugelausschnitt</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:group ref="Höhe"/>
+				<xs:element name="r1" type="formelwert.type"/>
+			</xs:choice>
+			<xs:element name="r" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel413">
+		<xs:annotation>
+			<xs:documentation>Kugelschicht</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:group ref="Höhe"/>
+				<xs:element name="r" type="formelwert.type"/>
+			</xs:choice>
+			<xs:element name="r1" type="formelwert.type"/>
+			<xs:element name="r2" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel421">
+		<xs:annotation>
+			<xs:documentation>Ellipsoid</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="b" type="formelwert.type"/>
+			<xs:element name="c" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel431">
+		<xs:annotation>
+			<xs:documentation>Paraboloid</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:element name="r" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel432">
+		<xs:annotation>
+			<xs:documentation>parabolisches Faß</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:element name="D1" type="formelwert.type"/>
+			<xs:element name="D2" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel500">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Rechteck</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="b" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel500">
+		<xs:annotation>
+			<xs:documentation>Rechteck - Umfang</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel500"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel501">
+		<xs:annotation>
+			<xs:documentation>Rechteck - Prismenmantel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel500"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel502">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Trapez</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="c" type="formelwert.type"/>
+			<xs:element name="h" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel502">
+		<xs:annotation>
+			<xs:documentation>Trapez - Umfang</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel502"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel503">
+		<xs:annotation>
+			<xs:documentation>Trapez - Prismenmantel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel502"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel511">
+		<xs:annotation>
+			<xs:documentation>Allg. Prismenmantel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:element name="a1" type="formelwert.type"/>
+			<xs:element name="a2" type="formelwert.type" minOccurs="0"/>
+			<xs:element name="a3" type="formelwert.type" minOccurs="0"/>
+			<xs:element name="a4" type="formelwert.type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel520">
+		<xs:annotation>
+			<xs:documentation>Summe von Strecken</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Punkte">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="n" type="formelwert.type"/>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:group ref="punkt.group"/>
+						</xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel530">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Kreisbogen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Phi" type="winkelwert.type" minOccurs="0"/>
+			<xs:element name="r" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel530">
+		<xs:annotation>
+			<xs:documentation>Kreisbogen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel530"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel531">
+		<xs:annotation>
+			<xs:documentation>Kreisbogenmantel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel530"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel532">
+		<xs:annotation>
+			<xs:documentation>Kegelmantel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel530"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel533">
+		<xs:annotation>
+			<xs:documentation>Kegelstumpfmantel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel530"/>
+			<xs:element name="r2" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel536">
+		<xs:annotation>
+			<xs:documentation>Zylinderhufmantel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel530"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel550">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Ellipse</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="b" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel550">
+		<xs:annotation>
+			<xs:documentation>Ellipse - Umfang</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel550"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel551">
+		<xs:annotation>
+			<xs:documentation>Ellipse - Zylindermantel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel550"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel560">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Parabel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="a" type="formelwert.type"/>
+			<xs:element name="b" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel560">
+		<xs:annotation>
+			<xs:documentation>quadr. Parabel - Bogen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel560"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel561">
+		<xs:annotation>
+			<xs:documentation>quadr. Parabel - Mantel über dem Bogen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:group ref="Formel560"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel571">
+		<xs:annotation>
+			<xs:documentation>Kugeloberfläche</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="r" type="formelwert.type"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel572">
+		<xs:annotation>
+			<xs:documentation>Kugelschichtmantel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:choice>
+				<xs:element name="r" type="formelwert.type"/>
+				<xs:sequence>
+					<xs:element name="r1" type="formelwert.type"/>
+					<xs:element name="r2" type="formelwert.type"/>
+				</xs:sequence>
+			</xs:choice>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="Formel580">
+		<xs:annotation>
+			<xs:documentation>Grundfläche: Schraube</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Höhe"/>
+			<xs:element name="r" type="formelwert.type"/>
+			<xs:element name="n" type="formelwert.type"/>
+			<xs:element name="Phi" type="winkelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Formel580">
+		<xs:annotation>
+			<xs:documentation>Schraubenlinie</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel580"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Formel581">
+		<xs:annotation>
+			<xs:documentation>Schraubenfläche</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="Formel580"/>
+			<xs:group ref="Multiplikator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:annotation>
+		<xs:documentation>===Allgemeine Teile</xs:documentation>
+	</xs:annotation>
+	<xs:group name="SubFormel_x6">
+		<xs:annotation>
+			<xs:documentation>Höhen für schief abgeschnittenes Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="H1" type="formelwert.type"/>
+			<xs:element name="H2" type="formelwert.type"/>
+			<xs:element name="H3" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="SubFormel_x7">
+		<xs:annotation>
+			<xs:documentation>Höhe für schief abgeschnittenes Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Hs" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="SubFormel_x8">
+		<xs:annotation>
+			<xs:documentation>Höhen für schief abgeschnittenes Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="z1" type="formelwert.type"/>
+			<xs:element name="z2" type="formelwert.type"/>
+			<xs:element name="z3" type="formelwert.type"/>
+			<xs:element name="z_1" type="formelwert.type"/>
+			<xs:element name="z_2" type="formelwert.type"/>
+			<xs:element name="z_3" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="SubFormel_x9">
+		<xs:annotation>
+			<xs:documentation>Höhen für schief abgeschnittenes Prisma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="zs" type="formelwert.type"/>
+			<xs:element name="z_s" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="Höhe">
+		<xs:annotation>
+			<xs:documentation>Höhe</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="H" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="Multiplikator">
+		<xs:annotation>
+			<xs:documentation>Multiplikator</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Multi" type="formelwert.type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="punkt.group">
+		<xs:annotation>
+			<xs:documentation>X und Y Koordinaten eines Punktes</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="x" type="formelwert.type"/>
+			<xs:element name="y" type="formelwert.type"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:simpleType name="variablenbezeichner.type">
+		<xs:annotation>
+			<xs:documentation>Variablenbezeichner</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:maxLength value="10"/>
+			<xs:minLength value="1"/>
+			<xs:pattern value="[A-Za-z_][0-9A-Za-z_]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="formelwert.type">
+		<xs:annotation>
+			<xs:documentation>Formelwert - Zahl, optional Variable</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:double">
+				<xs:attribute name="varref" type="variablenbezeichner.type">
+					<xs:annotation>
+						<xs:documentation>Referenz auf eine Variable, zusätzlich Angabe des referenzierten Wertes</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="winkelwert.type">
+		<xs:annotation>
+			<xs:documentation>Formelwert - Winkel - Zahl, optional Variable</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:double">
+				<xs:attribute name="winkeleh" use="required">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="AG"/>
+							<xs:enumeration value="NG"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:attribute name="varref" type="variablenbezeichner.type">
+					<xs:annotation>
+						<xs:documentation>Referenz auf eine Variable, zusätzlich Angabe des referenzierten Wertes</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+</xs:schema>

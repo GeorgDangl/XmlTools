@@ -1,6 +1,7 @@
 ﻿using CommandLine.Text;
 using System;
 using System.IO;
+using XmlTools.Merger;
 
 namespace XmlTools.Console
 {
@@ -19,6 +20,11 @@ namespace XmlTools.Console
                     {
                         FlattenGroups(optionsParser.Result);
                         System.Console.WriteLine("Flattened groups");
+                    }
+                    else if (optionsParser.Result.MergeSchema)
+                    {
+                        MergeSchema(optionsParser.Result);
+                        System.Console.WriteLine("Merged schemas");
                     }
                     else
                     {
@@ -67,6 +73,30 @@ namespace XmlTools.Console
                     using (var outputFileStream = File.Create(outputPath))
                     {
                         flattenedStream.CopyTo(outputFileStream);
+                    }
+                }
+            }
+        }
+
+        private static void MergeSchema(Options options)
+        {
+            var inputPath = Path.GetFullPath(options.InputFilePath);
+            var outputPath = Path.GetFullPath(options.OutputFilePath);
+            using (var inputFileStream = File.OpenRead(inputPath))
+            {
+                Func<string, Stream> loadReference = reference =>
+                {
+                    var basePath = Path.GetDirectoryName(inputPath);
+                    var fullPath = Path.Combine(basePath, reference);
+                    return File.Open(fullPath, FileMode.Open);
+                };
+
+                var merger = new SimpleMerger(inputFileStream, loadReference);
+                using (var mergedStream = merger.MergeSchemas())
+                {
+                    using (var outputFileStream = File.Create(outputPath))
+                    {
+                        mergedStream.CopyTo(outputFileStream);
                     }
                 }
             }
