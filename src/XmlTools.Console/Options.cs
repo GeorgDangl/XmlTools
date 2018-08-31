@@ -18,7 +18,7 @@ namespace XmlTools.Console
         public bool FlattenGroups { get; set; }
 
         [Option('s', "specific-groups", Separator = ';', Required = false, HelpText = "If specified in combination with the 'flatten' option, only groups with the given names will be flattened")]
-        public List<string> SpecificGroupNamesToFlatten { get; set; }
+        public string[] SpecificGroupNamesToFlatten { get; set; }
 
         [Option('m', "merge", Required = false, HelpText = "If enabled, the schema will be merged")]
         public bool MergeSchema { get; set; }

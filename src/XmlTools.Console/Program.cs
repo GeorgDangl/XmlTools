@@ -69,7 +69,7 @@ namespace XmlTools.Console
             var outputPath = Path.GetFullPath(options.OutputFilePath);
             using (var inputFileStream = File.OpenRead(inputPath))
             {
-                using (var flattenedStream = new GroupFlattener.Flattener(inputFileStream).FlattenGroups(options?.SpecificGroupNamesToFlatten?.Any() == true ? options.SpecificGroupNamesToFlatten : null))
+                using (var flattenedStream = new GroupFlattener.Flattener(inputFileStream).FlattenGroups(options?.SpecificGroupNamesToFlatten?.Any() == true ? options.SpecificGroupNamesToFlatten.ToList() : null))
                 {
                     using (var outputFileStream = File.Create(outputPath))
                     {
