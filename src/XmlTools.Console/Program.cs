@@ -1,6 +1,7 @@
 ﻿using CommandLine.Text;
 using System;
 using System.IO;
+using System.Linq;
 using XmlTools.Merger;
 
 namespace XmlTools.Console
@@ -68,7 +69,7 @@ namespace XmlTools.Console
             var outputPath = Path.GetFullPath(options.OutputFilePath);
             using (var inputFileStream = File.OpenRead(inputPath))
             {
-                using (var flattenedStream = new GroupFlattener.Flattener(inputFileStream).FlattenGroups())
+                using (var flattenedStream = new GroupFlattener.Flattener(inputFileStream).FlattenGroups(options?.SpecificGroupNamesToFlatten?.Any() == true ? options.SpecificGroupNamesToFlatten.ToList() : null))
                 {
                     using (var outputFileStream = File.Create(outputPath))
                     {

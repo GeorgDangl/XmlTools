@@ -146,5 +146,78 @@ namespace XmlTools.Tests.GroupFlattener
                 }
             }
         }
+
+        public class FlattenOnlySpecificGroups
+        {
+            [Fact]
+            public void FlattenOnlyGivenGroups()
+            {
+                var groupTypesToFlatten = new List<string>
+                {
+                    "ontext.Inline.mix"
+                };
+
+                var xmlStream = new MemoryStream();
+                using (var streamWriter = new StreamWriter(xmlStream))
+                {
+                    streamWriter.Write(XsdSchema);
+                    streamWriter.Flush();
+                    xmlStream.Position = 0;
+                    using (var flattened = new XmlTools.GroupFlattener.Flattener(xmlStream).FlattenGroups(groupTypesToFlatten))
+                    {
+                        using (var streamReader = new StreamReader(flattened))
+                        {
+                            var text = streamReader.ReadToEnd();
+                            Assert.DoesNotContain(@"ref=""ontext.Inline.mix""", text);
+                            Assert.Contains(@"ref=""ontext.InlPres.class""", text);
+                        }
+                    }
+                }
+            }
+
+            private static string XsdSchema => @"<?xml version=""1.0"" encoding=""utf-8""?>
+<xs:schema id=""testschema""
+    targetNamespace=""http://tempuri.org/testschema.xsd""
+    elementFormDefault=""qualified""
+    xmlns=""http://tempuri.org/testschema.xsd""
+    xmlns:mstns=""http://tempuri.org/testschema.xsd""
+    xmlns:xs=""http://www.w3.org/2001/XMLSchema"">
+  <xs:element name=""testroot"">
+    <xs:complexType>
+      <xs:group ref=""ontext.Inline.mix"" />
+    </xs:complexType>
+  </xs:element>
+  <xs:group name=""ontext.Inline.mix"">
+    <xs:choice>
+      <xs:group ref=""ontext.Inline.class"" />
+    </xs:choice>
+  </xs:group>
+  <xs:group name=""ontext.Inline.class"">
+    <xs:choice>
+      <xs:group ref=""ontext.InlPres.class"" />
+    </xs:choice>
+  </xs:group>
+  <xs:group name=""ontext.InlPres.class"">
+    <xs:choice>
+      <xs:element name=""tt"" type=""ontext.InlPres.type"" />
+      <xs:element name=""i"" type=""ontext.InlPres.type"" />
+      <xs:element name=""b"" type=""ontext.InlPres.type"" />
+      <xs:element name=""sub"" type=""ontext.InlPres.type"" />
+      <xs:element name=""sup"" type=""ontext.InlPres.type"" />
+      <xs:element name=""u"" type=""ontext.InlPres.type"" />
+    </xs:choice>
+  </xs:group>
+  <xs:complexType name=""ontext.InlPres.type"" mixed=""true"">
+    <xs:group ref=""ontext.InlPres.content"" />
+  </xs:complexType>
+  <xs:group name=""ontext.InlPres.content"">
+    <xs:sequence>
+      <!-- HERE HE IS THE LITTLE GUY -->
+      <xs:group ref=""ontext.Inline.mix"" minOccurs=""0"" maxOccurs=""unbounded"" />
+    </xs:sequence>
+  </xs:group>
+</xs:schema>
+";
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace XmlTools.GroupFlattener
         private readonly XNamespace _xmlSchemaNamespace = "http://www.w3.org/2001/XMLSchema";
         private XDocument _sourceDocument;
 
-        public Stream FlattenGroups()
+        public Stream FlattenGroups(List<string> specificGroupTypes = null) // If given, only specific group types will be flattened
         {
             _sourceDocument = XDocument.Load(_xsdSchemaStream);
             if (_sourceDocument.Root?.Name != _xmlSchemaNamespace + "schema")
@@ -25,8 +25,8 @@ namespace XmlTools.GroupFlattener
                 throw new ArgumentException("This is not a valid Xml schema, the root element is expected to be called \"schema\"");
             }
 
-            FlattenGroupElements("group");
-            FlattenGroupElements("attributeGroup");
+            FlattenGroupElements("group", specificGroupTypes);
+            FlattenGroupElements("attributeGroup", specificGroupTypes);
 
             var keyElements = _sourceDocument.Root.Descendants()
                 .Where(e => e.Name == _xmlSchemaNamespace + "key" && e.Attributes().Any(a => a.Name.LocalName == "name"))
@@ -43,66 +43,19 @@ namespace XmlTools.GroupFlattener
             return memStream;
         }
 
-        private void FlattenGroupElements(string elementName)
+        private void FlattenGroupElements(string elementName, List<string> specificGroupTypes)
         {
-            var hasRefGroups = true;
-            while (hasRefGroups)
+            if (specificGroupTypes == null)
             {
-                var refGroups = _sourceDocument.Root
-                    .Descendants()
-                    .Where(e => e.Name == _xmlSchemaNamespace + elementName
-                                && e.Attributes().Any(a => a.Name.LocalName == "ref"))
-                    .ToList();
-                hasRefGroups = refGroups.Any();
-                foreach (var refGroup in refGroups)
+                _sourceDocument.Root.Descendants().FlattenGroupElements(elementName);
+            }
+            else
+            {
+                foreach (var groupType in specificGroupTypes)
                 {
-                    foreach (var groupElement in GetGroupContent(refGroup))
-                    {
-                        refGroup.AddAfterSelf(groupElement);
-                    }
-
-                    refGroup.Remove();
+                    _sourceDocument.Root.Descendants().FlattenGroupElements(elementName, groupType);
                 }
             }
-
-            // Remove all groups
-            var groups = _sourceDocument.Root
-                .Descendants()
-                .Where(e => e.Name == _xmlSchemaNamespace + elementName)
-                .Where(g => g.Attributes().Any(a => a.Name.LocalName == "name"))
-                .ToList();
-            foreach (var group in groups)
-            {
-                group.Remove();
-            }
-        }
-
-        private List<XElement> GetGroupContent(XElement group)
-        {
-            var groupName = group.Attributes()
-                .Single(a => a.Name.LocalName == "ref")
-                .Value;
-            var groupContent = _sourceDocument.Root
-                .Descendants()
-                .Where(e => e.Name == group.Name)
-                .Where(g => g.Attributes().Any(a => a.Name.LocalName == "name" && a.Value == groupName))
-                .SelectMany(g => g.Elements().Select(e => new XElement(e)))
-                .Where(e => e.Name != _xmlSchemaNamespace + "annotation")
-                .ToList();
-
-            var annotations = groupContent
-                .Descendants()
-                .Where(e => e.Name == _xmlSchemaNamespace + "annotation")
-                .ToList();
-
-            foreach (var annotationElement in annotations)
-            {
-                // Otherwise, they'll violate the Xsd schema if annotations
-                // are mixed with content
-                annotationElement.Remove();
-            }
-
-            return groupContent;
         }
     }
 }
