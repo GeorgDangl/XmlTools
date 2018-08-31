@@ -53,3 +53,6 @@ in `XmlTools.CodeGenerator` to create validation code.
 The function of the `XmlTools.GroupFlattener.Flattener` is to flatten or unroll groups. Many Xml tools have trouble
 with resolving circular group references, so this is an easy way to fix this while still preserving the schema. In addition,
 it makes sure that any elements of type `xs:key` will have their unique naming restored.
+
+The group flattener supports an optional argument of type `List<string>` to only flatten groups with the given names. This is sometimes
+useful to only flatten groups that resolve to a circular reference, which may cause errors with some Xsd-to-Code generators.

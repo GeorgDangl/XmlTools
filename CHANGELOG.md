@@ -2,6 +2,9 @@
 
 All notable changes to **XmlTools** are documented here.
 
+## v0.4.1:
+- Add feature to only flatten groups with specific names
+
 ## v0.4.0:
 - Add feature to merge multiple schemas
 
