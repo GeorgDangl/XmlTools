@@ -3,7 +3,6 @@ using System.Linq;
 using Nuke.Azure.KeyVault;
 using Nuke.Common;
 using Nuke.Common.Git;
-using Nuke.Common.ProjectModel;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using static Nuke.Common.EnvironmentInfo;
@@ -22,11 +21,12 @@ using System.Xml.Linq;
 using System.Collections;
 using System.Xml.XPath;
 using Nuke.GitHub;
-using System.Threading.Tasks;
 using static Nuke.WebDocu.WebDocuTasks;
 using static Nuke.Common.Tools.DocFx.DocFxTasks;
 using Nuke.Common.Tools.DocFx;
 using Nuke.WebDocu;
+using System.Collections.Generic;
+using static Nuke.Common.IO.XmlTasks;
 
 class Build : NukeBuild
 {
@@ -99,21 +99,32 @@ class Build : NukeBuild
             foreach (var testProject in testProjects)
             {
                 var projectDirectory = Path.GetDirectoryName(testProject);
-                string testFile = OutputDirectory / $"test_{testRun++}.testresults.xml";
-                // This is so that the global dotnet is used instead of the one that comes with NUKE
-                var dotnetPath = ToolPathResolver.GetPathExecutable("dotnet");
-
-                StartProcess(dotnetPath, "xunit " +
-                                         "-nobuild " +
-                                         $"-xml {testFile.DoubleQuoteIfNeeded()}",
-                        workingDirectory: projectDirectory)
-                    // AssertWairForExit() instead of AssertZeroExitCode()
-                    // because we want to continue all tests even if some fail
-                    .AssertWaitForExit();
+                foreach (var targetFramework in GetTestFrameworksForProjectFile(testProject))
+                {
+                    var dotnetXunitSettings = new ToolSettings()
+                        .SetWorkingDirectory(projectDirectory)
+                        .SetToolPath(ToolPathResolver.GetPathExecutable("dotnet"))
+                        .SetArgumentConfigurator(c => c.Add("test")
+                            .Add("--no-build")
+                            .Add("-f {value}", targetFramework)
+                            .Add("--test-adapter-path:.")
+                            .Add("--logger:xunit;LogFilePath={value}", "\"" + OutputDirectory / $"{testRun++}_testresults-{targetFramework}.xml" + "\""));
+                    StartProcess(dotnetXunitSettings)
+                        .AssertWaitForExit();
+                }
             }
 
             PrependFrameworkToTestresults();
         });
+
+    IEnumerable<string> GetTestFrameworksForProjectFile(string projectFile)
+    {
+        var targetFrameworks = XmlPeek(projectFile, "//Project/PropertyGroup//TargetFrameworks")
+            .Concat(XmlPeek(projectFile, "//Project/PropertyGroup//TargetFramework"))
+            .Distinct()
+            .SelectMany(f => f.Split(';'));
+        return targetFrameworks;
+    }
 
     Target Push => _ => _
         .DependsOn(Pack)
