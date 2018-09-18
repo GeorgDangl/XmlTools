@@ -87,6 +87,7 @@ class Build : NukeBuild
             var changeLog = GetCompleteChangeLog(ChangeLogFile)
                 .EscapeStringPropertyForMsBuild();
             DotNetPack(s => DefaultDotNetPack
+                .SetDescription("XmlTools - www.dangl-it.com")
                 .SetPackageReleaseNotes(changeLog));
         });
 
