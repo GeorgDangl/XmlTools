@@ -252,7 +252,7 @@ namespace XmlTools.Tests.Parser.FileTests
             {
                 new {Name = "Brand", TypeName = "tgNormalizedString60", TypeType = typeof(XmlSimpleType)},
                 new {Name = "ArtNo", TypeName = "tgNormalizedString15", TypeType = typeof(XmlSimpleType)},
-                new {Name = "Qty", TypeName = "tgDecimal_11_3", TypeType = typeof(XmlSimpleType)},
+                new {Name = "Qty", TypeName = "tgDecimal_11_3", TypeType = typeof(XmlDecimalType)},
                 new {Name = "QU", TypeName = "tgNormalizedString4", TypeType = typeof(XmlSimpleType)},
                 new {Name = "ArtOutline", TypeName = "tgMLText", TypeType = typeof(XmlComplexType)},
                 new {Name = "AddText", TypeName = "tgAddText", TypeType = typeof(XmlComplexType)}
@@ -382,6 +382,31 @@ namespace XmlTools.Tests.Parser.FileTests
                 else
                 {
                     Assert.False(xmlType.GetType().IsAssignableFrom(typeof(XmlDateTimeType)), $"Did not expect {xmlType.Name} to be a DateTime type");
+                }
+            }
+        }
+
+        [Fact]
+        public void DetectAllXmlDecimalTypes()
+        {
+            var expectedDateTimeTypes = new[]
+            {
+                "tgDecimal_5_2",
+                "tgDecimal_13_2",
+                "tgDecimal_13_3",
+                "tgDecimal_11_3",
+                "tgDecimal_6_4",
+            };
+
+            foreach (var xmlType in GetAllElementTypesUsedInSchema())
+            {
+                if (expectedDateTimeTypes.Contains(xmlType.Name))
+                {
+                    Assert.True(xmlType.GetType().IsAssignableFrom(typeof(XmlDecimalType)), $"Did expect {xmlType.Name} to be a decimal type");
+                }
+                else
+                {
+                    Assert.False(xmlType.GetType().IsAssignableFrom(typeof(XmlDecimalType)), $"Did not expect {xmlType.Name} to be a decimal type");
                 }
             }
         }
