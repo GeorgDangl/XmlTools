@@ -3,16 +3,11 @@
   <PropertyGroup>
     <Copyright>Copyright 2017 Georg Dangl</Copyright>
     <AssemblyTitle>XmlTools</AssemblyTitle>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Georg Dangl</Authors>
     <TargetFrameworks>netcoreapp2.0;net461</TargetFrameworks>
     <AssemblyName>XmlTools</AssemblyName>
     <PackageId>XmlTools</PackageId>
     <PackageTags>Xml;Schema;XSD;Validation</PackageTags>
-    <PackageReleaseNotes>0.1.2: Fix bug where attributes could not be corrected when they had wrong case
-      
-      0.1.1: Filter out duplicates in enumeration values and disable warnings for missing Xml comments in generated classes
-    </PackageReleaseNotes>
     <PackageIconUrl>https://blog.dangl.me/media/1114/gd_icon_256.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/GeorgDangl/XmlTools</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/GeorgDangl/XmlTools/blob/master/LICENCE.md</PackageLicenseUrl>
