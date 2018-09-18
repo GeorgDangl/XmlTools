@@ -198,7 +198,7 @@ class Build : NukeBuild
             WebDocu(s => s
                 .SetDocuApiEndpoint(DocuApiEndpoint)
                 .SetDocuApiKey(DocuApiKey)
-                .SetSourceDirectory(OutputDirectory)
+                .SetSourceDirectory(OutputDirectory / "docs")
                 .SetVersion(GitVersion.NuGetVersion)
             );
         });
