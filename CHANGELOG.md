@@ -2,6 +2,9 @@
 
 All notable changes to **XmlTools** are documented here.
 
+## v0.5.1:
+- Configure package description for NuGet packages
+
 ## v0.5.0:
 - Schema corrector now fixes invalid Xsd decimal types
 
