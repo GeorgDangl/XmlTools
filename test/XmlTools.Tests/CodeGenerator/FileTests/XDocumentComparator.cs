@@ -73,7 +73,7 @@ namespace XmlTools.Tests.CodeGenerator.FileTests
                     Assert.True(false, GetMessageForCurrentLocation("ElementChildCount", "0", actual.Elements().Count().ToString()));
                 }
                 var expectedContent = expected.Value;
-                var actualContent = expected.Value;
+                var actualContent = actual.Value;
                 var contentIsEqual = expectedContent == actualContent;
                 Assert.True(contentIsEqual, GetMessageForCurrentLocation("ElementContent", expectedContent, actualContent));
             }

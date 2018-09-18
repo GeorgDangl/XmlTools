@@ -13,8 +13,8 @@ While it can be used dynamically (see `XmlTools.Tests.CodeGenerator.SchemaCorrec
 generating the code, compiling in-memory with Roslyn and then working with this code), it's main
 use case is to auto generate code that is then used to sanitize incoming Xml.
 
-Features are currently limited to correcting Xml enumeration restrictions and repairing or removing invalid
-Xml date elements.
+Features are currently limited to correcting Xml enumeration restrictions, fixing invalid Xsd decimals and
+repairing or removing invalid Xml date elements.
 Both attributes and elements are supported. When an invalid enumeration value
 is encountered, it is either **deleted** if it's not valid at all or **case corrected**
 if the casing is off.
