@@ -8,23 +8,24 @@ namespace XmlTools.CodeGenerator
     {
         public static void GenerateEnumerationValueCheckingCode(List<string> enumerationValues, StringBuilder stringBuilder, string elementVariableName)
         {
-            stringBuilder.AppendLine($"switch ({elementVariableName}.Value.ToUpperInvariant())");
+            GenerateValidatorForEnumerationValues(enumerationValues, stringBuilder, elementVariableName);
+            stringBuilder.AppendLine("else");
             using (new CodeGeneratorBlockWrapper(stringBuilder))
             {
-                GenerateValidatorForEnumerationValues(enumerationValues, stringBuilder, elementVariableName);
-                stringBuilder.AppendLine("default:");
                 stringBuilder.AppendLine($"{elementVariableName}.Remove();");
-                stringBuilder.AppendLine("break;");
             }
         }
 
         private static void GenerateValidatorForEnumerationValues(List<string> enumerationValues, StringBuilder stringBuilder, string elementVariableName)
         {
-            foreach (var possibleValue in enumerationValues.OrderBy(v => v))
+            var possibleValues = enumerationValues.OrderBy(v => v).ToList();
+            for (var i = 0; i < possibleValues.Count; i++)
             {
-                stringBuilder.AppendLine($"case \"{possibleValue.ToUpperInvariant()}\":");
-                GenerateValueCaseCorrector(possibleValue, stringBuilder, elementVariableName);
-                stringBuilder.AppendLine("break;");
+                stringBuilder.AppendLine($"{(i == 0 ? "" : "else ")}if ({elementVariableName}.Value.Equals(\"{possibleValues[i]}\", StringComparison.OrdinalIgnoreCase))");
+                using (new CodeGeneratorBlockWrapper(stringBuilder))
+                {
+                    GenerateValueCaseCorrector(possibleValues[i], stringBuilder, elementVariableName);
+                }
             }
         }
 
