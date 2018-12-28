@@ -14,16 +14,15 @@ namespace XmlTools.CodeGenerator
             stringBuilder.AppendLine($"foreach (var {CodeGeneratorConstants.ELEMENT_CHECK_METHOD_CHILD_ATTRIBUTE_VARIABLE_NAME} in {CodeGeneratorConstants.ELEMENT_CHECK_METHOD_ELEMENT_VARIABLE_NAME}.Attributes().ToList())");
             using (new CodeGeneratorBlockWrapper(stringBuilder))
             {
-                stringBuilder.AppendLine($"switch({CodeGeneratorConstants.ELEMENT_CHECK_METHOD_CHILD_ATTRIBUTE_VARIABLE_NAME}.Name.LocalName.ToUpperInvariant())");
-                using (new CodeGeneratorBlockWrapper(stringBuilder))
+                for (var i = 0; i < xmlType.Attributes.Count; i++)
                 {
-                    foreach (var attribute in xmlType.Attributes)
+                    var attribute = xmlType.Attributes[i];
+                    stringBuilder.AppendLine($"{(i == 0 ? "" : "else ")}if ({CodeGeneratorConstants.ELEMENT_CHECK_METHOD_CHILD_ATTRIBUTE_VARIABLE_NAME}.Name.LocalName.Equals(\"{attribute.Name}\", StringComparison.OrdinalIgnoreCase))");
+                    using (new CodeGeneratorBlockWrapper(stringBuilder))
                     {
-                        stringBuilder.AppendLine($"case \"{attribute.Name.ToUpperInvariant()}\":");
                         var elementCheckMethodName = XmlCodeGeneratorMethodNameProvider.GetNameForAttributeCheckMethod(attribute.Type);
                         stringBuilder.AppendLine($"{elementCheckMethodName}({CodeGeneratorConstants.ELEMENT_CHECK_METHOD_CHILD_ATTRIBUTE_VARIABLE_NAME});");
                         XmlElementNameCorrectorCodeGenerator.GenerateAttributeNameCorrector(attribute, stringBuilder, CodeGeneratorConstants.ELEMENT_CHECK_METHOD_CHILD_ATTRIBUTE_VARIABLE_NAME);
-                        stringBuilder.AppendLine("break;");
                     }
                 }
             }

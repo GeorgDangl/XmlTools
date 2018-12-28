@@ -2,6 +2,9 @@
 
 All notable changes to **XmlTools** are documented here.
 
+## v0.6.0:
+- The schema corrector now uses `string.Equals()` for case invariant comparisons to reduce the count of object allocations that comes with `.ToUpperInvariant()`
+
 ## v0.5.1:
 - Configure package description for NuGet packages
 

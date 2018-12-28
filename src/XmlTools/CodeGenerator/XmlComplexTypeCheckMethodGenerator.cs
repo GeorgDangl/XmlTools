@@ -35,16 +35,16 @@ namespace XmlTools.CodeGenerator
             _stringBuilder.AppendLine($"foreach (var {CHILD_ELEMENT_VARIABLE_NAME} in {CodeGeneratorConstants.ELEMENT_CHECK_METHOD_ELEMENT_VARIABLE_NAME}.Elements().ToList())");
             using (new CodeGeneratorBlockWrapper(_stringBuilder))
             {
-                _stringBuilder.AppendLine($"switch({CHILD_ELEMENT_VARIABLE_NAME}.Name.LocalName.ToUpperInvariant())");
-                using (new CodeGeneratorBlockWrapper(_stringBuilder))
+                for (var i = 0; i < xmlType.PossibleChildElements.Count; i++)
                 {
-                    foreach (var element in xmlType.PossibleChildElements)
+                    var element = xmlType.PossibleChildElements[i];
+
+                    _stringBuilder.AppendLine($"{(i == 0 ? "" : "else ")}if ({CHILD_ELEMENT_VARIABLE_NAME}.Name.LocalName.Equals(\"{element.Name}\", StringComparison.OrdinalIgnoreCase))");
+                    using (new CodeGeneratorBlockWrapper(_stringBuilder))
                     {
-                        _stringBuilder.AppendLine($"case \"{element.Name.ToUpperInvariant()}\":");
                         XmlElementNameCorrectorCodeGenerator.GenerateElementNameCorrector(element, _stringBuilder, CHILD_ELEMENT_VARIABLE_NAME);
                         var elementCheckMethodName = XmlCodeGeneratorMethodNameProvider.GetNameForElementTypeCheckMethod(element.Type);
                         _stringBuilder.AppendLine($"{elementCheckMethodName}({CHILD_ELEMENT_VARIABLE_NAME});");
-                        _stringBuilder.AppendLine("break;");
                     }
                 }
             }

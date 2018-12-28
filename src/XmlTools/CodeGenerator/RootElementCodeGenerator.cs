@@ -22,25 +22,23 @@ namespace XmlTools.CodeGenerator
             using (new CodeGeneratorBlockWrapper(_stringBuilder))
             {
                 _stringBuilder.AppendLine($"var {ROOT_ELEMENT_VARIABLE_NAME} = {CodeGeneratorConstants.PRIVATE_XDOCUMENT_FIELD_NAME}.Root;");
-                _stringBuilder.AppendLine($"switch ({ROOT_ELEMENT_VARIABLE_NAME}.Name.LocalName.ToUpperInvariant())");
-                using (new CodeGeneratorBlockWrapper(_stringBuilder))
-                {
-                    var rootElements = _schema.RootElements;
-                    GenerateRootElementValidation(rootElements);
-                }
+                GenerateRootElementValidation(_schema.RootElements);
                 _stringBuilder.AppendLine($"return {CodeGeneratorConstants.PRIVATE_XDOCUMENT_FIELD_NAME};");
             }
         }
 
         private void GenerateRootElementValidation(List<XmlElement> rootElements)
         {
-            foreach (var rootElement in rootElements)
+            for (var i = 0; i < rootElements.Count; i++)
             {
-                _stringBuilder.AppendLine($"case \"{rootElement.Name.ToUpperInvariant()}\":");
-                XmlElementNameCorrectorCodeGenerator.GenerateElementNameCorrector(rootElement, _stringBuilder, ROOT_ELEMENT_VARIABLE_NAME);
-                var elementCheckMethodName = XmlCodeGeneratorMethodNameProvider.GetNameForElementTypeCheckMethod(rootElement.Type);
-                _stringBuilder.AppendLine($"{elementCheckMethodName}({ROOT_ELEMENT_VARIABLE_NAME});");
-                _stringBuilder.AppendLine("break;");
+                var rootElement = rootElements[i];
+                _stringBuilder.AppendLine($"{(i == 0 ? "" : "else ")}if ({ROOT_ELEMENT_VARIABLE_NAME}.Name.LocalName.Equals(\"{rootElement.Name}\", StringComparison.OrdinalIgnoreCase))");
+                using (new CodeGeneratorBlockWrapper(_stringBuilder))
+                {
+                    XmlElementNameCorrectorCodeGenerator.GenerateElementNameCorrector(rootElement, _stringBuilder, ROOT_ELEMENT_VARIABLE_NAME);
+                    var elementCheckMethodName = XmlCodeGeneratorMethodNameProvider.GetNameForElementTypeCheckMethod(rootElement.Type);
+                    _stringBuilder.AppendLine($"{elementCheckMethodName}({ROOT_ELEMENT_VARIABLE_NAME});");
+                }
             }
         }
     }
