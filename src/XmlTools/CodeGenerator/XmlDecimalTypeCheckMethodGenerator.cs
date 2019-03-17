@@ -35,6 +35,14 @@ namespace XmlTools.CodeGenerator
             {
                 _stringBuilder.AppendLine($"{CodeGeneratorConstants.ELEMENT_CHECK_METHOD_ELEMENT_VARIABLE_NAME}.Value = elementDecimalValue.Replace(\".\", string.Empty);");
             }
+
+            _stringBuilder.AppendLine("else if (string.IsNullOrWhiteSpace(elementDecimalValue))");
+            using (new CodeGeneratorBlockWrapper(_stringBuilder))
+            {
+                _stringBuilder.AppendLine("// In cases where no actual value is specified for the numerical value, the element is removed");
+                _stringBuilder.AppendLine("// to avoid parser errors downstream");
+                _stringBuilder.AppendLine($"{CodeGeneratorConstants.ELEMENT_CHECK_METHOD_ELEMENT_VARIABLE_NAME}.Remove();");
+            }
         }
     }
 }

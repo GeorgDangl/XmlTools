@@ -7,7 +7,6 @@ namespace XmlTools.Tests.CodeGenerator
     public class DecimalTypeCorrectorTests
     {
         [Theory]
-        [InlineData("", "")]
         [InlineData("1", "1")]
         [InlineData("1,00", "1,00")]
         [InlineData("1.00", "1.00")]
@@ -27,6 +26,114 @@ namespace XmlTools.Tests.CodeGenerator
             var invalidXDoc = XDocument.Parse(GetXmlStringWithValue(sourceValue));
             var correctedXDoc = SchemaCorrectorHelper.CorrectXmlInstanceForSchema(schemaFile, invalidXDoc);
             var expectedXDoc = XDocument.Parse(GetXmlStringWithValue(expectedValue));
+            var xDocComparator = new XDocumentComparator(expectedXDoc, correctedXDoc);
+            xDocComparator.AssertXDocumentsAreEqual();
+        }
+
+        [Fact]
+        public void RemovesElementWithoutContent_WithSelfClosing()
+        {
+            // There have been cases where GAEB files had empty or self-closing elements
+            // where decimals were expected, this resulted in the Xml parser reading their
+            // values as empty strings and failing to return a meaningful numerical value
+
+            var input = @"<?xml version=""1.0"" encoding=""UTF-8""?>
+<GAEB xmlns=""http://www.gaeb.de/GAEB_DA_XML/200407"">
+	<GAEBInfo>
+		<Version>3.1</Version>
+		<VersDate>2009-12</VersDate>
+	</GAEBInfo>
+	<Award>
+		<DP>83</DP>
+		<BoQ>
+			<BoQBody>
+				<BoQCtgy>
+                    <Totals>
+                      <Total />
+                    </Totals>
+				</BoQCtgy>
+			</BoQBody>
+		</BoQ>
+	</Award>
+</GAEB>";
+
+            var expected = @"<?xml version=""1.0"" encoding=""UTF-8""?>
+<GAEB xmlns=""http://www.gaeb.de/GAEB_DA_XML/200407"">
+	<GAEBInfo>
+		<Version>3.1</Version>
+		<VersDate>2009-12</VersDate>
+	</GAEBInfo>
+	<Award>
+		<DP>83</DP>
+		<BoQ>
+			<BoQBody>
+				<BoQCtgy>
+                    <Totals>
+                    </Totals>
+				</BoQCtgy>
+			</BoQBody>
+		</BoQ>
+	</Award>
+</GAEB>";
+
+            var schemaFile = ParserTestFile.GAEB_XML_3_1_Schema;
+            var invalidXDoc = XDocument.Parse(input);
+            var correctedXDoc = SchemaCorrectorHelper.CorrectXmlInstanceForSchema(schemaFile, invalidXDoc);
+            var expectedXDoc = XDocument.Parse(expected);
+            var xDocComparator = new XDocumentComparator(expectedXDoc, correctedXDoc);
+            xDocComparator.AssertXDocumentsAreEqual();
+        }
+
+        [Fact]
+        public void RemovesElementWithoutContent_WithEmptyValue()
+        {
+            // There have been cases where GAEB files had empty or self-closing elements
+            // where decimals were expected, this resulted in the Xml parser reading their
+            // values as empty strings and failing to return a meaningful numerical value
+
+            var input = @"<?xml version=""1.0"" encoding=""UTF-8""?>
+<GAEB xmlns=""http://www.gaeb.de/GAEB_DA_XML/200407"">
+	<GAEBInfo>
+		<Version>3.1</Version>
+		<VersDate>2009-12</VersDate>
+	</GAEBInfo>
+	<Award>
+		<DP>83</DP>
+		<BoQ>
+			<BoQBody>
+				<BoQCtgy RNoPart=""1"">
+                    <Totals>
+                      <Total></Total>
+                    </Totals>
+				</BoQCtgy>
+			</BoQBody>
+		</BoQ>
+	</Award>
+</GAEB>";
+
+            var expected = @"<?xml version=""1.0"" encoding=""UTF-8""?>
+<GAEB xmlns=""http://www.gaeb.de/GAEB_DA_XML/200407"">
+	<GAEBInfo>
+		<Version>3.1</Version>
+		<VersDate>2009-12</VersDate>
+	</GAEBInfo>
+	<Award>
+		<DP>83</DP>
+		<BoQ>
+			<BoQBody>
+				<BoQCtgy RNoPart=""1"">
+                    <Totals>
+                    </Totals>
+				</BoQCtgy>
+			</BoQBody>
+		</BoQ>
+	</Award>
+</GAEB>";
+
+            var schemaFile = ParserTestFile.GAEB_XML_3_1_Schema;
+            var invalidXDoc = XDocument.Parse(input);
+            var correctedXDoc = SchemaCorrectorHelper.CorrectXmlInstanceForSchema(schemaFile, invalidXDoc);
+            var expectedXDoc = XDocument.Parse(expected);
             var xDocComparator = new XDocumentComparator(expectedXDoc, correctedXDoc);
             xDocComparator.AssertXDocumentsAreEqual();
         }

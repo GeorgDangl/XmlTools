@@ -2,6 +2,9 @@
 
 All notable changes to **XmlTools** are documented here.
 
+## v0.6.1:
+- The schema corrector now removes elements that are marked as numerical but which have either no value at all or are self-closing in Xml
+
 ## v0.6.0:
 - The schema corrector now uses `string.Equals()` for case invariant comparisons to reduce the count of object allocations that comes with `.ToUpperInvariant()`
 
