@@ -22,8 +22,8 @@ using System.Collections;
 using System.Xml.XPath;
 using Nuke.GitHub;
 using static Nuke.WebDocu.WebDocuTasks;
-using static Nuke.Common.Tools.DocFx.DocFxTasks;
-using Nuke.Common.Tools.DocFx;
+using static Nuke.DocFX.DocFXTasks;
+using Nuke.DocFX;
 using Nuke.WebDocu;
 using System.Collections.Generic;
 using static Nuke.Common.IO.XmlTasks;
@@ -43,6 +43,8 @@ class Build : NukeBuild
     [GitVersion] readonly GitVersion GitVersion;
     [GitRepository] readonly GitRepository GitRepository;
 
+    [Parameter] readonly string Configuration = IsLocalBuild ? "Debug" : "Release";
+
     [KeyVaultSecret] string DocuBaseUrl;
     [KeyVaultSecret] string GitHubAuthenticationToken;
     [KeyVaultSecret] string PublicMyGetSource;
@@ -50,15 +52,17 @@ class Build : NukeBuild
     [KeyVaultSecret("XmlTools-DocuApiKey")] string DocuApiKey;
     [KeyVaultSecret] string NuGetApiKey;
 
-    string DocFxFile => SolutionDirectory / "docs" / "docfx.json";
+    AbsolutePath SourceDirectory => RootDirectory / "src";
+    AbsolutePath OutputDirectory => RootDirectory / "output";
 
+    string DocFxFile => RootDirectory / "docs" / "docfx.json";
     string ChangeLogFile => RootDirectory / "CHANGELOG.md";
 
     Target Clean => _ => _
         .Executes(() =>
         {
-            DeleteDirectories(GlobDirectories(SourceDirectory, "**/bin", "**/obj"));
-            DeleteDirectories(GlobDirectories(RootDirectory / "test", "**/bin", "**/obj"));
+            GlobDirectories(SourceDirectory, "**/bin", "**/obj").ForEach(DeleteDirectory);
+            GlobDirectories(RootDirectory / "test", "**/bin", "**/obj").ForEach(DeleteDirectory);
             EnsureCleanDirectory(OutputDirectory);
         });
 
@@ -66,16 +70,19 @@ class Build : NukeBuild
         .DependsOn(Clean)
         .Executes(() =>
         {
-            DotNetRestore(s => DefaultDotNetRestore);
+            DotNetRestore();
         });
 
     Target Compile => _ => _
         .DependsOn(Restore)
         .Executes(() =>
         {
-            DotNetBuild(s => DefaultDotNetBuild
+            DotNetBuild(x => x
+                .SetConfiguration(Configuration)
+                .EnableNoRestore()
                 .SetFileVersion(GitVersion.GetNormalizedFileVersion())
-                .SetAssemblyVersion(GitVersion.AssemblySemVer));
+                .SetAssemblyVersion($"{GitVersion.Major}.{GitVersion.Minor}.{GitVersion.Patch}.0")
+                .SetInformationalVersion(GitVersion.InformationalVersion));
         });
 
     private Target Pack => _ => _
@@ -84,34 +91,41 @@ class Build : NukeBuild
         {
             var changeLog = GetCompleteChangeLog(ChangeLogFile)
                 .EscapeStringPropertyForMsBuild();
-            DotNetPack(s => DefaultDotNetPack
+
+            DotNetPack(x => x
+                .SetConfiguration(Configuration)
+                .SetPackageReleaseNotes(changeLog)
+                .EnableNoBuild()
                 .SetDescription("XmlTools - www.dangl-it.com")
-                .SetPackageReleaseNotes(changeLog));
+                .SetOutputDirectory(OutputDirectory)
+                .SetVersion(GitVersion.NuGetVersion));
         });
 
     Target Test => _ => _
         .DependsOn(Compile)
         .Executes(() =>
         {
-            var testProjects = GlobFiles(SolutionDirectory / "test", "*.csproj");
+            var testProjects = GlobFiles(RootDirectory / "test", "**/*.csproj");
             var testRun = 1;
-            foreach (var testProject in testProjects)
-            {
-                var projectDirectory = Path.GetDirectoryName(testProject);
-                foreach (var targetFramework in GetTestFrameworksForProjectFile(testProject))
+
+            DotNetTest(c => c
+                .SetNoBuild(true)
+                .CombineWith(cc => testProjects.SelectMany(testProject =>
                 {
-                    var dotnetXunitSettings = new ToolSettings()
-                        .SetWorkingDirectory(projectDirectory)
-                        .SetToolPath(ToolPathResolver.GetPathExecutable("dotnet"))
-                        .SetArgumentConfigurator(c => c.Add("test")
-                            .Add("--no-build")
-                            .Add("-f {value}", targetFramework)
-                            .Add("--test-adapter-path:.")
-                            .Add("--logger:xunit;LogFilePath={value}", "\"" + OutputDirectory / $"{testRun++}_testresults-{targetFramework}.xml" + "\""));
-                    StartProcess(dotnetXunitSettings)
-                        .AssertWaitForExit();
-                }
-            }
+                    var projectDirectory = Path.GetDirectoryName(testProject);
+                    var targetFrameworks = GetTestFrameworksForProjectFile(testProject);
+                    return targetFrameworks.Select(targetFramework =>
+                    {
+                        testRun++;
+                        return cc
+                            .SetWorkingDirectory(projectDirectory)
+                            .SetFramework(targetFramework)
+                            .SetTestAdapterPath(".")
+                            .SetLogger($"xunit;LogFilePath={OutputDirectory}/{testRun++}_testresults-{targetFramework}.xml");
+                    });
+                })), degreeOfParallelism: System.Environment.ProcessorCount);
+
+
 
             PrependFrameworkToTestresults();
         });
@@ -121,7 +135,8 @@ class Build : NukeBuild
         var targetFrameworks = XmlPeek(projectFile, "//Project/PropertyGroup//TargetFrameworks")
             .Concat(XmlPeek(projectFile, "//Project/PropertyGroup//TargetFramework"))
             .Distinct()
-            .SelectMany(f => f.Split(';'));
+            .SelectMany(f => f.Split(';'))
+            .Distinct();
         return targetFrameworks;
     }
 
@@ -157,7 +172,7 @@ class Build : NukeBuild
         .DependsOn(Restore)
         .Executes(() =>
         {
-            DocFxMetadata(DocFxFile, s => s.SetLogLevel(DocFxLogLevel.Warning));
+            DocFXMetadata(x => x.AddProjects(DocFxFile));
         });
 
     Target BuildDocumentation => _ => _
@@ -166,20 +181,18 @@ class Build : NukeBuild
         .Executes(() =>
         {
             // Using README.md as index.md
-            if (File.Exists(SolutionDirectory / "docs" / "index.md"))
+            if (File.Exists(RootDirectory / "docs" / "index.md"))
             {
-                File.Delete(SolutionDirectory / "docs" / "index.md");
+                File.Delete(RootDirectory / "docs" / "index.md");
             }
 
-            File.Copy(SolutionDirectory / "README.md", SolutionDirectory / "docs" / "index.md");
+            File.Copy(RootDirectory / "README.md", RootDirectory / "docs" / "index.md");
 
-            DocFxBuild(DocFxFile, s => s
-                .ClearXRefMaps()
-                .SetLogLevel(DocFxLogLevel.Warning));
+            DocFXBuild(x => x.SetConfigFile(DocFxFile));
 
-            File.Delete(SolutionDirectory / "docs" / "index.md");
-            Directory.Delete(SolutionDirectory / "docs" / "api", true);
-            Directory.Delete(SolutionDirectory / "docs" / "obj", true);
+            File.Delete(RootDirectory / "docs" / "index.md");
+            Directory.Delete(RootDirectory / "docs" / "api", true);
+            Directory.Delete(RootDirectory / "docs" / "obj", true);
         });
 
     Target UploadDocumentation => _ => _
@@ -189,9 +202,12 @@ class Build : NukeBuild
         .Requires(() => DocuBaseUrl)
         .Executes(() =>
         {
+            var changeLog = GetCompleteChangeLog(ChangeLogFile);
+
             WebDocu(s => s
                 .SetDocuBaseUrl(DocuBaseUrl)
                 .SetDocuApiKey(DocuApiKey)
+                .SetMarkdownChangelog(changeLog)
                 .SetSourceDirectory(OutputDirectory / "docs")
                 .SetVersion(GitVersion.NuGetVersion)
             );
@@ -200,7 +216,7 @@ class Build : NukeBuild
     Target PublishGitHubRelease => _ => _
         .DependsOn(Pack)
         .Requires(() => GitHubAuthenticationToken)
-        .OnlyWhen(() => GitVersion.BranchName.Equals("master") || GitVersion.BranchName.Equals("origin/master"))
+        .OnlyWhenDynamic(() => GitVersion.BranchName.Equals("master") || GitVersion.BranchName.Equals("origin/master"))
         .Executes(async () =>
         {
             var releaseTag = $"v{GitVersion.MajorMinorPatch}";
@@ -225,7 +241,8 @@ class Build : NukeBuild
 
     void PrependFrameworkToTestresults()
     {
-        var testResults = GlobFiles(OutputDirectory, "*.testresults*.xml");
+        var testResults = GlobFiles(OutputDirectory, "*testresults*.xml").ToList();
+        Logger.Log(LogLevel.Normal, $"Found {testResults.Count} test result files on which to append the framework.");
         foreach (var testResultFile in testResults)
         {
             var frameworkName = GetFrameworkNameFromFilename(testResultFile);
@@ -243,6 +260,35 @@ class Build : NukeBuild
 
             xDoc.Save(testResultFile);
         }
+
+        // Merge all the results to a single file
+        // The "run-time" attributes of the single assemblies is ensured to be unique for each single assembly by this test,
+        // since in Jenkins, the format is internally converted to JUnit. Aterwards, results with the same timestamps are
+        // ignored. See here for how the code is translated to JUnit format by the Jenkins plugin:
+        // https://github.com/jenkinsci/xunit-plugin/blob/d970c50a0501f59b303cffbfb9230ba977ce2d5a/src/main/resources/org/jenkinsci/plugins/xunit/types/xunitdotnet-2.0-to-junit.xsl#L75-L79
+        Logger.Log(LogLevel.Normal, "Updating \"run-time\" attributes in assembly entries to prevent Jenkins to treat them as duplicates");
+        var firstXdoc = XDocument.Load(testResults[0]);
+        var runtime = DateTime.Now;
+        var firstAssemblyNodes = firstXdoc.Root.Elements().Where(e => e.Name.LocalName == "assembly");
+        foreach (var assemblyNode in firstAssemblyNodes)
+        {
+            assemblyNode.SetAttributeValue("run-time", $"{runtime:HH:mm:ss}");
+            runtime = runtime.AddSeconds(1);
+        }
+        for (var i = 1; i < testResults.Count; i++)
+        {
+            var xDoc = XDocument.Load(testResults[i]);
+            var assemblyNodes = xDoc.Root.Elements().Where(e => e.Name.LocalName == "assembly");
+            foreach (var assemblyNode in assemblyNodes)
+            {
+                assemblyNode.SetAttributeValue("run-time", $"{runtime:HH:mm:ss}");
+                runtime = runtime.AddSeconds(1);
+            }
+            firstXdoc.Root.Add(assemblyNodes);
+        }
+
+        firstXdoc.Save(OutputDirectory / "testresults.xml");
+        testResults.ForEach(DeleteFile);
     }
 
     string GetFrameworkNameFromFilename(string filename)

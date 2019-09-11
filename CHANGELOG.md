@@ -2,6 +2,9 @@
 
 All notable changes to **XmlTools** are documented here.
 
+## v0.6.2:
+- The decimal corrector now removes multiple points or commas, e.g. `123..456` is fixed to `123.456`
+
 ## v0.6.1:
 - The schema corrector now removes elements that are marked as numerical but which have either no value at all or are self-closing in Xml
 
