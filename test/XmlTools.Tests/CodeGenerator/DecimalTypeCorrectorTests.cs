@@ -20,6 +20,10 @@ namespace XmlTools.Tests.CodeGenerator
         [InlineData("1,000.12", "1000.12")]
         [InlineData("123.456.789,01", "123456789,01")]
         [InlineData("123,456,789.01", "123456789.01")]
+        [InlineData("12..000", "12.000")]
+        [InlineData("12,,000", "12,000")]
+        [InlineData("123,,444..000", "123444.000")]
+        [InlineData("123..444,,000", "123444,000")]
         public void CorrectsNumber(string sourceValue, string expectedValue)
         {
             var schemaFile = ParserTestFile.GAEB_XML_3_1_Schema;
