@@ -19,6 +19,26 @@ Both attributes and elements are supported. When an invalid enumeration value
 is encountered, it is either **deleted** if it's not valid at all or **case corrected**
 if the casing is off.
 
+## CLI Options
+
+| Parameter | Description |
+|-----------|-------------|
+| `-i`, `--input`           | Relative or absolute path to an Xml schema file |
+| `-o`, `--output`          | Relative or absolute path to the output file |
+| `-n`, `--namespace`       | Namespace for the generated class |
+| `-f`, `--flatten`         | If enabled, groups will be flattened |
+| `-s`, `--specific-groups` | If specified in combination with the 'flatten' option, only groups with the given names will be flattened |
+| `-m`, `--merge`           | If enabled, the schema will be merged |
+| --help                | Shows help |
+
+### Flattening
+
+Flattening means that Xsd `group` and `attributeGroup` elements are rebuilt so that the elements within are directly defined where previously only the group reference would be used.
+
+### Merging
+
+When merging Xsd schemas, other schema files that are referenced are loaded and will be embedded directly in the original. This only works for file-path references, Urls will not be resolved.
+
 ## Using the XmlTools.Console app to create validation code
 
 With the package available in the local NuGet cache, you need to create two files:
