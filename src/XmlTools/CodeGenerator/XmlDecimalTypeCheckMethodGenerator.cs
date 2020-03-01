@@ -24,6 +24,13 @@ namespace XmlTools.CodeGenerator
             _stringBuilder.AppendLine("// The decimal separator (point or comma) is kept as-is, since regular Xml implementations handle that well.");
             _stringBuilder.AppendLine($"var elementDecimalValue = {CodeGeneratorConstants.ELEMENT_CHECK_METHOD_ELEMENT_VARIABLE_NAME}.Value;");
             _stringBuilder.AppendLine("// In case there are multiple points or commas adjacent to eachother");
+            _stringBuilder.AppendLine($"if ({CodeGeneratorConstants.ELEMENT_CHECK_METHOD_ELEMENT_VARIABLE_NAME}.Nodes().Any(node => !(node is XText)))");
+            using (new CodeGeneratorBlockWrapper(_stringBuilder))
+            {
+                _stringBuilder.AppendLine("// A decimal value should only have text nodes");
+                _stringBuilder.AppendLine("element.Remove();");
+                _stringBuilder.AppendLine("return;");
+            }
             _stringBuilder.AppendLine(@"elementDecimalValue = Regex.Replace(elementDecimalValue, ""\\.+"", ""."");");
             _stringBuilder.AppendLine("elementDecimalValue = Regex.Replace(elementDecimalValue, \",+\", \",\");");
             _stringBuilder.AppendLine("string commaSeparatedPattern = @\"^([0-9,]+[.]\\d*)$\";");
