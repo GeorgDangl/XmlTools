@@ -2,6 +2,9 @@
 
 All notable changes to **XmlTools** are documented here.
 
+## v0.6.3:
+- The decimal corrector now removes decimal values that contain nested nodes, e.g. `<Outer><Inner>123</Inner></Outer>` is removed since `Inner` is not a valid decimal string representation
+
 ## v0.6.2:
 - The decimal corrector now removes multiple points or commas, e.g. `123..456` is fixed to `123.456`
 
