@@ -24,6 +24,7 @@ namespace XmlTools.Tests
         SchemaWithTwoPossibleRootElements = 17,
         SchemaWithUnknownSimpleType = 18,
         SchemaWithComplexTypeWithSimpleContentAsEnumerationWithAttribute = 19,
-        SchemaWithExtendedEnumerationTypeWithDuplicates = 20
+        SchemaWithExtendedEnumerationTypeWithDuplicates = 20,
+        SchemaWithPointInTypeName = 21
     }
 }
