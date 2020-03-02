@@ -62,6 +62,14 @@ namespace XmlTools.Tests.CodeGenerator
         }
 
         [Fact]
+        public void ReplacePointWithUnderscore()
+        {
+            var typeName = "my.group";
+            var expectedName = "my_group";
+            AssertCorrectTransformation(typeName, expectedName);
+        }
+
+        [Fact]
         public void ReplaceDashWithUnderscore()
         {
             var typeName = "Some-Name";

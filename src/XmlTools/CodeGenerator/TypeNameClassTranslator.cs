@@ -19,6 +19,7 @@ namespace XmlTools.CodeGenerator
         private static string ReplaceInvalidCharsWithUnderscore(string typeName)
         {
             var friendlyTypeName = typeName
+                .Replace('.', '_')
                 .Replace('-', '_')
                 .Replace(':', '_');
             return friendlyTypeName;

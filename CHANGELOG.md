@@ -2,6 +2,9 @@
 
 All notable changes to **XmlTools** are documented here.
 
+## v0.6.5:
+- XSD type names with a point `.` are now supported for corrector generation, the point is converted to an underscore `_` when generating a class name
+
 ## v0.6.4:
 - The decimal corrector now removes decimal elements that have non-numerical content completely
 
