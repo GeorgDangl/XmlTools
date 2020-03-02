@@ -24,7 +24,22 @@ namespace XmlTools.Tests.CodeGenerator
         [InlineData("12,,000", "12,000")]
         [InlineData("123,,444..000", "123444.000")]
         [InlineData("123..444,,000", "123444,000")]
-        public void CorrectsNumber(string sourceValue, string expectedValue)
+		[InlineData(" 1", " 1")]
+		[InlineData("1 ", "1 ")]
+		[InlineData(" 1 ", " 1 ")]
+		[InlineData(" 1.0", "1.0")]
+		[InlineData("1.0 ", "1.0")]
+		[InlineData(" 1.0 ", "1.0")]
+		[InlineData(" 1,0", "1,0")]
+		[InlineData("1,0 ", "1,0")]
+		[InlineData(" 1,0 ", "1,0")]
+		[InlineData(" 1,0.0", "10.0")]
+		[InlineData("1,0.0 ", "10.0")]
+		[InlineData(" 1,0.0 ", "10.0")]
+		[InlineData(" 1.0,0", "10,0")]
+		[InlineData("1.0,0 ", "10,0")]
+		[InlineData(" 1.0,0 ", "10,0")]
+		public void CorrectsNumber(string sourceValue, string expectedValue)
         {
             var schemaFile = ParserTestFile.GAEB_XML_3_1_Schema;
             var invalidXDoc = XDocument.Parse(GetXmlStringWithValue(sourceValue));
@@ -32,7 +47,51 @@ namespace XmlTools.Tests.CodeGenerator
             var expectedXDoc = XDocument.Parse(GetXmlStringWithValue(expectedValue));
             var xDocComparator = new XDocumentComparator(expectedXDoc, correctedXDoc);
             xDocComparator.AssertXDocumentsAreEqual();
-        }
+		}
+
+		[Theory]
+		[InlineData("")]
+		[InlineData("***")]
+		[InlineData("Hello World")]
+		[InlineData(" ")]
+		[InlineData(" a")]
+		[InlineData(" a1")]
+		public void RemovesDecimalElementWithInvalidContent(string invalidDecimalContent)
+		{
+
+			var expected = @"<?xml version=""1.0"" encoding=""UTF-8""?>
+<GAEB xmlns=""http://www.gaeb.de/GAEB_DA_XML/200407"">
+	<GAEBInfo>
+		<Version>3.1</Version>
+		<VersDate>2009-12</VersDate>
+	</GAEBInfo>
+	<Award>
+		<DP>83</DP>
+		<BoQ>
+			<BoQBody>
+				<BoQCtgy RNoPart=""1"">
+					<BoQBody>
+						<Itemlist>
+							<Item RNoPart=""2"">
+								<Qty>59</Qty>
+								<QU>stck</QU>
+								<UP>170,45</UP>
+							</Item>
+						</Itemlist>
+					</BoQBody>
+				</BoQCtgy>
+			</BoQBody>
+		</BoQ>
+	</Award>
+</GAEB>";
+
+			var schemaFile = ParserTestFile.GAEB_XML_3_1_Schema;
+			var invalidXDoc = XDocument.Parse(GetXmlStringWithValue(invalidDecimalContent));
+			var correctedXDoc = SchemaCorrectorHelper.CorrectXmlInstanceForSchema(schemaFile, invalidXDoc);
+			var expectedXDoc = XDocument.Parse(expected);
+			var xDocComparator = new XDocumentComparator(expectedXDoc, correctedXDoc);
+			xDocComparator.AssertXDocumentsAreEqual();
+		}
 
 		[Fact]
 		public void RemovesNestedElementsInDecimalValues()
