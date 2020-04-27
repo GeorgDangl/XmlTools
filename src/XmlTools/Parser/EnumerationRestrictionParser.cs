@@ -58,7 +58,16 @@ namespace XmlTools.Parser
                 .Where(e => e.Name == _xmlSchemaNamespace + "enumeration")
                 .Select(e => e.Attributes().Single(a => a.Name == "value").Value) ?? new List<string>();
             var baseTypeEnumerationValues = GetEnumerationValuesOfBaseTypes(element);
-            var allEnumerationValues = enumerationValues.Concat(baseTypeEnumerationValues);
+
+            var allEnumerationValues = enumerationValues;
+            if (!allEnumerationValues.Any())
+            {
+                // If this is a derived type that specifies it's own restriction values, it will
+                // override allowed values from the base type. If it's empty, it has the same allowed
+                // values as the base type
+                allEnumerationValues = baseTypeEnumerationValues;
+            }
+
             var valuesWithoutDuplicates = RemoveDuplicateValues(allEnumerationValues);
             return valuesWithoutDuplicates;
         }

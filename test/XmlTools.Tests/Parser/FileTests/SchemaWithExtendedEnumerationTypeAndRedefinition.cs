@@ -3,9 +3,9 @@ using Xunit;
 
 namespace XmlTools.Tests.Parser.FileTests
 {
-    public class SchemaWithExtendedEnumerationTypeWithDuplicates : TestFileBase
+    public class SchemaWithExtendedEnumerationTypeAndRedefinition : TestFileBase
     {
-        public SchemaWithExtendedEnumerationTypeWithDuplicates() : base(ParserTestFile.SchemaWithExtendedEnumerationTypeWithDuplicates) { }
+        public SchemaWithExtendedEnumerationTypeAndRedefinition() : base(ParserTestFile.SchemaWithExtendedEnumerationTypeAndRedefinition) { }
 
         [Fact]
         public void HasOnlySingleRootElement()
@@ -63,8 +63,8 @@ namespace XmlTools.Tests.Parser.FileTests
         [Fact]
         public void RootElementTypeEnumerationTypeHasCorrectRestrictions()
         {
-            // There should only be the enumeration values that are defined in the derived type
-            var expectedValues = new[] { "Rainy", "Cloudy", "Misty", "Raining cats and dogs" };
+            // There should only be the enumeration values from the actual type definition
+            var expectedValues = new[] { "Sunny", "Probability of raining meatballs" };
             var rootElement = ParsedSchema.RootElements.First().Type as XmlEnumerationType;
             Assert.Equal(expectedValues.Length, rootElement.EnumerationValues.Count);
             var allElementsPresent = expectedValues.All(v => rootElement.EnumerationValues.Contains(v));

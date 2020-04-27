@@ -3,6 +3,9 @@
 	<xs:element name="WeatherForecast" type="WeatherPrediction" />
 	<xs:simpleType name="WeatherPrediction">
 		<xs:restriction base="EnglishWeather">
+      <xs:enumeration value="Sunny"/>
+      <xs:enumeration value="Probability of raining meatballs"/>
+      <xs:enumeration value="Sunny"/>
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="EnglishWeather">
