@@ -63,8 +63,9 @@ namespace XmlTools.Tests.Parser.FileTests
         [Fact]
         public void RootElementTypeEnumerationTypeHasCorrectRestrictions()
         {
-            // There should also be the enumeration values that are included in the referenced type
-            var expectedValues = new[] { "Rainy", "Cloudy", "Sunny", "Misty", "Probability of raining meatballs", "Raining cats and dogs" };
+            // There should only be the enumeration values that are included in the referenced type
+            // since there is no actual redefinition in the derived type
+            var expectedValues = new[] { "Rainy", "Cloudy", "Misty", "Raining cats and dogs" };
             var rootElement = ParsedSchema.RootElements.First().Type as XmlEnumerationType;
             Assert.Equal(expectedValues.Length, rootElement.EnumerationValues.Count);
             var allElementsPresent = expectedValues.All(v => rootElement.EnumerationValues.Contains(v));

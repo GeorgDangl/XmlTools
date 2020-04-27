@@ -2,6 +2,9 @@
 
 All notable changes to **XmlTools** are documented here.
 
+## v0.7.0:
+- Fixed a behavior when extracting the allowed values for an enumeration (a string type with only certain valid values, given as a restriction). Previously, if the parsed type was a derived type, both the values of the base as well as the derived type were considered valid. This has been fixed, so if the derived type specifies restrictions of its own, only those values are used, otherwise the values from the base type are used
+
 ## v0.6.5:
 - XSD type names with a point `.` are now supported for corrector generation, the point is converted to an underscore `_` when generating a class name
 

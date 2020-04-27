@@ -336,6 +336,27 @@ namespace XmlTools.Tests.Parser.FileTests
         }
 
         [Fact]
+        public void DetectTgYesNoEnumerationCorrectly()
+        {
+            var actual = GetAllElementTypesUsedInSchema()
+                .Single(t => t.Name == "tgYesNo")
+                as XmlEnumerationType;
+            Assert.Equal(2, actual.EnumerationValues.Count);
+            Assert.Contains("Yes", actual.EnumerationValues);
+            Assert.Contains("No", actual.EnumerationValues);
+        }
+
+        [Fact]
+        public void DetectTgYesEnumerationCorrectly()
+        {
+            var actual = GetAllElementTypesUsedInSchema()
+                .Single(t => t.Name == "tgYes")
+                as XmlEnumerationType;
+            Assert.Single(actual.EnumerationValues);
+            Assert.Contains("Yes", actual.EnumerationValues);
+        }
+
+        [Fact]
         public void SimpleContentComplexTypePresent()
         {
             var element = GetAllElementTypesUsedInSchema().FirstOrDefault(t => t.Name == "tgStLNo");
