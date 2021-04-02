@@ -9,3 +9,5 @@ branches:
     increment: Patch
     tag: beta
     regex: (origin/)?dev(elop)?(ment)?$
+  feature:
+    increment: Inherit
