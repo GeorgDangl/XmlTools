@@ -1,43 +1,42 @@
-using System;
-using System.Linq;
 using Nuke.Common;
 using Nuke.Common.Git;
+using Nuke.Common.IO;
+using Nuke.Common.Tooling;
+using Nuke.Common.Tools.AzureKeyVault.Attributes;
+using Nuke.Common.Tools.DocFX;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
-using static Nuke.Common.EnvironmentInfo;
+using Nuke.Common.Utilities;
+using Nuke.Common.Utilities.Collections;
+using Nuke.GitHub;
+using Nuke.WebDocu;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Xml.Linq;
+using System.Xml.XPath;
+using static Nuke.Common.ChangeLog.ChangelogTasks;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
-using static Nuke.Common.Tools.DotNet.DotNetTasks;
-using static Nuke.Common.ChangeLog.ChangelogTasks;
-using static Nuke.GitHub.GitHubTasks;
-using static Nuke.GitHub.ChangeLogExtensions;
-using System.IO;
-using Nuke.Common.Tooling;
-using Nuke.Common.Utilities;
-using static Nuke.Common.Tooling.ProcessTasks;
-using Nuke.Common.Utilities.Collections;
-using System.Xml.Linq;
-using System.Collections;
-using System.Xml.XPath;
-using Nuke.GitHub;
-using static Nuke.WebDocu.WebDocuTasks;
-using static Nuke.Common.Tools.DocFX.DocFXTasks;
-using Nuke.Common.Tools.DocFX;
-using Nuke.WebDocu;
-using System.Collections.Generic;
 using static Nuke.Common.IO.XmlTasks;
-using Nuke.Common.Tools.AzureKeyVault.Attributes;
-using Nuke.Common.IO;
+using static Nuke.Common.Tools.DocFX.DocFXTasks;
+using static Nuke.Common.Tools.DotNet.DotNetTasks;
+using static Nuke.GitHub.ChangeLogExtensions;
+using static Nuke.GitHub.GitHubTasks;
+using static Nuke.WebDocu.WebDocuTasks;
 
 class Build : NukeBuild
 {
-    public static int Main () => Execute<Build>(x => x.Compile);
+    public static int Main() => Execute<Build>(x => x.Compile);
 
     [KeyVaultSettings(
         BaseUrlParameterName = nameof(KeyVaultBaseUrl),
         ClientIdParameterName = nameof(KeyVaultClientId),
         ClientSecretParameterName = nameof(KeyVaultClientSecret))]
     readonly KeyVaultSettings KeyVaultSettings;
+
     [Parameter] string KeyVaultBaseUrl;
     [Parameter] string KeyVaultClientId;
     [Parameter] string KeyVaultClientSecret;
@@ -126,12 +125,10 @@ class Build : NukeBuild
                     });
                 })), degreeOfParallelism: System.Environment.ProcessorCount);
 
-
-
             PrependFrameworkToTestresults();
         });
 
-    IEnumerable<string> GetTestFrameworksForProjectFile(string projectFile)
+    private IEnumerable<string> GetTestFrameworksForProjectFile(string projectFile)
     {
         var targetFrameworks = XmlPeek(projectFile, "//Project/PropertyGroup//TargetFrameworks")
             .Concat(XmlPeek(projectFile, "//Project/PropertyGroup//TargetFramework"))
@@ -244,7 +241,7 @@ class Build : NukeBuild
                 .SetToken(GitHubAuthenticationToken));
         });
 
-    void PrependFrameworkToTestresults()
+    private void PrependFrameworkToTestresults()
     {
         var testResults = GlobFiles(OutputDirectory, "*testresults*.xml").ToList();
         Logger.Log(LogLevel.Normal, $"Found {testResults.Count} test result files on which to append the framework.");
@@ -296,7 +293,7 @@ class Build : NukeBuild
         testResults.ForEach(DeleteFile);
     }
 
-    string GetFrameworkNameFromFilename(string filename)
+    private string GetFrameworkNameFromFilename(string filename)
     {
         var name = Path.GetFileName(filename);
         name = name.Substring(0, name.Length - ".xml".Length);
