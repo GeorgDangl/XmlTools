@@ -24,6 +24,8 @@
     <None Remove="Testfiles\Merger\ontypdef.xsd" />
     <None Remove="Testfiles\SchemaCorrector\GAEB_XML_InvalidDateTimes.xml" />
     <None Remove="Testfiles\SchemaCorrector\GAEB_XML_InvalidDateTimes_Expected.xml" />
+    <None Remove="Testfiles\SchemaCorrector\GAEB_XML_SimpleTypesWithElements.xml" />
+    <None Remove="Testfiles\SchemaCorrector\GAEB_XML_SimpleTypesWithElements_Expected.xml" />
   </ItemGroup>
 
   <ItemGroup>
