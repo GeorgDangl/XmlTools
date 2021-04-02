@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks Condition=" '$(BuildingInsideVisualStudio)' != 'true' ">netcoreapp2.1;netcoreapp3.1;net461;net47</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(BuildingInsideVisualStudio)' != 'true' ">netcoreapp3.1;net461;net47</TargetFrameworks>
     <TargetFrameworks Condition=" '$(BuildingInsideVisualStudio)' == 'true' ">netcoreapp3.1</TargetFrameworks>
     <AssemblyName>XmlTools.Tests</AssemblyName>
     <PackageId>XmlTools.Tests</PackageId>
@@ -24,6 +24,8 @@
     <None Remove="Testfiles\Merger\ontypdef.xsd" />
     <None Remove="Testfiles\SchemaCorrector\GAEB_XML_InvalidDateTimes.xml" />
     <None Remove="Testfiles\SchemaCorrector\GAEB_XML_InvalidDateTimes_Expected.xml" />
+    <None Remove="Testfiles\SchemaCorrector\GAEB_XML_SimpleTypesWithElements.xml" />
+    <None Remove="Testfiles\SchemaCorrector\GAEB_XML_SimpleTypesWithElements_Expected.xml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,14 +33,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.2.1" />
-    <PackageReference Include="XunitXml.TestLogger" Version="2.1.26" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.9.0" />
+    <PackageReference Include="XunitXml.TestLogger" Version="3.0.66" />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">

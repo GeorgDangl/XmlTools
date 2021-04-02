@@ -4,7 +4,7 @@
     <Copyright>Copyright 2017 Georg Dangl</Copyright>
     <AssemblyTitle>XmlTools</AssemblyTitle>
     <Authors>Georg Dangl</Authors>
-    <TargetFrameworks>netcoreapp2.0;net461</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net461</TargetFrameworks>
     <AssemblyName>XmlTools</AssemblyName>
     <PackageId>XmlTools</PackageId>
     <PackageTags>Xml;Schema;XSD;Validation</PackageTags>

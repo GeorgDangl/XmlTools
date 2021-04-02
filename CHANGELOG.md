@@ -2,6 +2,9 @@
 
 All notable changes to **XmlTools** are documented here.
 
+## v0.8.0:
+- The code generator was updated to now remove XML simple type values that do have elements within them
+
 ## v0.7.0:
 - Fixed a behavior when extracting the allowed values for an enumeration (a string type with only certain valid values, given as a restriction). Previously, if the parsed type was a derived type, both the values of the base as well as the derived type were considered valid. This has been fixed, so if the derived type specifies restrictions of its own, only those values are used, otherwise the values from the base type are used
 

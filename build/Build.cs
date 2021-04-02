@@ -1,46 +1,47 @@
-using System;
-using System.Linq;
-using Nuke.Azure.KeyVault;
 using Nuke.Common;
 using Nuke.Common.Git;
+using Nuke.Common.IO;
+using Nuke.Common.Tooling;
+using Nuke.Common.Tools.AzureKeyVault.Attributes;
+using Nuke.Common.Tools.DocFX;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
-using static Nuke.Common.EnvironmentInfo;
+using Nuke.Common.Tools.Teams;
+using Nuke.Common.Utilities;
+using Nuke.Common.Utilities.Collections;
+using Nuke.GitHub;
+using Nuke.WebDocu;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Xml.Linq;
+using System.Xml.XPath;
+using static Nuke.Common.ChangeLog.ChangelogTasks;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
-using static Nuke.Common.Tools.DotNet.DotNetTasks;
-using static Nuke.Common.ChangeLog.ChangelogTasks;
-using static Nuke.GitHub.GitHubTasks;
-using static Nuke.GitHub.ChangeLogExtensions;
-using System.IO;
-using Nuke.Common.Tooling;
-using Nuke.Common.Utilities;
-using static Nuke.Common.Tooling.ProcessTasks;
-using Nuke.Common.Utilities.Collections;
-using System.Xml.Linq;
-using System.Collections;
-using System.Xml.XPath;
-using Nuke.GitHub;
-using static Nuke.WebDocu.WebDocuTasks;
-using static Nuke.DocFX.DocFXTasks;
-using Nuke.DocFX;
-using Nuke.WebDocu;
-using System.Collections.Generic;
 using static Nuke.Common.IO.XmlTasks;
+using static Nuke.Common.Tools.DocFX.DocFXTasks;
+using static Nuke.Common.Tools.DotNet.DotNetTasks;
+using static Nuke.GitHub.ChangeLogExtensions;
+using static Nuke.GitHub.GitHubTasks;
+using static Nuke.WebDocu.WebDocuTasks;
 
 class Build : NukeBuild
 {
-    public static int Main () => Execute<Build>(x => x.Compile);
+    public static int Main() => Execute<Build>(x => x.Compile);
 
     [KeyVaultSettings(
         BaseUrlParameterName = nameof(KeyVaultBaseUrl),
         ClientIdParameterName = nameof(KeyVaultClientId),
         ClientSecretParameterName = nameof(KeyVaultClientSecret))]
     readonly KeyVaultSettings KeyVaultSettings;
+
     [Parameter] string KeyVaultBaseUrl;
     [Parameter] string KeyVaultClientId;
     [Parameter] string KeyVaultClientSecret;
-    [GitVersion] readonly GitVersion GitVersion;
+    [GitVersion(Framework = "netcoreapp3.1")] readonly GitVersion GitVersion;
     [GitRepository] readonly GitRepository GitRepository;
 
     [Parameter] readonly string Configuration = IsLocalBuild ? "Debug" : "Release";
@@ -51,12 +52,36 @@ class Build : NukeBuild
     [KeyVaultSecret] string PublicMyGetApiKey;
     [KeyVaultSecret("XmlTools-DocuApiKey")] string DocuApiKey;
     [KeyVaultSecret] string NuGetApiKey;
+    [KeyVaultSecret] readonly string DanglCiCdTeamsWebhookUrl;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath OutputDirectory => RootDirectory / "output";
 
     string DocFxFile => RootDirectory / "docs" / "docfx.json";
     string ChangeLogFile => RootDirectory / "CHANGELOG.md";
+
+    protected override void OnTargetFailed(string target)
+    {
+        if (IsServerBuild)
+        {
+            SendTeamsMessage("Build Failed", $"Target {target} failed for XmlTools, " +
+                        $"Branch: {GitRepository.Branch}", true);
+        }
+    }
+
+    private void SendTeamsMessage(string title, string message, bool isError)
+    {
+        if (!string.IsNullOrWhiteSpace(DanglCiCdTeamsWebhookUrl))
+        {
+            var themeColor = isError ? "f44336" : "00acc1";
+            TeamsTasks
+                .SendTeamsMessage(m => m
+                    .SetTitle(title)
+                    .SetText(message)
+                    .SetThemeColor(themeColor),
+                    DanglCiCdTeamsWebhookUrl);
+        }
+    }
 
     Target Clean => _ => _
         .Executes(() =>
@@ -80,7 +105,7 @@ class Build : NukeBuild
             DotNetBuild(x => x
                 .SetConfiguration(Configuration)
                 .EnableNoRestore()
-                .SetFileVersion(GitVersion.GetNormalizedFileVersion())
+                .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetAssemblyVersion($"{GitVersion.Major}.{GitVersion.Minor}.{GitVersion.Patch}.0")
                 .SetInformationalVersion(GitVersion.InformationalVersion));
         });
@@ -118,19 +143,17 @@ class Build : NukeBuild
                     {
                         testRun++;
                         return cc
-                            .SetWorkingDirectory(projectDirectory)
+                            .SetProcessWorkingDirectory(projectDirectory)
                             .SetFramework(targetFramework)
                             .SetTestAdapterPath(".")
                             .SetLogger($"xunit;LogFilePath={OutputDirectory}/{testRun++}_testresults-{targetFramework}.xml");
                     });
                 })), degreeOfParallelism: System.Environment.ProcessorCount);
 
-
-
             PrependFrameworkToTestresults();
         });
 
-    IEnumerable<string> GetTestFrameworksForProjectFile(string projectFile)
+    private IEnumerable<string> GetTestFrameworksForProjectFile(string projectFile)
     {
         var targetFrameworks = XmlPeek(projectFile, "//Project/PropertyGroup//TargetFrameworks")
             .Concat(XmlPeek(projectFile, "//Project/PropertyGroup//TargetFramework"))
@@ -164,6 +187,7 @@ class Build : NukeBuild
                             .SetTargetPath(x)
                             .SetSource("https://api.nuget.org/v3/index.json")
                             .SetApiKey(NuGetApiKey));
+                        SendTeamsMessage("New Release", $"New release available for XmlTools: {GitVersion.NuGetVersion}", false);
                     }
                 });
         });
@@ -172,7 +196,9 @@ class Build : NukeBuild
         .DependsOn(Restore)
         .Executes(() =>
         {
-            DocFXMetadata(x => x.AddProjects(DocFxFile));
+            DocFXMetadata(x => x
+                .SetProcessEnvironmentVariable("DOCFX_SOURCE_BRANCH_NAME", GitVersion.BranchName)
+                .AddProjects(DocFxFile));
         });
 
     Target BuildDocumentation => _ => _
@@ -188,7 +214,9 @@ class Build : NukeBuild
 
             File.Copy(RootDirectory / "README.md", RootDirectory / "docs" / "index.md");
 
-            DocFXBuild(x => x.SetConfigFile(DocFxFile));
+            DocFXBuild(x => x
+                .SetProcessEnvironmentVariable("DOCFX_SOURCE_BRANCH_NAME", GitVersion.BranchName)
+                .SetConfigFile(DocFxFile));
 
             File.Delete(RootDirectory / "docs" / "index.md");
             Directory.Delete(RootDirectory / "docs" / "api", true);
@@ -239,7 +267,7 @@ class Build : NukeBuild
                 .SetToken(GitHubAuthenticationToken));
         });
 
-    void PrependFrameworkToTestresults()
+    private void PrependFrameworkToTestresults()
     {
         var testResults = GlobFiles(OutputDirectory, "*testresults*.xml").ToList();
         Logger.Log(LogLevel.Normal, $"Found {testResults.Count} test result files on which to append the framework.");
@@ -291,7 +319,7 @@ class Build : NukeBuild
         testResults.ForEach(DeleteFile);
     }
 
-    string GetFrameworkNameFromFilename(string filename)
+    private string GetFrameworkNameFromFilename(string filename)
     {
         var name = Path.GetFileName(filename);
         name = name.Substring(0, name.Length - ".xml".Length);

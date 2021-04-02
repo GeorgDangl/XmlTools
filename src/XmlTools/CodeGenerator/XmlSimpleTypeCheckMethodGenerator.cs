@@ -18,8 +18,11 @@ namespace XmlTools.CodeGenerator
 
         public void GenerateCheckMethodBody(XmlType xmlType)
         {
-            _stringBuilder.AppendLine("// There's currently no implementations for correcting the content of an Xml simpleType");
+            _stringBuilder.AppendLine("// Simple types should only have elements");
+            _stringBuilder.AppendLine($"if ({CodeGeneratorConstants.ELEMENT_CHECK_METHOD_ELEMENT_VARIABLE_NAME}.HasElements)");
+            _stringBuilder.AppendLine("{");
+            _stringBuilder.AppendLine($"{CodeGeneratorConstants.ELEMENT_CHECK_METHOD_ELEMENT_VARIABLE_NAME}.Remove();");
+            _stringBuilder.AppendLine("}");
         }
     }
-
 }
