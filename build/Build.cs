@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using Nuke.Azure.KeyVault;
 using Nuke.Common;
 using Nuke.Common.Git;
 using Nuke.Common.Tools.DotNet;
@@ -22,11 +21,13 @@ using System.Collections;
 using System.Xml.XPath;
 using Nuke.GitHub;
 using static Nuke.WebDocu.WebDocuTasks;
-using static Nuke.DocFX.DocFXTasks;
-using Nuke.DocFX;
+using static Nuke.Common.Tools.DocFX.DocFXTasks;
+using Nuke.Common.Tools.DocFX;
 using Nuke.WebDocu;
 using System.Collections.Generic;
 using static Nuke.Common.IO.XmlTasks;
+using Nuke.Common.Tools.AzureKeyVault.Attributes;
+using Nuke.Common.IO;
 
 class Build : NukeBuild
 {
@@ -40,7 +41,7 @@ class Build : NukeBuild
     [Parameter] string KeyVaultBaseUrl;
     [Parameter] string KeyVaultClientId;
     [Parameter] string KeyVaultClientSecret;
-    [GitVersion] readonly GitVersion GitVersion;
+    [GitVersion(Framework = "netcoreapp3.1")] readonly GitVersion GitVersion;
     [GitRepository] readonly GitRepository GitRepository;
 
     [Parameter] readonly string Configuration = IsLocalBuild ? "Debug" : "Release";
@@ -80,7 +81,7 @@ class Build : NukeBuild
             DotNetBuild(x => x
                 .SetConfiguration(Configuration)
                 .EnableNoRestore()
-                .SetFileVersion(GitVersion.GetNormalizedFileVersion())
+                .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetAssemblyVersion($"{GitVersion.Major}.{GitVersion.Minor}.{GitVersion.Patch}.0")
                 .SetInformationalVersion(GitVersion.InformationalVersion));
         });
@@ -118,7 +119,7 @@ class Build : NukeBuild
                     {
                         testRun++;
                         return cc
-                            .SetWorkingDirectory(projectDirectory)
+                            .SetProcessWorkingDirectory(projectDirectory)
                             .SetFramework(targetFramework)
                             .SetTestAdapterPath(".")
                             .SetLogger($"xunit;LogFilePath={OutputDirectory}/{testRun++}_testresults-{targetFramework}.xml");
@@ -172,7 +173,9 @@ class Build : NukeBuild
         .DependsOn(Restore)
         .Executes(() =>
         {
-            DocFXMetadata(x => x.AddProjects(DocFxFile));
+            DocFXMetadata(x => x
+                .SetProcessEnvironmentVariable("DOCFX_SOURCE_BRANCH_NAME", GitVersion.BranchName)
+                .AddProjects(DocFxFile));
         });
 
     Target BuildDocumentation => _ => _
@@ -188,7 +191,9 @@ class Build : NukeBuild
 
             File.Copy(RootDirectory / "README.md", RootDirectory / "docs" / "index.md");
 
-            DocFXBuild(x => x.SetConfigFile(DocFxFile));
+            DocFXBuild(x => x
+                .SetProcessEnvironmentVariable("DOCFX_SOURCE_BRANCH_NAME", GitVersion.BranchName)
+                .SetConfigFile(DocFxFile));
 
             File.Delete(RootDirectory / "docs" / "index.md");
             Directory.Delete(RootDirectory / "docs" / "api", true);
