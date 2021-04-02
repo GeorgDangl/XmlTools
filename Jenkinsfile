@@ -17,28 +17,16 @@ pipeline {
             }
             post {
                 always {
-                     warnings(
-                        canComputeNew: false,
-                        canResolveRelativePaths: false,
-                        categoriesPattern: '',
-                        consoleParsers: [[parserName: 'MSBuild']],
-                        defaultEncoding: '',
-                        excludePattern: '',
-                        healthy: '',
-                        includePattern: '',
-                        messagesPattern: '',
-                        unHealthy: '')
-                    openTasks(
-                        canComputeNew: false,
-                        defaultEncoding: '',
-                        excludePattern: '',
-                        healthy: '',
-                        high: 'HACK, FIXME',
-                        ignoreCase: true,
-                        low: '',
-                        normal: 'TODO',
-                        pattern: '**/*.cs, **/*.g4, **/*.ts, **/*.js',
-                        unHealthy: '')
+                    recordIssues(
+                        tools: [
+                            msBuild(), 
+                            taskScanner(
+                                excludePattern: '**/*node_modules/**/*, output/**/*', 
+                                highTags: 'HACK, FIXME', 
+                                ignoreCase: true, 
+                                includePattern: '**/*.cs, **/*.g4, **/*.ts, **/*.js', 
+                                normalTags: 'TODO')
+                            ])
                     xunit(
                         testTimeMargin: '3000',
                         thresholdMode: 1,
@@ -63,6 +51,7 @@ pipeline {
                 notifyEveryUnstableBuild: true,
                 recipients: "georg@dangl.me",
                 sendToIndividuals: true])
+            cleanWs()
         }
     }
 }
