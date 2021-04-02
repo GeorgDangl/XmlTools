@@ -6,6 +6,7 @@ using Nuke.Common.Tools.AzureKeyVault.Attributes;
 using Nuke.Common.Tools.DocFX;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
+using Nuke.Common.Tools.Teams;
 using Nuke.Common.Utilities;
 using Nuke.Common.Utilities.Collections;
 using Nuke.GitHub;
@@ -51,12 +52,36 @@ class Build : NukeBuild
     [KeyVaultSecret] string PublicMyGetApiKey;
     [KeyVaultSecret("XmlTools-DocuApiKey")] string DocuApiKey;
     [KeyVaultSecret] string NuGetApiKey;
+    [KeyVaultSecret] readonly string DanglCiCdTeamsWebhookUrl;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath OutputDirectory => RootDirectory / "output";
 
     string DocFxFile => RootDirectory / "docs" / "docfx.json";
     string ChangeLogFile => RootDirectory / "CHANGELOG.md";
+
+    protected override void OnTargetFailed(string target)
+    {
+        if (IsServerBuild)
+        {
+            SendTeamsMessage("Build Failed", $"Target {target} failed for XmlTools, " +
+                        $"Branch: {GitRepository.Branch}", true);
+        }
+    }
+
+    private void SendTeamsMessage(string title, string message, bool isError)
+    {
+        if (!string.IsNullOrWhiteSpace(DanglCiCdTeamsWebhookUrl))
+        {
+            var themeColor = isError ? "f44336" : "00acc1";
+            TeamsTasks
+                .SendTeamsMessage(m => m
+                    .SetTitle(title)
+                    .SetText(message)
+                    .SetThemeColor(themeColor),
+                    DanglCiCdTeamsWebhookUrl);
+        }
+    }
 
     Target Clean => _ => _
         .Executes(() =>
@@ -162,6 +187,7 @@ class Build : NukeBuild
                             .SetTargetPath(x)
                             .SetSource("https://api.nuget.org/v3/index.json")
                             .SetApiKey(NuGetApiKey));
+                        SendTeamsMessage("New Release", $"New release available for XmlTools: {GitVersion.NuGetVersion}", false);
                     }
                 });
         });
