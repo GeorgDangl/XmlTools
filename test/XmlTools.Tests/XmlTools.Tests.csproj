@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks Condition=" '$(BuildingInsideVisualStudio)' != 'true' ">netcoreapp2.1;netcoreapp3.1;net461;net47</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(BuildingInsideVisualStudio)' != 'true' ">netcoreapp3.1;net461;net47</TargetFrameworks>
     <TargetFrameworks Condition=" '$(BuildingInsideVisualStudio)' == 'true' ">netcoreapp3.1</TargetFrameworks>
     <AssemblyName>XmlTools.Tests</AssemblyName>
     <PackageId>XmlTools.Tests</PackageId>
