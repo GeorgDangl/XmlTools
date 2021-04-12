@@ -33,9 +33,9 @@ namespace XmlTools.CodeGenerator
             }
             _stringBuilder.AppendLine(@"elementDecimalValue = Regex.Replace(elementDecimalValue, ""\\.+"", ""."");");
             _stringBuilder.AppendLine("elementDecimalValue = Regex.Replace(elementDecimalValue, \",+\", \",\");");
-            _stringBuilder.AppendLine("string commaSeparatedPattern = @\"^([0-9,]+[.]\\d*)$\";");
-            _stringBuilder.AppendLine("string pointSeparatedPattern = @\"^([0-9.]+[,]\\d*)$\";");
-            _stringBuilder.AppendLine("string numericalPattern = @\"^(\\s*[0-9.,]+\\s*)$\";");
+            _stringBuilder.AppendLine("string commaSeparatedPattern = @\"^(-?\\s*[0-9,]+[.]\\d*)$\";");
+            _stringBuilder.AppendLine("string pointSeparatedPattern = @\"^(-?\\s*[0-9.]+[,]\\d*)$\";");
+            _stringBuilder.AppendLine("string numericalPattern = @\"^(\\s*-?\\s*[0-9.,]+\\s*)$\";");
             _stringBuilder.AppendLine("if (Regex.IsMatch(elementDecimalValue, commaSeparatedPattern))");
             using (new CodeGeneratorBlockWrapper(_stringBuilder))
             {
