@@ -2,6 +2,9 @@
 
 All notable changes to **XmlTools** are documented here.
 
+## v0.8.1:
+- Fixed a bug where the `DecimalCorrector` treated negative values as non-valid decimal values and removed them
+
 ## v0.8.0:
 - The code generator was updated to now remove XML simple type values that do have elements within them
 

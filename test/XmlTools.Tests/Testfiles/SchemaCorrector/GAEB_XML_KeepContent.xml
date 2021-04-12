@@ -204,7 +204,7 @@
                     </Description>
                   </Item>
                   <Item ID="ID_b5dcab06-2574-4a95-b942-c793b71a3de1" RNoPart="004">
-                    <Qty>800</Qty>
+                    <Qty>-800</Qty>
                     <QU>m²</QU>
                     <Description>
                       <CompleteText>

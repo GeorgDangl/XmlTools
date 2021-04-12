@@ -187,9 +187,13 @@ class Build : NukeBuild
                             .SetTargetPath(x)
                             .SetSource("https://api.nuget.org/v3/index.json")
                             .SetApiKey(NuGetApiKey));
-                        SendTeamsMessage("New Release", $"New release available for XmlTools: {GitVersion.NuGetVersion}", false);
                     }
                 });
+
+            if (GitVersion.BranchName.Equals("master") || GitVersion.BranchName.Equals("origin/master"))
+            {
+                SendTeamsMessage("New Release", $"New release available for XmlTools: {GitVersion.NuGetVersion}", false);
+            }
         });
 
     Target BuildDocFxMetadata => _ => _
