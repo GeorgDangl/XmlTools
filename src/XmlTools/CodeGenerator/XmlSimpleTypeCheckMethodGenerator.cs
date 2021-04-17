@@ -18,7 +18,7 @@ namespace XmlTools.CodeGenerator
 
         public void GenerateCheckMethodBody(XmlType xmlType)
         {
-            _stringBuilder.AppendLine("// Simple types should only have elements");
+            _stringBuilder.AppendLine("// Simple types should not have elements");
             _stringBuilder.AppendLine($"if ({CodeGeneratorConstants.ELEMENT_CHECK_METHOD_ELEMENT_VARIABLE_NAME}.HasElements)");
             _stringBuilder.AppendLine("{");
             _stringBuilder.AppendLine($"{CodeGeneratorConstants.ELEMENT_CHECK_METHOD_ELEMENT_VARIABLE_NAME}.Remove();");
