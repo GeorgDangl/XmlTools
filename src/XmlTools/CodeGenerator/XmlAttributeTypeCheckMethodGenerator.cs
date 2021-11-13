@@ -19,10 +19,17 @@ namespace XmlTools.CodeGenerator
             _stringBuilder.AppendLine($"private void {checkMethodName}(XAttribute {ATTRIBUTE_VARIABLE_NAME})");
             using (new CodeGeneratorBlockWrapper(_stringBuilder))
             {
-                var enumerationType = xmlType as XmlEnumerationType;
-                if (enumerationType != null)
+                if (xmlType is XmlEnumerationType enumerationType)
                 {
                     GenerateEnumerationAttributeCheckMethod(enumerationType);
+                }
+                else if (xmlType is XmlDecimalType)
+                {
+                    GenerationDecimalAttributeCheckMethod();
+                }
+                else if (xmlType is XmlIntegerType)
+                {
+                    GenerationIntegerAttributeCheckMethod();
                 }
                 else
                 {
@@ -34,6 +41,18 @@ namespace XmlTools.CodeGenerator
         private void GenerateEnumerationAttributeCheckMethod(XmlEnumerationType xmlEnumerationType)
         {
             EnumerationTypeValueCheckGenerator.GenerateEnumerationValueCheckingCode(xmlEnumerationType.EnumerationValues, _stringBuilder, ATTRIBUTE_VARIABLE_NAME);
+        }
+
+        private void GenerationDecimalAttributeCheckMethod()
+        {
+            var decimalCheckGenerator = new XmlDecimalTypeCheckMethodGenerator(_stringBuilder);
+            decimalCheckGenerator.GenerateCheckMethodBodyForAttributeValue(ATTRIBUTE_VARIABLE_NAME);
+        }
+
+        private void GenerationIntegerAttributeCheckMethod()
+        {
+            var integerCheckGenerator = new XmlIntegerTypeCheckMethodGenerator(_stringBuilder);
+            integerCheckGenerator.GenerateCheckMethodBodyForAttributeValue(ATTRIBUTE_VARIABLE_NAME);
         }
     }
 }

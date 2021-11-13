@@ -146,7 +146,7 @@ class Build : NukeBuild
                             .SetProcessWorkingDirectory(projectDirectory)
                             .SetFramework(targetFramework)
                             .SetTestAdapterPath(".")
-                            .SetLogger($"xunit;LogFilePath={OutputDirectory}/{testRun++}_testresults-{targetFramework}.xml");
+                            .SetLoggers($"xunit;LogFilePath={OutputDirectory}/{testRun++}_testresults-{targetFramework}.xml");
                     });
                 })), degreeOfParallelism: System.Environment.ProcessorCount);
 

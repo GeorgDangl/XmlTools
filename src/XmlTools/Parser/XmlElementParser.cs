@@ -115,8 +115,14 @@ namespace XmlTools.Parser
             XmlTypeParsers.Add(dateTimeParser);
             var decimalParser = new XmlDecimalParser(_document);
             XmlTypeParsers.Add(decimalParser);
+            var integerParser = new XmlIntegerParser(_document);
+            XmlTypeParsers.Add(integerParser);
             var enumerationRestrictionParser = new EnumerationRestrictionParser(_document);
-            var simpleTypeParser = new XmlSimpleTypeParser(_document, _xmlUnknownTypeParser, enumerationRestrictionParser);
+            var simpleTypeParser = new XmlSimpleTypeParser(_document,
+                _xmlUnknownTypeParser,
+                enumerationRestrictionParser,
+                decimalParser,
+                integerParser);
             XmlTypeParsers.Add(simpleTypeParser);
             var xmlAttributesParser = new XmlAttributesParser(_document, simpleTypeParser, _xmlUnknownTypeParser);
             var complexTypeParser = new XmlComplexTypeParser(_document, this, xmlAttributesParser);

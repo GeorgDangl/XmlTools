@@ -1,8 +1,7 @@
 # XmlTools
 
-[![Build Status](https://jenkins.dangl.me/buildStatus/icon?job=XmlTools/develop)](https://jenkins.dangl.me/job/XmlTools/develop)  
+[![Build Status](https://jenkins.dangl.me/buildStatus/icon?job=GeorgDangl%2FXmlTools%2Fdevelop)](https://jenkins.dangl.me/job/GeorgDangl/job/XmlTools/job/develop/)  
 [![NuGet](https://img.shields.io/nuget/v/XmlTools.svg)](https://www.nuget.org/packages/XmlTools)  
-[![Built with Nuke](http://nuke.build/rounded)](https://www.nuke.build)  
 
 [Online Documentation](https://docs.dangl-it.com/Projects/XmlTools)
 

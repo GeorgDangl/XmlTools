@@ -40,8 +40,7 @@ namespace XmlTools.Parser
                 return true;
             }
 
-            var hasXmlRestriction = element.Elements()
-                .Any(e => e.Name == _xmlSchemaNamespace + "restriction" && e.Attributes().Any(a => a.Name == "base" && a.Value == _xmlSchemaNamespaceAbbreviation + _xsdBaseTypeName));
+            var hasXmlRestriction = HasXmlRestriction(element);
             if (hasXmlRestriction)
             {
                 return true;
@@ -65,8 +64,21 @@ namespace XmlTools.Parser
             return false;
         }
 
+        private bool HasXmlRestriction(XElement declaringElement)
+        {
+            return declaringElement.Elements()
+                .Any(e => e.Name == _xmlSchemaNamespace + "restriction" && e.Attributes().Any(a => a.Name == "base" && a.Value == _xmlSchemaNamespaceAbbreviation + _xsdBaseTypeName));
+        }
+
         private XElement GetTypeDefinitionElement(XElement declaringElement)
         {
+            var hasXmlRestriction = HasXmlRestriction(declaringElement);
+            if (hasXmlRestriction)
+            {
+                // Having a restriction means the declaring element itself is the type
+                return declaringElement;
+            }
+
             var typeNameReference = declaringElement.Attributes().FirstOrDefault(a => a.Name == "type")?.Value;
             if (string.IsNullOrWhiteSpace(typeNameReference))
             {

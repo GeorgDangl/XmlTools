@@ -1,6 +1,6 @@
 ﻿namespace XmlTools
 {
-    public class XmlDecimalType : XmlType
+    public class XmlDecimalType : XmlSimpleType
     {
     }
 }

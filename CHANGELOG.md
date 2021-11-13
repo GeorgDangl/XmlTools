@@ -2,6 +2,10 @@
 
 All notable changes to **XmlTools** are documented here.
 
+## v0.9.0:
+- Added feature to now also correct attributes and values that use the Xsd `integer` data type
+- `integer` and `decimal` corrections are now also applied for Xml attributes 
+
 ## v0.8.1:
 - Fixed a bug where the `DecimalCorrector` treated negative values as non-valid decimal values and removed them
 
