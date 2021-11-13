@@ -116,7 +116,10 @@ namespace XmlTools.Parser
             var decimalParser = new XmlDecimalParser(_document);
             XmlTypeParsers.Add(decimalParser);
             var enumerationRestrictionParser = new EnumerationRestrictionParser(_document);
-            var simpleTypeParser = new XmlSimpleTypeParser(_document, _xmlUnknownTypeParser, enumerationRestrictionParser);
+            var simpleTypeParser = new XmlSimpleTypeParser(_document,
+                _xmlUnknownTypeParser,
+                enumerationRestrictionParser,
+                decimalParser);
             XmlTypeParsers.Add(simpleTypeParser);
             var xmlAttributesParser = new XmlAttributesParser(_document, simpleTypeParser, _xmlUnknownTypeParser);
             var complexTypeParser = new XmlComplexTypeParser(_document, this, xmlAttributesParser);

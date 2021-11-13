@@ -7,11 +7,15 @@ namespace XmlTools.Parser
 {
     public class XmlSimpleTypeParser : IXmlTypeParser
     {
-        public XmlSimpleTypeParser(XDocument document, XmlUnknownTypeParser xmlUnknownTypeParser, EnumerationRestrictionParser enumerationRestrictionParser)
+        public XmlSimpleTypeParser(XDocument document,
+            XmlUnknownTypeParser xmlUnknownTypeParser,
+            EnumerationRestrictionParser enumerationRestrictionParser,
+            XmlDecimalParser xmlDecimalParser)
         {
             _document = document;
             _xmlUnknownTypeParser = xmlUnknownTypeParser;
             _enumerationRestrictionParser = enumerationRestrictionParser;
+            _xmlDecimalParser = xmlDecimalParser;
         }
 
         private readonly XDocument _document;
@@ -19,6 +23,7 @@ namespace XmlTools.Parser
         private readonly XmlUnknownTypeParser _xmlUnknownTypeParser;
         private readonly EnumerationRestrictionParser _enumerationRestrictionParser;
         private readonly Dictionary<string, XmlSimpleType> _simpleTypesByTypeName = new Dictionary<string, XmlSimpleType>();
+        private readonly XmlDecimalParser _xmlDecimalParser;
 
         public bool CanParseElement(XElement element)
         {
@@ -46,6 +51,12 @@ namespace XmlTools.Parser
                 return _simpleTypesByTypeName[typeName];
             }
             XmlSimpleType result;
+
+            if (_xmlDecimalParser.CanParseElement(typeDefinitionElement))
+            {
+                var wow = _xmlDecimalParser.ParseElement(typeDefinitionElement);
+            }
+
             if (_enumerationRestrictionParser.IsEnumerationType(typeDefinitionElement))
             {
                 var enumerationValues = _enumerationRestrictionParser.GetEnumerationValues(typeDefinitionElement);
@@ -54,6 +65,12 @@ namespace XmlTools.Parser
                     Name = typeName,
                     EnumerationValues = enumerationValues
                 };
+            }
+            else if (_xmlDecimalParser.CanParseElement(typeDefinitionElement)
+                && _xmlDecimalParser.ParseElement(typeDefinitionElement) is XmlDecimalType decimalType)
+            {
+                result = decimalType;
+                result.Name = typeName;
             }
             else
             {
