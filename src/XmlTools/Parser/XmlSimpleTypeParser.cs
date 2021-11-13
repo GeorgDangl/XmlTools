@@ -10,12 +10,14 @@ namespace XmlTools.Parser
         public XmlSimpleTypeParser(XDocument document,
             XmlUnknownTypeParser xmlUnknownTypeParser,
             EnumerationRestrictionParser enumerationRestrictionParser,
-            XmlDecimalParser xmlDecimalParser)
+            XmlDecimalParser xmlDecimalParser,
+            XmlIntegerParser xmlIntegerParser)
         {
             _document = document;
             _xmlUnknownTypeParser = xmlUnknownTypeParser;
             _enumerationRestrictionParser = enumerationRestrictionParser;
             _xmlDecimalParser = xmlDecimalParser;
+            _xmlIntegerParser = xmlIntegerParser;
         }
 
         private readonly XDocument _document;
@@ -24,6 +26,7 @@ namespace XmlTools.Parser
         private readonly EnumerationRestrictionParser _enumerationRestrictionParser;
         private readonly Dictionary<string, XmlSimpleType> _simpleTypesByTypeName = new Dictionary<string, XmlSimpleType>();
         private readonly XmlDecimalParser _xmlDecimalParser;
+        private readonly XmlIntegerParser _xmlIntegerParser;
 
         public bool CanParseElement(XElement element)
         {
@@ -70,6 +73,12 @@ namespace XmlTools.Parser
                 && _xmlDecimalParser.ParseElement(typeDefinitionElement) is XmlDecimalType decimalType)
             {
                 result = decimalType;
+                result.Name = typeName;
+            }
+            else if (_xmlIntegerParser.CanParseElement(typeDefinitionElement)
+                && _xmlIntegerParser.ParseElement(typeDefinitionElement) is XmlIntegerType integerType)
+            {
+                result = integerType;
                 result.Name = typeName;
             }
             else

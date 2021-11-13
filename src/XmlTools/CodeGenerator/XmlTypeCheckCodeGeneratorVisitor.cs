@@ -20,6 +20,7 @@ namespace XmlTools.CodeGenerator
             _xmlTypeCheckMethodGenerators = new List<IXmlTypeCheckMethodGenerator>();
             _xmlTypeCheckMethodGenerators.Add(new XmlDateTimeTypeCheckMethodGenerator(_stringBuilder));
             _xmlTypeCheckMethodGenerators.Add(new XmlDecimalTypeCheckMethodGenerator(_stringBuilder));
+            _xmlTypeCheckMethodGenerators.Add(new XmlIntegerTypeCheckMethodGenerator(_stringBuilder));
             _xmlTypeCheckMethodGenerators.Add(new XmlUnknownTypeCheckMethodGenerator(_stringBuilder));
             _xmlTypeCheckMethodGenerators.Add(new XmlSimpleTypeCheckMethodGenerator(_stringBuilder));
             _xmlTypeCheckMethodGenerators.Add(new XmlComplexTypeCheckMethodGenerator(_stringBuilder));

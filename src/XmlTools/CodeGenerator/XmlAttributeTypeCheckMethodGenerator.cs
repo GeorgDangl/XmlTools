@@ -27,6 +27,10 @@ namespace XmlTools.CodeGenerator
                 {
                     GenerationDecimalAttributeCheckMethod();
                 }
+                else if (xmlType is XmlIntegerType)
+                {
+                    GenerationIntegerAttributeCheckMethod();
+                }
                 else
                 {
                     _stringBuilder.AppendLine("// Only attributes with enumeration restriction are currently supported for validation");
@@ -41,8 +45,14 @@ namespace XmlTools.CodeGenerator
 
         private void GenerationDecimalAttributeCheckMethod()
         {
-            var decimalChecker = new XmlDecimalTypeCheckMethodGenerator(_stringBuilder);
-            decimalChecker.GenerateCheckMethodBodyForAttributeValue(ATTRIBUTE_VARIABLE_NAME);
+            var decimalCheckGenerator = new XmlDecimalTypeCheckMethodGenerator(_stringBuilder);
+            decimalCheckGenerator.GenerateCheckMethodBodyForAttributeValue(ATTRIBUTE_VARIABLE_NAME);
+        }
+
+        private void GenerationIntegerAttributeCheckMethod()
+        {
+            var integerCheckGenerator = new XmlIntegerTypeCheckMethodGenerator(_stringBuilder);
+            integerCheckGenerator.GenerateCheckMethodBodyForAttributeValue(ATTRIBUTE_VARIABLE_NAME);
         }
     }
 }

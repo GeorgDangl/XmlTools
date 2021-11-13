@@ -115,8 +115,66 @@ namespace XmlTools.Tests.CodeGenerator
             }
             var xDocComparator = new XDocumentComparator(expectedXDoc, correctedXDoc);
             xDocComparator.AssertXDocumentsAreEqual();
-        }
+		}
 
+		[Theory]
+		[InlineData("Hello World!", false)]
+		[InlineData("d", false)]
+		[InlineData("1", true)]
+		[InlineData("1.1", false)]
+		[InlineData("999.999", false)]
+		[InlineData("999,999.999", false)]
+		[InlineData("999999999", true)]
+		[InlineData("1,23", false)]
+		public void RemovesInvalidValuesInIntegerAttributes(string replacement, bool shouldKeepElement)
+		{
+			var input = @"<?xml version=""1.0"" encoding=""UTF-8""?>
+<GAEB xmlns=""http://www.gaeb.de/GAEB_DA_XML/200407"">
+    <GAEBInfo>
+        <Version>3.1</Version>
+        <VersDate>2009-12</VersDate>
+    </GAEBInfo>
+    <Award>
+        <DP>83</DP>
+        <BoQ>
+            <BoQBody>
+                <BoQCtgy RNoPart=""1"">
+                    <BoQBody>
+                        <Itemlist>
+                            <Item RNoPart=""2"">
+                                <Qty>59</Qty>
+                                <QU>stck</QU>
+                                <Description>
+                                    <CompleteText>
+                                        <DetailTxt>
+                                            <TextComplement>
+                                                <ComplBodyInt Value=""@@replacement@@""/>
+                                            </TextComplement>
+                                        </DetailTxt>
+                                    </CompleteText>
+                                </Description>
+                            </Item>
+                        </Itemlist>
+                    </BoQBody>
+                </BoQCtgy>
+            </BoQBody>
+        </BoQ>
+    </Award>
+</GAEB>"
+.Replace("@@replacement@@", replacement);
+
+			var schemaFile = ParserTestFile.GAEB_XML_3_1_Schema;
+			var invalidXDoc = XDocument.Parse(input);
+			var correctedXDoc = SchemaCorrectorHelper.CorrectXmlInstanceForSchema(schemaFile, invalidXDoc);
+			var expectedXDoc = XDocument.Parse(input);
+			var expectedNode = expectedXDoc.Descendants().Single(d => d.Name.LocalName == "ComplBodyInt");
+			if (!shouldKeepElement)
+			{
+				expectedNode.Attribute("Value").Remove();
+			}
+			var xDocComparator = new XDocumentComparator(expectedXDoc, correctedXDoc);
+			xDocComparator.AssertXDocumentsAreEqual();
+		}
 
 		[Theory]
 		[InlineData("")]
