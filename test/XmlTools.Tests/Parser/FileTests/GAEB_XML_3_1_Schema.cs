@@ -410,7 +410,7 @@ namespace XmlTools.Tests.Parser.FileTests
         [Fact]
         public void DetectAllXmlDecimalTypes()
         {
-            var expectedDateTimeTypes = new[]
+            var expectedDecimalTypes = new[]
             {
                 "tgDecimal_5_2",
                 "tgDecimal_13_2",
@@ -421,13 +421,21 @@ namespace XmlTools.Tests.Parser.FileTests
 
             foreach (var xmlType in GetAllElementTypesUsedInSchema())
             {
-                if (expectedDateTimeTypes.Contains(xmlType.Name))
+                if (expectedDecimalTypes.Contains(xmlType.Name))
                 {
                     Assert.True(xmlType.GetType().IsAssignableFrom(typeof(XmlDecimalType)), $"Did expect {xmlType.Name} to be a decimal type");
                 }
                 else
                 {
-                    Assert.False(xmlType.GetType().IsAssignableFrom(typeof(XmlDecimalType)), $"Did not expect {xmlType.Name} to be a decimal type");
+                    var actualType = xmlType.GetType();
+                    if (actualType.IsAssignableFrom(typeof(XmlSimpleType)))
+                    {
+                        Assert.False(actualType == typeof(XmlDecimalType), $"Did not expect {xmlType.Name} to be a decimal type");
+                    }
+                    else
+                    {
+                        Assert.False(xmlType.GetType().IsAssignableFrom(typeof(XmlDecimalType)), $"Did not expect {xmlType.Name} to be a decimal type");
+                    }
                 }
             }
         }
