@@ -5,7 +5,7 @@ using Xunit;
 
 namespace XmlTools.Tests.CodeGenerator
 {
-    public class DecimalTypeCorrectorTests
+    public class DecimalAndIntegerTypeCorrectorTests
     {
         [Theory]
         [InlineData("1", "1")]
