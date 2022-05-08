@@ -13,5 +13,7 @@
   <files>
     <file src="$publishdir$\net461\**\*" target="tools/net461/" />
     <file src="$publishdir$\netcoreapp3.1\**\*" target="tools/netcoreapp3.1/" />
+    <file src="$publishdir$\net5.0\**\*" target="tools/net5.0/" />
+    <file src="$publishdir$\net6.0\**\*" target="tools/net6.0/" />
   </files>
 </package>
