@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks Condition=" '$(BuildingInsideVisualStudio)' != 'true' ">netcoreapp3.1;net461;net47</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(BuildingInsideVisualStudio)' != 'true' ">net6.0;net5.0;netcoreapp3.1;net461;net47</TargetFrameworks>
     <TargetFrameworks Condition=" '$(BuildingInsideVisualStudio)' == 'true' ">netcoreapp3.1</TargetFrameworks>
     <AssemblyName>XmlTools.Tests</AssemblyName>
     <PackageId>XmlTools.Tests</PackageId>
@@ -44,10 +44,6 @@
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
-    <DefineConstants>$(DefineConstants);NETSTANDARD</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
     <DefineConstants>$(DefineConstants);NETSTANDARD</DefineConstants>
   </PropertyGroup>
 
