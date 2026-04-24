@@ -63,12 +63,7 @@ namespace XmlTools.Tests.CodeGenerator
                 var result = compilation.Emit(ms);
                 ThrowExceptionIfCompilationFailure(result);
                 ms.Seek(0, SeekOrigin.Begin);
-#if NETSTANDARD
                 var assembly = System.Runtime.Loader.AssemblyLoadContext.Default.LoadFromStream(ms);
-#endif
-#if NET461
-                var assembly = Assembly.Load(ms.ToArray());
-#endif
                 return assembly;
             }
         }

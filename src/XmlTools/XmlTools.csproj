@@ -4,7 +4,7 @@
     <Copyright>Copyright 2017 Georg Dangl</Copyright>
     <AssemblyTitle>XmlTools</AssemblyTitle>
     <Authors>Georg Dangl</Authors>
-    <TargetFrameworks>netcoreapp3.1;net461</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
     <AssemblyName>XmlTools</AssemblyName>
     <PackageId>XmlTools</PackageId>
     <PackageTags>Xml;Schema;XSD;Validation</PackageTags>
@@ -19,25 +19,10 @@
 
   <!-- This ItemGroup includes the console tools in the NuGet output package -->
   <ItemGroup Condition="'$(Configuration)'=='Release'">
-    <None Include="..\XmlTools.Console\bin\Release\net46\**\*.*" Exclude="**\*.pdb">
-      <PackagePath>Tools/net46/</PackagePath>
+    <None Include="..\XmlTools.Console\bin\Release\net10.0\**\*.*" Exclude="**\*.pdb">
+      <PackagePath>Tools/net10.0/</PackagePath>
       <Pack>true</Pack>
     </None>
-    <None Include="..\XmlTools.Console\bin\Release\netcoreapp1.0\**\*.*" Exclude="**\*.pdb;**\*.dev.json">
-      <PackagePath>Tools/netcoreapp1.0/</PackagePath>
-      <Pack>true</Pack>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
-    <PackageReference Include="System.Xml.XDocument" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
 </Project>
