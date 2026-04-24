@@ -2,6 +2,9 @@
 
 All notable changes to **XmlTools** are documented here.
 
+## v0.10.0:
+- The tools were updated to .NET 10
+
 ## v0.9.0:
 - Added feature to now also correct attributes and values that use the Xsd `integer` data type
 - `integer` and `decimal` corrections are now also applied for Xml attributes 
