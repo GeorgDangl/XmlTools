@@ -27,6 +27,7 @@ namespace XmlTools.Tests
         SchemaWithExtendedEnumerationTypeWithDuplicates = 20,
         SchemaWithPointInTypeName = 21,
         SchemaWithExtendedEnumerationTypeAndRedefinition = 22,
-        SchemaWithExtendedEnumerationTypeWithDuplicatesAndRedefinition = 23
+        SchemaWithExtendedEnumerationTypeWithDuplicatesAndRedefinition = 23,
+        GAEB_XML_3_3_Schema = 24,
     }
 }

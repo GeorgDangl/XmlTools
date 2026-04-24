@@ -4,6 +4,7 @@ All notable changes to **XmlTools** are documented here.
 
 ## v0.10.0:
 - The tools were updated to .NET 10
+- The DecimalCorrector type was updated to now also transform decimals that use comma as a decimal separator to use a point instead, e.g. `123,456` is now transformed to `123.456` to be compliant with the Xsd `decimal` data type
 
 ## v0.9.0:
 - Added feature to now also correct attributes and values that use the Xsd `integer` data type
