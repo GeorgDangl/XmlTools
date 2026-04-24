@@ -113,10 +113,16 @@
         "DanglCiCdTeamsWebhookUrl": {
           "type": "string"
         },
+        "DanglPublicFeedSource": {
+          "type": "string"
+        },
         "DocuApiKey": {
           "type": "string"
         },
         "DocuBaseUrl": {
+          "type": "string"
+        },
+        "FeedzAccessToken": {
           "type": "string"
         },
         "GitHubAuthenticationToken": {
@@ -135,12 +141,6 @@
           "type": "string"
         },
         "NuGetApiKey": {
-          "type": "string"
-        },
-        "PublicMyGetApiKey": {
-          "type": "string"
-        },
-        "PublicMyGetSource": {
           "type": "string"
         }
       }

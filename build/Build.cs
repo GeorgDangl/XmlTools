@@ -226,7 +226,6 @@ class Build : NukeBuild
 
             File.Delete(RootDirectory / "docs" / "index.md");
             Directory.Delete(RootDirectory / "docs" / "api", true);
-            Directory.Delete(RootDirectory / "docs" / "obj", true);
         });
 
     Target UploadDocumentation => _ => _
