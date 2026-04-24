@@ -2,8 +2,7 @@ using Nuke.Common;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.Tooling;
-using Nuke.Common.Tools.AzureKeyVault.Attributes;
-using Nuke.Common.Tools.DocFX;
+using Nuke.Common.Tools.AzureKeyVault;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Tools.Teams;
@@ -19,40 +18,41 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using static Nuke.Common.ChangeLog.ChangelogTasks;
-using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.IO.XmlTasks;
-using static Nuke.Common.Tools.DocFX.DocFXTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.GitHub.ChangeLogExtensions;
 using static Nuke.GitHub.GitHubTasks;
+using static Nuke.Common.IO.Globbing;
 using static Nuke.WebDocu.WebDocuTasks;
 
 class Build : NukeBuild
 {
     public static int Main() => Execute<Build>(x => x.Compile);
 
-    [KeyVaultSettings(
-        BaseUrlParameterName = nameof(KeyVaultBaseUrl),
-        ClientIdParameterName = nameof(KeyVaultClientId),
-        ClientSecretParameterName = nameof(KeyVaultClientSecret))]
-    readonly KeyVaultSettings KeyVaultSettings;
+    [AzureKeyVaultConfiguration(
+            BaseUrlParameterName = nameof(KeyVaultBaseUrl),
+            ClientIdParameterName = nameof(KeyVaultClientId),
+            ClientSecretParameterName = nameof(KeyVaultClientSecret),
+            TenantIdParameterName = nameof(KeyVaultTenantId))]
+    readonly AzureKeyVaultConfiguration KeyVaultSettings;
 
     [Parameter] string KeyVaultBaseUrl;
     [Parameter] string KeyVaultClientId;
     [Parameter] string KeyVaultClientSecret;
-    [GitVersion(Framework = "netcoreapp3.1")] readonly GitVersion GitVersion;
+    [Parameter] string KeyVaultTenantId;
+    [GitVersion] readonly GitVersion GitVersion;
     [GitRepository] readonly GitRepository GitRepository;
 
     [Parameter] readonly string Configuration = IsLocalBuild ? "Debug" : "Release";
 
-    [KeyVaultSecret] string DocuBaseUrl;
-    [KeyVaultSecret] string GitHubAuthenticationToken;
-    [KeyVaultSecret] string PublicMyGetSource;
-    [KeyVaultSecret] string PublicMyGetApiKey;
-    [KeyVaultSecret("XmlTools-DocuApiKey")] string DocuApiKey;
-    [KeyVaultSecret] string NuGetApiKey;
-    [KeyVaultSecret] readonly string DanglCiCdTeamsWebhookUrl;
+    [AzureKeyVaultSecret] string DocuBaseUrl;
+    [AzureKeyVaultSecret] string GitHubAuthenticationToken;
+    [AzureKeyVaultSecret] readonly string DanglPublicFeedSource;
+    [AzureKeyVaultSecret] readonly string FeedzAccessToken;
+    [AzureKeyVaultSecret("XmlTools-DocuApiKey")] string DocuApiKey;
+    [AzureKeyVaultSecret] string NuGetApiKey;
+    [AzureKeyVaultSecret] readonly string DanglCiCdTeamsWebhookUrl;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath OutputDirectory => RootDirectory / "output";
@@ -86,9 +86,9 @@ class Build : NukeBuild
     Target Clean => _ => _
         .Executes(() =>
         {
-            GlobDirectories(SourceDirectory, "**/bin", "**/obj").ForEach(DeleteDirectory);
-            GlobDirectories(RootDirectory / "test", "**/bin", "**/obj").ForEach(DeleteDirectory);
-            EnsureCleanDirectory(OutputDirectory);
+            SourceDirectory.GlobDirectories("**/bin", "**/obj").ForEach(d => d.DeleteDirectory());
+            (RootDirectory / "test").GlobDirectories("**/bin", "**/obj").ForEach(d => d.DeleteDirectory());
+            OutputDirectory.CreateOrCleanDirectory();
         });
 
     Target Restore => _ => _
@@ -165,20 +165,24 @@ class Build : NukeBuild
 
     Target Push => _ => _
         .DependsOn(Pack)
-        .Requires(() => PublicMyGetSource)
-        .Requires(() => PublicMyGetApiKey)
+        .Requires(() => DanglPublicFeedSource)
+        .Requires(() => FeedzAccessToken)
         .Requires(() => NuGetApiKey)
         .Requires(() => Configuration.EqualsOrdinalIgnoreCase("Release"))
         .Executes(() =>
         {
-            GlobFiles(OutputDirectory, "*.nupkg").NotEmpty()
+            var packages = GlobFiles(OutputDirectory, "*.nupkg")
                 .Where(x => !x.EndsWith("symbols.nupkg"))
+                .ToList();
+            Assert.NotEmpty(packages);
+
+            packages
                 .ForEach(x =>
                 {
                     DotNetNuGetPush(s => s
                         .SetTargetPath(x)
-                        .SetSource(PublicMyGetSource)
-                        .SetApiKey(PublicMyGetApiKey));
+                        .SetSource(DanglPublicFeedSource)
+                        .SetApiKey(FeedzAccessToken));
 
                     if (GitVersion.BranchName.Equals("master") || GitVersion.BranchName.Equals("origin/master"))
                     {
@@ -200,9 +204,8 @@ class Build : NukeBuild
         .DependsOn(Restore)
         .Executes(() =>
         {
-            DocFXMetadata(x => x
-                .SetProcessEnvironmentVariable("DOCFX_SOURCE_BRANCH_NAME", GitVersion.BranchName)
-                .AddProjects(DocFxFile));
+            var docFxPath = NuGetToolPathResolver.GetPackageExecutable("docfx", "tools/net8.0/any/docfx.dll");
+            DotNet($"{docFxPath} metadata {DocFxFile}");
         });
 
     Target BuildDocumentation => _ => _
@@ -218,13 +221,11 @@ class Build : NukeBuild
 
             File.Copy(RootDirectory / "README.md", RootDirectory / "docs" / "index.md");
 
-            DocFXBuild(x => x
-                .SetProcessEnvironmentVariable("DOCFX_SOURCE_BRANCH_NAME", GitVersion.BranchName)
-                .SetConfigFile(DocFxFile));
+            var docFxPath = NuGetToolPathResolver.GetPackageExecutable("docfx", "tools/net8.0/any/docfx.dll");
+            DotNet($"{docFxPath} {DocFxFile}");
 
             File.Delete(RootDirectory / "docs" / "index.md");
             Directory.Delete(RootDirectory / "docs" / "api", true);
-            Directory.Delete(RootDirectory / "docs" / "obj", true);
         });
 
     Target UploadDocumentation => _ => _
@@ -259,7 +260,8 @@ class Build : NukeBuild
             var completeChangeLog = $"## {releaseTag}" + Environment.NewLine + latestChangeLog;
 
             var repositoryInfo = GetGitHubRepositoryInfo(GitRepository);
-            var nuGetPackages = GlobFiles(OutputDirectory, "*.nupkg").NotEmpty().ToArray();
+            var nuGetPackages = GlobFiles(OutputDirectory, "*.nupkg").ToArray();
+            Assert.NotEmpty(nuGetPackages);
 
             await PublishRelease(x => x
                 .SetArtifactPaths(nuGetPackages)
@@ -274,7 +276,7 @@ class Build : NukeBuild
     private void PrependFrameworkToTestresults()
     {
         var testResults = GlobFiles(OutputDirectory, "*testresults*.xml").ToList();
-        Logger.Log(LogLevel.Normal, $"Found {testResults.Count} test result files on which to append the framework.");
+        Serilog.Log.Information($"Found {testResults.Count} test result files on which to append the framework.");
         foreach (var testResultFile in testResults)
         {
             var frameworkName = GetFrameworkNameFromFilename(testResultFile);
@@ -298,7 +300,7 @@ class Build : NukeBuild
         // since in Jenkins, the format is internally converted to JUnit. Aterwards, results with the same timestamps are
         // ignored. See here for how the code is translated to JUnit format by the Jenkins plugin:
         // https://github.com/jenkinsci/xunit-plugin/blob/d970c50a0501f59b303cffbfb9230ba977ce2d5a/src/main/resources/org/jenkinsci/plugins/xunit/types/xunitdotnet-2.0-to-junit.xsl#L75-L79
-        Logger.Log(LogLevel.Normal, "Updating \"run-time\" attributes in assembly entries to prevent Jenkins to treat them as duplicates");
+        Serilog.Log.Information("Updating \"run-time\" attributes in assembly entries to prevent Jenkins to treat them as duplicates");
         var firstXdoc = XDocument.Load(testResults[0]);
         var runtime = DateTime.Now;
         var firstAssemblyNodes = firstXdoc.Root.Elements().Where(e => e.Name.LocalName == "assembly");
@@ -320,7 +322,7 @@ class Build : NukeBuild
         }
 
         firstXdoc.Save(OutputDirectory / "testresults.xml");
-        testResults.ForEach(DeleteFile);
+        testResults.ForEach(t => ((AbsolutePath)t).DeleteFile());
     }
 
     private string GetFrameworkNameFromFilename(string filename)

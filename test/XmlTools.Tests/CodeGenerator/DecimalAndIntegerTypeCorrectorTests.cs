@@ -10,7 +10,7 @@ namespace XmlTools.Tests.CodeGenerator
         [Theory]
         [InlineData("1", "1")]
         [InlineData("-1", "-1")]
-		[InlineData("1,00", "1,00")]
+		[InlineData("1,00", "1.00")]
         [InlineData("1.00", "1.00")]
         [InlineData("-1.00", "-1.00")]
 		[InlineData(".0", ".0")]
@@ -19,32 +19,32 @@ namespace XmlTools.Tests.CodeGenerator
         [InlineData("1.01", "1.01")]
         [InlineData(",0", ",0")]
         [InlineData(",01", ",01")]
-        [InlineData("1,01", "1,01")]
-        [InlineData("1.000,12", "1000,12")]
-        [InlineData("-1.000,12", "-1000,12")]
+        [InlineData("1,01", "1.01")]
+        [InlineData("1.000,12", "1000.12")]
+        [InlineData("-1.000,12", "-1000.12")]
 		[InlineData("1,000.12", "1000.12")]
         [InlineData("-1,000.12", "-1000.12")]
-		[InlineData("123.456.789,01", "123456789,01")]
+		[InlineData("123.456.789,01", "123456789.01")]
         [InlineData("123,456,789.01", "123456789.01")]
         [InlineData("12..000", "12.000")]
-        [InlineData("12,,000", "12,000")]
+        [InlineData("12,,000", "12.000")]
         [InlineData("123,,444..000", "123444.000")]
-        [InlineData("123..444,,000", "123444,000")]
+        [InlineData("123..444,,000", "123444.000")]
 		[InlineData(" 1", " 1")]
 		[InlineData("1 ", "1 ")]
 		[InlineData(" 1 ", " 1 ")]
 		[InlineData(" 1.0", "1.0")]
 		[InlineData("1.0 ", "1.0")]
 		[InlineData(" 1.0 ", "1.0")]
-		[InlineData(" 1,0", "1,0")]
-		[InlineData("1,0 ", "1,0")]
-		[InlineData(" 1,0 ", "1,0")]
+		[InlineData(" 1,0", "1.0")]
+		[InlineData("1,0 ", "1.0")]
+		[InlineData(" 1,0 ", "1.0")]
 		[InlineData(" 1,0.0", "10.0")]
 		[InlineData("1,0.0 ", "10.0")]
 		[InlineData(" 1,0.0 ", "10.0")]
-		[InlineData(" 1.0,0", "10,0")]
-		[InlineData("1.0,0 ", "10,0")]
-		[InlineData(" 1.0,0 ", "10,0")]
+		[InlineData(" 1.0,0", "10.0")]
+		[InlineData("1.0,0 ", "10.0")]
+		[InlineData(" 1.0,0 ", "10.0")]
 		public void CorrectsNumber(string sourceValue, string expectedValue)
         {
             var schemaFile = ParserTestFile.GAEB_XML_3_1_Schema;
@@ -62,7 +62,9 @@ namespace XmlTools.Tests.CodeGenerator
         [InlineData("1.1", true, "")]
         [InlineData("999.999", true, "")]
         [InlineData("999,999.999", true, "999999.999")]
-        [InlineData("1,23", true, "")]
+        [InlineData("999.999.999,123", true, "999999999.123")]
+        [InlineData("1,23", true, "1.23")]
+        [InlineData("0,8", true, "0.8")]
         public void RemovesInvalidValuesInDecimalAttributes(string replacement, bool shouldKeepElement, string expectedValue)
         {
             var input = @"<?xml version=""1.0"" encoding=""UTF-8""?>
@@ -115,9 +117,73 @@ namespace XmlTools.Tests.CodeGenerator
             }
             var xDocComparator = new XDocumentComparator(expectedXDoc, correctedXDoc);
             xDocComparator.AssertXDocumentsAreEqual();
-		}
+        }
 
-		[Theory]
+        [Theory]
+        [InlineData("Hello World!", false, "")]
+        [InlineData("d", false, "")]
+        [InlineData("1", true, "")]
+        [InlineData("1.1", true, "")]
+        [InlineData("999.999", true, "")]
+        [InlineData("999,999.999", true, "999999.999")]
+        [InlineData("999.999.999,123", true, "999999999.123")]
+        [InlineData("1,23", true, "1.23")]
+        [InlineData("0,8", true, "0.8")]
+        public void RemovesInvalidValuesInDecimalAttributes_InGaebXmlV33(string replacement, bool shouldKeepElement, string expectedValue)
+        {
+            var input = @"<?xml version=""1.0"" encoding=""UTF-8""?>
+<GAEB xmlns=""http://www.gaeb.de/GAEB_DA_XML/DA83/3.3"">
+    <GAEBInfo>
+        <Version>3.3</Version>
+        <VersDate>2021-05</VersDate>
+    </GAEBInfo>
+    <Award>
+        <DP>83</DP>
+        <BoQ>
+            <BoQBody>
+                <BoQCtgy RNoPart=""1"">
+                    <BoQBody>
+                        <Itemlist>
+                            <Item RNoPart=""2"">
+                                <Qty>59</Qty>
+                                <QU>stck</QU>
+                                <Description>
+                                    <CompleteText>
+                                        <DetailTxt>
+                                            <TextComplement>
+                                                <ComplBodyDec Value=""@@replacement@@""/>
+                                            </TextComplement>
+                                        </DetailTxt>
+                                    </CompleteText>
+                                </Description>
+                            </Item>
+                        </Itemlist>
+                    </BoQBody>
+                </BoQCtgy>
+            </BoQBody>
+        </BoQ>
+    </Award>
+</GAEB>"
+.Replace("@@replacement@@", replacement);
+
+            var schemaFile = ParserTestFile.GAEB_XML_3_3_Schema;
+            var invalidXDoc = XDocument.Parse(input);
+            var correctedXDoc = SchemaCorrectorHelper.CorrectXmlInstanceForSchema(schemaFile, invalidXDoc);
+            var expectedXDoc = XDocument.Parse(input);
+            var expectedNode = expectedXDoc.Descendants().Single(d => d.Name.LocalName == "ComplBodyDec");
+            if (!shouldKeepElement)
+            {
+                expectedNode.Attribute("Value").Remove();
+            }
+            if (!string.IsNullOrWhiteSpace(expectedValue))
+            {
+                expectedNode.Attribute("Value").Value = expectedValue;
+            }
+            var xDocComparator = new XDocumentComparator(expectedXDoc, correctedXDoc);
+            xDocComparator.AssertXDocumentsAreEqual();
+        }
+
+        [Theory]
 		[InlineData("Hello World!", false)]
 		[InlineData("d", false)]
 		[InlineData("1", true)]
@@ -202,7 +268,7 @@ namespace XmlTools.Tests.CodeGenerator
 							<Item RNoPart=""2"">
 								<Qty>59</Qty>
 								<QU>stck</QU>
-								<UP>170,45</UP>
+								<UP>170.45</UP>
 							</Item>
 						</Itemlist>
 					</BoQBody>
@@ -410,7 +476,7 @@ var expected = @"<?xml version=""1.0"" encoding=""UTF-8""?>
 							<Item RNoPart=""2"">
 								<Qty>59</Qty>
 								<QU>stck</QU>
-								<UP>170,45</UP>
+								<UP>170.45</UP>
 								<IT>{value}</IT>
 							</Item>
 						</Itemlist>

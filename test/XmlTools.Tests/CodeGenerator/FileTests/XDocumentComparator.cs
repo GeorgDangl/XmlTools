@@ -70,7 +70,7 @@ namespace XmlTools.Tests.CodeGenerator.FileTests
             {
                 if (actual.Elements().Any())
                 {
-                    Assert.True(false, GetMessageForCurrentLocation("ElementChildCount", "0", actual.Elements().Count().ToString()));
+                    Assert.Fail(GetMessageForCurrentLocation("ElementChildCount", "0", actual.Elements().Count().ToString()));
                 }
                 var expectedContent = expected.Value;
                 var actualContent = actual.Value;
@@ -96,7 +96,7 @@ namespace XmlTools.Tests.CodeGenerator.FileTests
             {
                 if (actual.Attributes().Any())
                 {
-                    Assert.True(false, GetMessageForCurrentLocation("AttributesCount", "0", actual.Attributes().Count().ToString()));
+                    Assert.Fail(GetMessageForCurrentLocation("AttributesCount", "0", actual.Attributes().Count().ToString()));
                 }
             }
         }

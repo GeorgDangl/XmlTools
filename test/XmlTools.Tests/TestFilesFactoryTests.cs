@@ -16,7 +16,7 @@ namespace XmlTools.Tests
         [Fact]
         public void FindsAllValidParserTestFiles()
         {
-            var expectedCountOfEnums = 23;
+            var expectedCountOfEnums = 24;
             Assert.Equal(expectedCountOfEnums, AllValidParserEnums.Count());
         }
 

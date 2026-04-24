@@ -49,16 +49,24 @@ namespace XmlTools.CodeGenerator
             _stringBuilder.AppendLine("elementDecimalValue = Regex.Replace(elementDecimalValue, \",+\", \",\");");
             _stringBuilder.AppendLine("string commaSeparatedPattern = @\"^(-?\\s*[0-9,]+[.]\\d*)$\";");
             _stringBuilder.AppendLine("string pointSeparatedPattern = @\"^(-?\\s*[0-9.]+[,]\\d*)$\";");
+            _stringBuilder.AppendLine("string singleCommaSeparatorPattern = @\"^(-?\\s*\\d+,\\d+)$\";");
             _stringBuilder.AppendLine("string numericalPattern = @\"^(\\s*-?\\s*[0-9.,]+\\s*)$\";");
             _stringBuilder.AppendLine("if (Regex.IsMatch(elementDecimalValue, commaSeparatedPattern))");
             using (new CodeGeneratorBlockWrapper(_stringBuilder))
             {
                 _stringBuilder.AppendLine($"{attributeVariableName}.Value = elementDecimalValue.Replace(\",\", string.Empty);");
             }
+            _stringBuilder.AppendLine("else if (Regex.IsMatch(elementDecimalValue, singleCommaSeparatorPattern))");
+            using (new CodeGeneratorBlockWrapper(_stringBuilder))
+            {
+                _stringBuilder.AppendLine($"// Handles cases like \"0,8\" where a comma is used as the decimal separator");
+                _stringBuilder.AppendLine($"// without any thousands separators present");
+                _stringBuilder.AppendLine($"{attributeVariableName}.Value = elementDecimalValue.Replace(\",\", \".\");");
+            }
             _stringBuilder.AppendLine("else if (Regex.IsMatch(elementDecimalValue, pointSeparatedPattern))");
             using (new CodeGeneratorBlockWrapper(_stringBuilder))
             {
-                _stringBuilder.AppendLine($"{attributeVariableName}.Value = elementDecimalValue.Replace(\".\", string.Empty);");
+                _stringBuilder.AppendLine($"{attributeVariableName}.Value = elementDecimalValue.Replace(\".\", string.Empty).Replace(\",\", \".\");");
             }
 
             _stringBuilder.AppendLine("else if (string.IsNullOrWhiteSpace(elementDecimalValue))");
