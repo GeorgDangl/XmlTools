@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ReverseMarkdown" Version="4.6.0" />
     <PackageReference Include="NuGet.Packaging" Version="6.12.5" />
     <PackageReference Include="Nuke.Common" Version="10.1.0" />
     <PackageDownload Include="GitVersion.Tool" Version="[5.12.0]" />

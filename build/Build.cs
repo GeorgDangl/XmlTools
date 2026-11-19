@@ -208,6 +208,9 @@ class Build : NukeBuild
             DotNet($"{docFxPath} metadata {DocFxFile}");
         });
 
+    Target TestMarkdownDocumentation => _ => _
+        .Executes(() => MarkdownDocumentationTests.Run(OutputDirectory / "markdown-tests"));
+
     Target BuildDocumentation => _ => _
         .DependsOn(Clean)
         .DependsOn(BuildDocFxMetadata)
@@ -226,6 +229,9 @@ class Build : NukeBuild
 
             File.Delete(RootDirectory / "docs" / "index.md");
             Directory.Delete(RootDirectory / "docs" / "api", true);
+
+            MarkdownDocumentation.Build(RootDirectory, OutputDirectory / "docs",
+                OutputDirectory / "docs-markdown", requireApi: true);
         });
 
     Target UploadDocumentation => _ => _
@@ -237,13 +243,15 @@ class Build : NukeBuild
         {
             var changeLog = GetCompleteChangeLog(ChangeLogFile);
 
-            WebDocu(s => s
-                .SetDocuBaseUrl(DocuBaseUrl)
-                .SetDocuApiKey(DocuApiKey)
-                .SetMarkdownChangelog(changeLog)
-                .SetSourceDirectory(OutputDirectory / "docs")
-                .SetVersion(GitVersion.NuGetVersion)
-            );
+            MarkdownDocumentation.Publish(DocuBaseUrl, DocuApiKey, GitVersion.NuGetVersion,
+                OutputDirectory / "docs-markdown.zip",
+                () => WebDocu(s => s
+                    .SetDocuBaseUrl(DocuBaseUrl)
+                    .SetDocuApiKey(DocuApiKey)
+                    .SetMarkdownChangelog(changeLog)
+                    .SetSourceDirectory(OutputDirectory / "docs")
+                    .SetVersion(GitVersion.NuGetVersion)
+                ));
         });
 
     Target PublishGitHubRelease => _ => _
