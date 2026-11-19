@@ -2,6 +2,9 @@
 
 All notable changes to **XmlTools** are documented here.
 
+## v0.10.1:
+- **XmlTools** now also produces Markdown documentation. This can be easily accessed by AI agents via the MCP server implementation in **Dangl**Docu.
+
 ## v0.10.0:
 - The tools were updated to .NET 10
 - The DecimalCorrector type was updated to now also transform decimals that use comma as a decimal separator to use a point instead, e.g. `123,456` is now transformed to `123.456` to be compliant with the Xsd `decimal` data type
