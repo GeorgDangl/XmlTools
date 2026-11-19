@@ -75,3 +75,14 @@ it makes sure that any elements of type `xs:key` will have their unique naming r
 
 The group flattener supports an optional argument of type `List<string>` to only flatten groups with the given names. This is sometimes
 useful to only flatten groups that resolve to a circular reference, which may cause errors with some Xsd-to-Code generators.
+
+
+## Build and Markdown documentation
+
+Build automation uses [Fallout](https://github.com/GeorgDangl/Fallout) with the .NET 10 SDK or newer. The bootstrap scripts use `.fallout` configuration and install .NET 10 when a compatible SDK is unavailable.
+
+`BuildDocumentation` generates the HTML site in `output/docs` and native DocFX Markdown API documentation, articles and assets in `output/docs-markdown`, with an adjacent ZIP archive. Start at `index.md`; API reference directories follow the HTML documentation's project scopes.
+
+`TestMarkdownDocumentation` checks native API preservation, archive layout, article links, resource globs, exclusions and missing entry-point errors without publishing.
+
+`UploadDocumentation` uses `Dangl.Fallout.WebDocu` to upload the Markdown archive after HTML for the same explicit version. Existing API keys, branch gates, downloadable assets and version-conflict policies are preserved. Markdown documentation is available to AI agents through the DanglDocu MCP server.

@@ -1,15 +1,15 @@
-using Nuke.Common;
-using Nuke.Common.Git;
-using Nuke.Common.IO;
-using Nuke.Common.Tooling;
-using Nuke.Common.Tools.AzureKeyVault;
-using Nuke.Common.Tools.DotNet;
-using Nuke.Common.Tools.GitVersion;
-using Nuke.Common.Tools.Teams;
-using Nuke.Common.Utilities;
-using Nuke.Common.Utilities.Collections;
-using Nuke.GitHub;
-using Nuke.WebDocu;
+using Fallout.Common;
+using Fallout.Common.Git;
+using Fallout.Common.IO;
+using Fallout.Common.Tooling;
+using Fallout.Common.Tools.AzureKeyVault;
+using Fallout.Common.Tools.DotNet;
+using Fallout.Common.Tools.GitVersion;
+using Fallout.Common.Tools.Teams;
+using Fallout.Common.Utilities;
+using Fallout.Common.Utilities.Collections;
+using Fallout.GitHub;
+using Fallout.WebDocu;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,16 +17,16 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using static Nuke.Common.ChangeLog.ChangelogTasks;
-using static Nuke.Common.IO.PathConstruction;
-using static Nuke.Common.IO.XmlTasks;
-using static Nuke.Common.Tools.DotNet.DotNetTasks;
-using static Nuke.GitHub.ChangeLogExtensions;
-using static Nuke.GitHub.GitHubTasks;
-using static Nuke.Common.IO.Globbing;
-using static Nuke.WebDocu.WebDocuTasks;
+using static Fallout.Common.ChangeLog.ChangelogTasks;
+using static Fallout.Common.IO.PathConstruction;
+using static Fallout.Common.IO.XmlTasks;
+using static Fallout.Common.Tools.DotNet.DotNetTasks;
+using static Fallout.GitHub.ChangeLogExtensions;
+using static Fallout.GitHub.GitHubTasks;
+using static Fallout.Common.IO.Globbing;
+using static Fallout.WebDocu.WebDocuTasks;
 
-class Build : NukeBuild
+class Build : FalloutBuild
 {
     public static int Main() => Execute<Build>(x => x.Compile);
 
@@ -171,7 +171,8 @@ class Build : NukeBuild
         .Requires(() => Configuration.EqualsOrdinalIgnoreCase("Release"))
         .Executes(() =>
         {
-            var packages = GlobFiles(OutputDirectory, "*.nupkg")
+            var packages = OutputDirectory.GlobFiles("*.nupkg")
+                .Select(path => path.ToString())
                 .Where(x => !x.EndsWith("symbols.nupkg"))
                 .ToList();
             Assert.NotEmpty(packages);
@@ -204,9 +205,12 @@ class Build : NukeBuild
         .DependsOn(Restore)
         .Executes(() =>
         {
-            var docFxPath = NuGetToolPathResolver.GetPackageExecutable("docfx", "tools/net8.0/any/docfx.dll");
+            var docFxPath = NuGetToolPathResolver.GetPackageExecutable("docfx", "tools/net10.0/any/docfx.dll");
             DotNet($"{docFxPath} metadata {DocFxFile}");
         });
+
+    Target TestMarkdownDocumentation => _ => _
+        .Executes(() => MarkdownDocumentationTests.Run(OutputDirectory / "markdown-tests"));
 
     Target BuildDocumentation => _ => _
         .DependsOn(Clean)
@@ -221,11 +225,13 @@ class Build : NukeBuild
 
             File.Copy(RootDirectory / "README.md", RootDirectory / "docs" / "index.md");
 
-            var docFxPath = NuGetToolPathResolver.GetPackageExecutable("docfx", "tools/net8.0/any/docfx.dll");
+            var docFxPath = NuGetToolPathResolver.GetPackageExecutable("docfx", "tools/net10.0/any/docfx.dll");
             DotNet($"{docFxPath} {DocFxFile}");
+            MarkdownDocumentation.Create(DocFxFile, OutputDirectory / "docs-markdown");
 
             File.Delete(RootDirectory / "docs" / "index.md");
             Directory.Delete(RootDirectory / "docs" / "api", true);
+
         });
 
     Target UploadDocumentation => _ => _
@@ -241,6 +247,7 @@ class Build : NukeBuild
                 .SetDocuBaseUrl(DocuBaseUrl)
                 .SetDocuApiKey(DocuApiKey)
                 .SetMarkdownChangelog(changeLog)
+                .SetMarkdownPackagePath(OutputDirectory / "docs-markdown.zip")
                 .SetSourceDirectory(OutputDirectory / "docs")
                 .SetVersion(GitVersion.NuGetVersion)
             );
@@ -260,7 +267,8 @@ class Build : NukeBuild
             var completeChangeLog = $"## {releaseTag}" + Environment.NewLine + latestChangeLog;
 
             var repositoryInfo = GetGitHubRepositoryInfo(GitRepository);
-            var nuGetPackages = GlobFiles(OutputDirectory, "*.nupkg").ToArray();
+            var nuGetPackages = OutputDirectory.GlobFiles("*.nupkg")
+                .Select(path => path.ToString()).ToArray();
             Assert.NotEmpty(nuGetPackages);
 
             await PublishRelease(x => x
@@ -275,7 +283,7 @@ class Build : NukeBuild
 
     private void PrependFrameworkToTestresults()
     {
-        var testResults = GlobFiles(OutputDirectory, "*testresults*.xml").ToList();
+        var testResults = OutputDirectory.GlobFiles("*testresults*.xml").ToList();
         Serilog.Log.Information($"Found {testResults.Count} test result files on which to append the framework.");
         foreach (var testResultFile in testResults)
         {
