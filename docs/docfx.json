@@ -17,6 +17,25 @@
       "properties":{
         "TargetFramework":"net461"
       }
+    },
+    {
+      "src": [
+        {
+          "src": "../src",
+          "files": [
+            "XmlTools/*.csproj"
+          ],
+          "exclude": [
+            "**/bin/**",
+            "**/obj/**"
+          ]
+        }
+      ],
+      "dest": "../output/docs-markdown/api",
+      "properties": {
+        "TargetFramework": "net461"
+      },
+      "outputFormat": "markdown"
     }
   ],
   "build":{
